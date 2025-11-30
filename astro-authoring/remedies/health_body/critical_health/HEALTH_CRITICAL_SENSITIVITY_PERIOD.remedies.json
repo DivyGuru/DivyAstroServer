@@ -1,0 +1,100 @@
+{
+  "pointId": "HEALTH_CRITICAL_SENSITIVITY_PERIOD",
+  "theme": "health_body",
+  "subtype": "critical_health",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "remedies": [
+    {
+      "type": "meditation",
+      "name": "Gentle body awareness",
+      "description": "Spend a few minutes each day noticing how your body feels, without judgment, to build a kinder connection with your physical state.",
+      "target_planets": [],
+      "target_themes": [
+        "health"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "daily",
+      "safety_notes": "This practice is not a substitute for medical care; always follow the guidance of your healthcare professionals."
+    },
+    {
+      "type": "meditation",
+      "name": "Relaxed breathing breaks",
+      "description": "Take short breaks during the day to breathe slowly and deeply for a few cycles, relaxing the shoulders and jaw.",
+      "target_planets": [],
+      "target_themes": [
+        "health"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "If you have respiratory or cardiac conditions, breathe gently and within comfort."
+    },
+    {
+      "type": "donation",
+      "name": "Support health-related causes",
+      "description": "Offer small, regular support to organizations that work for health, nutrition or healing for others.",
+      "target_planets": [],
+      "target_themes": [
+        "health",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Give only what is financially comfortable; intention matters more than amount."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Share nourishing food",
+      "description": "Whenever possible, share fresh, simple, nourishing food with someone who may benefit from it.",
+      "target_planets": [],
+      "target_themes": [
+        "health",
+        "general"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Ensure hygiene and respect dietary restrictions of the recipient."
+    },
+    {
+      "type": "mantra",
+      "name": "Kindness towards the body",
+      "description": "Once a day, mentally thank your body for one thing it allowed you to do, reinforcing a more compassionate inner attitude.",
+      "target_planets": [],
+      "target_themes": [
+        "health"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "daily",
+      "safety_notes": "This is a mindset practice and should never replace medical treatment."
+    },
+    {
+      "type": "meditation",
+      "name": "Evening wind-down breathing",
+      "description": "Before sleep, spend a few minutes breathing more slowly and gently, allowing the body to soften and release the day.",
+      "target_planets": [],
+      "target_themes": [
+        "health"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "People with respiratory or cardiac conditions should keep the practice very gentle and consult professionals if unsure."
+    },
+    {
+      "type": "donation",
+      "name": "Support basic health supplies",
+      "description": "Whenever feasible, contribute small amounts or items towards clean water, food or basic medical support for others.",
+      "target_planets": [],
+      "target_themes": [
+        "health",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Verify that any organisation or person you support is trustworthy; give only what feels sustainable for you."
+    }
+  ]
+}

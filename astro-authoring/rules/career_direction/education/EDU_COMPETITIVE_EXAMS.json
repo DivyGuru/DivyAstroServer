@@ -1,0 +1,28 @@
+{
+  "pointId": "EDU_COMPETITIVE_EXAMS",
+  "theme": "career_direction",
+  "subtype": "education",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "daily",
+    "weekly",
+    "monthly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "career",
+    "area": "education",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

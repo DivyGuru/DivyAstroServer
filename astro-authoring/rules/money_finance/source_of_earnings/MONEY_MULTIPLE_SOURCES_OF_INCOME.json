@@ -1,0 +1,27 @@
+{
+  "pointId": "MONEY_MULTIPLE_SOURCES_OF_INCOME",
+  "theme": "money_finance",
+  "subtype": "source_of_earnings",
+  "polarity": "positive",
+  "kind": "achievement",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "money",
+    "area": "source_of_earnings",
+    "trend": "up",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

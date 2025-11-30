@@ -1,0 +1,27 @@
+{
+  "pointId": "FAMILY_CHILD_CONCEPTION_WINDOW",
+  "theme": "family_home",
+  "subtype": "family_children",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "family",
+    "area": "family_children",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

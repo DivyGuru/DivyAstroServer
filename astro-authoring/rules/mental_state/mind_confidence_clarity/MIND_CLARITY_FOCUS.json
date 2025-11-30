@@ -1,0 +1,31 @@
+{
+  "pointId": "MIND_CLARITY_FOCUS",
+  "theme": "mental_state",
+  "subtype": "mind_confidence_clarity",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "mental_state",
+    "area": "mind_confidence_clarity",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

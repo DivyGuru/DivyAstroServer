@@ -1,0 +1,31 @@
+{
+  "pointId": "REL_SOCIAL_LONELINESS",
+  "theme": "relationships",
+  "subtype": "rel_social_connections",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "relationship",
+    "area": "rel_social_connections",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

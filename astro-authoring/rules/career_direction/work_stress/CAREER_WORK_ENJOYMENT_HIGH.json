@@ -1,0 +1,31 @@
+{
+  "pointId": "CAREER_WORK_ENJOYMENT_HIGH",
+  "theme": "career_direction",
+  "subtype": "work_stress",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "career",
+    "area": "work_stress",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

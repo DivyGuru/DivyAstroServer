@@ -1,0 +1,103 @@
+{
+  "pointId": "MIND_CONFIDENCE_HIGH_WIN",
+  "theme": "mental_state",
+  "subtype": "mind_confidence_clarity",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "remedies": [
+    {
+      "type": "meditation",
+      "name": "Breath awareness meditation",
+      "description": "Spend 10–15 minutes daily observing the natural flow of your breath to calm the mind and reduce overthinking.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "Practice in a comfortable posture, stop if you feel dizzy or unwell."
+    },
+    {
+      "type": "meditation",
+      "name": "Guided body scan relaxation",
+      "description": "Once a day, slowly scan attention from head to toe, relaxing each area and noticing sensations without judgment.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "Practice lying down or seated; avoid if you have conditions that make stillness uncomfortable for long periods."
+    },
+    {
+      "type": "donation",
+      "name": "Support a mental health cause",
+      "description": "Once a week, make a small donation or contribution to a trusted mental health or emotional well-being initiative.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state",
+        "general"
+      ],
+      "min_duration_days": 28,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Give only within your financial comfort; focus on sincerity rather than amount."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Small act of kindness",
+      "description": "Regularly perform a simple act of kindness for someone in need, such as offering help, listening, or sharing food.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state",
+        "general"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Ensure your own boundaries and safety are respected while helping others."
+    },
+    {
+      "type": "mantra",
+      "name": "Calming affirmation repetition",
+      "description": "Repeat a gentle, self-supportive affirmation such as \"I am safe and I am learning to relax\" for a few minutes daily.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "daily",
+      "safety_notes": "Use wording that feels emotionally safe and non-triggering for you."
+    },
+    {
+      "type": "meditation",
+      "name": "Mindful walking",
+      "description": "Take a short daily walk while gently noticing your breath, body sensations and surroundings without analysing them.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "Remain aware of your environment and personal safety while walking; avoid using this practice in unsafe locations."
+    },
+    {
+      "type": "mantra",
+      "name": "Grounding phrase repetition",
+      "description": "Repeat a simple grounding phrase such as \"One step at a time\" or \"I can handle this moment\" for a few minutes whenever anxiety rises.",
+      "target_planets": [],
+      "target_themes": [
+        "mental_state"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "as_needed",
+      "safety_notes": "Choose phrases that feel genuinely supportive rather than harsh or demanding."
+    }
+  ]
+}

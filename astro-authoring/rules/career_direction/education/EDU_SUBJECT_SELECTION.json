@@ -1,0 +1,27 @@
+{
+  "pointId": "EDU_SUBJECT_SELECTION",
+  "theme": "career_direction",
+  "subtype": "education",
+  "polarity": "mixed",
+  "kind": "problem",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "career",
+    "area": "education",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

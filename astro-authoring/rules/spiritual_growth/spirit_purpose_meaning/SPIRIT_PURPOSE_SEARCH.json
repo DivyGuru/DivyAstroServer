@@ -1,0 +1,27 @@
+{
+  "pointId": "SPIRIT_PURPOSE_SEARCH",
+  "theme": "spiritual_growth",
+  "subtype": "spirit_purpose_meaning",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "spiritual",
+    "area": "spirit_purpose_meaning",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

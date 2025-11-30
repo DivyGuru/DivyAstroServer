@@ -1,0 +1,31 @@
+{
+  "pointId": "EVENT_EDU_STUDY_FOCUS",
+  "theme": "events_changes",
+  "subtype": "event_education_exams",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "events",
+    "area": "event_education_exams",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

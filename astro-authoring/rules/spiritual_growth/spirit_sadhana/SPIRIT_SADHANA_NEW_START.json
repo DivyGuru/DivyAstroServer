@@ -1,0 +1,31 @@
+{
+  "pointId": "SPIRIT_SADHANA_NEW_START",
+  "theme": "spiritual_growth",
+  "subtype": "spirit_sadhana",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "spiritual",
+    "area": "spirit_sadhana",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "pointId": "REL_SOCIAL_REPUTATION_WIN",
+  "theme": "relationships",
+  "subtype": "rel_social_connections",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "remedies": [
+    {
+      "type": "meditation",
+      "name": "Empathic listening practice",
+      "description": "Once a week, offer 10–15 minutes of focused, non-judgmental listening to a loved one without interrupting.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Do this only in emotionally safe relationships; do not force conversations that feel unsafe."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Gentle act of service",
+      "description": "Once a week, perform a small act of service or care for someone outside yourself to soften emotional rigidity in relationships.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Help only within your energy and time limits; avoid over-giving."
+    },
+    {
+      "type": "meditation",
+      "name": "Loving-kindness meditation",
+      "description": "Spend a few minutes sending simple wishes of well-being first to yourself and then to close people, such as \"May I be peaceful, may they be peaceful.\"",
+      "target_planets": [],
+      "target_themes": [
+        "relationship"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "If thinking of certain people is triggering, keep the practice focused on yourself or neutral figures."
+    },
+    {
+      "type": "donation",
+      "name": "Relationship-supportive charity",
+      "description": "Make small, heartfelt contributions to causes that support families, children, or community harmony.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Choose reputable causes and give only what feels comfortable."
+    },
+    {
+      "type": "mantra",
+      "name": "Soft communication intention",
+      "description": "Before important conversations, take a minute to silently set the intention to speak honestly and kindly, and to listen fully.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship"
+      ],
+      "min_duration_days": 14,
+      "recommended_frequency": "as_needed",
+      "safety_notes": "Use this to support, not to suppress genuine feelings that need to be expressed."
+    },
+    {
+      "type": "meditation",
+      "name": "Heart-centered breathing",
+      "description": "Spend a few minutes breathing slowly while placing attention on the heart area, inviting warmth and openness towards yourself and others.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "If difficult emotions surface, slow down and ground yourself; consider talking to a trusted person or professional."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Shared meal or tea time",
+      "description": "From time to time, invite someone you care about to share a simple meal or cup of tea with the intention of relaxed connection.",
+      "target_planets": [],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": 28,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Only do this in relationships where you feel reasonably safe and respected."
+    }
+  ]
+}

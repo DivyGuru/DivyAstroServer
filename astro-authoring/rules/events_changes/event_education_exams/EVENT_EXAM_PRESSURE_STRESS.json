@@ -1,0 +1,27 @@
+{
+  "pointId": "EVENT_EXAM_PRESSURE_STRESS",
+  "theme": "events_changes",
+  "subtype": "event_education_exams",
+  "polarity": "negative",
+  "kind": "event",
+  "defaultScopes": [
+    "daily",
+    "weekly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "events",
+    "area": "event_education_exams",
+    "trend": "down",
+    "intensity": 0.7,
+    "tone": "cautious"
+  }
+}

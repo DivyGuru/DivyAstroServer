@@ -1,0 +1,27 @@
+{
+  "pointId": "CAREER_GOVT_JOB_TENDENCY",
+  "theme": "career_direction",
+  "subtype": "job_nature",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "career",
+    "area": "job_nature",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

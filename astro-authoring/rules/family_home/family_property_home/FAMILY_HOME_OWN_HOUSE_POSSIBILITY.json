@@ -1,0 +1,27 @@
+{
+  "pointId": "FAMILY_HOME_OWN_HOUSE_POSSIBILITY",
+  "theme": "family_home",
+  "subtype": "family_property_home",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "family",
+    "area": "family_property_home",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "pointId": "MIND_EMOTIONAL_OVERFLOW",
+  "theme": "mental_state",
+  "subtype": "mind_emotional_healing",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "mental_state",
+    "area": "mind_emotional_healing",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

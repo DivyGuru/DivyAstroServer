@@ -1,0 +1,28 @@
+{
+  "pointId": "HEALTH_RECOVERY_LONG_TERM",
+  "theme": "health_body",
+  "subtype": "critical_health",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "health",
+    "area": "critical_health",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

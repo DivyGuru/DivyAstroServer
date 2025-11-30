@@ -1,0 +1,28 @@
+{
+  "pointId": "REL_PARTNER_LOYALTY_TRUST",
+  "theme": "relationships",
+  "subtype": "partner_loyalty",
+  "polarity": "mixed",
+  "kind": "problem",
+  "defaultScopes": [
+    "daily",
+    "weekly",
+    "monthly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "relationship",
+    "area": "partner_loyalty",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

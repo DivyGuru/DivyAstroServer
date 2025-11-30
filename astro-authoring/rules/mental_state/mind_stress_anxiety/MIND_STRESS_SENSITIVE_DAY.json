@@ -1,0 +1,27 @@
+{
+  "pointId": "MIND_STRESS_SENSITIVE_DAY",
+  "theme": "mental_state",
+  "subtype": "mind_stress_anxiety",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "hourly",
+    "daily"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "mental_state",
+    "area": "mind_stress_anxiety",
+    "trend": "down",
+    "intensity": 0.7,
+    "tone": "cautious"
+  }
+}

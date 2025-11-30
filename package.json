@@ -1,0 +1,28 @@
+{
+  "name": "divyastrodb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test-connection.js",
+    "dev": "node index.js",
+    "api": "node src/server.js",
+    "set:conditions": "node scripts/setPlanetaryConditions.js",
+    "set:remedies": "node scripts/setRemedies.js",
+    "author:all": "node scripts/generateAllAuthoring.js",
+    "debug:window": "node scripts/debugEvaluateWindow.js",
+    "mock:astro": "node scripts/createMockAstroSnapshot.js",
+    "seed:test-window": "node scripts/seedTestWindow.js",
+    "generate:window": "node scripts/generatePredictionForWindow.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "DivyAstro Prediction Database - Node.js API",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "pg": "^8.11.3"
+  }
+}

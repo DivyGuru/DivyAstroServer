@@ -1,0 +1,28 @@
+{
+  "pointId": "REL_LOVE_PATCHUP_POSSIBILITY",
+  "theme": "relationships",
+  "subtype": "rel_love",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "daily",
+    "weekly",
+    "monthly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "relationship",
+    "area": "rel_love",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

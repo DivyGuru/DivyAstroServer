@@ -1,0 +1,27 @@
+{
+  "pointId": "MONEY_SINGLE_SOURCE_RISK",
+  "theme": "money_finance",
+  "subtype": "source_of_earnings",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "money",
+    "area": "source_of_earnings",
+    "trend": "down",
+    "intensity": 0.7,
+    "tone": "cautious"
+  }
+}

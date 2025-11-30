@@ -1,0 +1,28 @@
+{
+  "pointId": "MONEY_WEALTH_ACCUMULATION",
+  "theme": "money_finance",
+  "subtype": "money_wealth_growth",
+  "polarity": "positive",
+  "kind": "achievement",
+  "defaultScopes": [
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "money",
+    "area": "money_wealth_growth",
+    "trend": "up",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

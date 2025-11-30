@@ -1,0 +1,31 @@
+{
+  "pointId": "MIND_STRESS_RELEASE_WINDOW",
+  "theme": "mental_state",
+  "subtype": "mind_stress_anxiety",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "mental_state",
+    "area": "mind_stress_anxiety",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

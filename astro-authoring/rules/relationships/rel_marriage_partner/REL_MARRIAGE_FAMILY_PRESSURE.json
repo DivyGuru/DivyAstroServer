@@ -1,0 +1,31 @@
+{
+  "pointId": "REL_MARRIAGE_FAMILY_PRESSURE",
+  "theme": "relationships",
+  "subtype": "rel_marriage_partner",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "relationship",
+    "area": "rel_marriage_partner",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

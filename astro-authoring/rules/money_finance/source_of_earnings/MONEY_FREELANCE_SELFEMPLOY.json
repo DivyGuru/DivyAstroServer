@@ -1,0 +1,27 @@
+{
+  "pointId": "MONEY_FREELANCE_SELFEMPLOY",
+  "theme": "money_finance",
+  "subtype": "source_of_earnings",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "money",
+    "area": "source_of_earnings",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

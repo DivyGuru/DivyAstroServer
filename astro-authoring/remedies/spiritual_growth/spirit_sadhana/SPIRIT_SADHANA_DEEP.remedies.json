@@ -1,0 +1,104 @@
+{
+  "pointId": "SPIRIT_SADHANA_DEEP",
+  "theme": "spiritual_growth",
+  "subtype": "spirit_sadhana",
+  "polarity": "neutral",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "remedies": [
+    {
+      "type": "mantra",
+      "name": "Simple name or mantra repetition",
+      "description": "Spend 5–10 minutes daily repeating a peaceful name or short mantra that naturally uplifts you.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "daily",
+      "safety_notes": "There are no rigid rules; practice in a way that feels respectful and sincere to you."
+    },
+    {
+      "type": "meditation",
+      "name": "Quiet sitting with intention",
+      "description": "Sit quietly for a few minutes each day with the intention to be present and available to deeper guidance, without forcing any experience.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "daily",
+      "safety_notes": "If strong emotions arise, consider seeking support from a trusted guide or professional."
+    },
+    {
+      "type": "donation",
+      "name": "Offer support to genuine spiritual work",
+      "description": "From time to time, support teachers, centers or initiatives that you feel are genuinely working for upliftment.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality",
+        "general"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Support only paths and teachers you personally resonate with and trust."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Selfless act of service",
+      "description": "Choose a small, selfless act of service that you can do regularly without expectation of return.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Do not compromise your own basic needs or safety while serving others."
+    },
+    {
+      "type": "mantra",
+      "name": "Gratitude reflection",
+      "description": "At the end of the day, recall one or two moments you felt supported or guided, and mentally offer gratitude.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "This is an inner contemplation; there is no right or wrong way to feel."
+    },
+    {
+      "type": "donation",
+      "name": "Quiet support for contemplative spaces",
+      "description": "Offer simple, unobtrusive support to spaces such as libraries, retreat centers or places of reflection that help people turn inward.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Support only environments you feel are ethical and balanced; avoid groups that pressure or manipulate."
+    },
+    {
+      "type": "meditation",
+      "name": "Nature contemplation",
+      "description": "When possible, sit quietly in a natural setting, noticing patterns in the sky, trees or water, and allowing a sense of connection to something larger.",
+      "target_planets": [],
+      "target_themes": [
+        "spirituality"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Choose safe outdoor locations and protect yourself from harsh weather or environmental risks."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "pointId": "HEALTH_CRITICAL_SENSITIVITY_PERIOD",
+  "theme": "health_body",
+  "subtype": "critical_health",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "health",
+    "area": "critical_health",
+    "trend": "down",
+    "intensity": 0.7,
+    "tone": "cautious"
+  }
+}

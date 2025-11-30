@@ -1,0 +1,41 @@
+{
+  "pointId": "MONEY_BUSINESS_GENERAL",
+  "theme": "money_finance",
+  "subtype": "money_business",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "hourly",
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS",
+            "MERCURY"
+          ],
+          "house_in": [
+            2,
+            7,
+            10,
+            11
+          ]
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "money",
+    "area": "money_business",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

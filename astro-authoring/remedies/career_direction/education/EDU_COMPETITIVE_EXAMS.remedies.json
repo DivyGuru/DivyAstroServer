@@ -1,0 +1,104 @@
+{
+  "pointId": "EDU_COMPETITIVE_EXAMS",
+  "theme": "career_direction",
+  "subtype": "education",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "daily",
+    "weekly",
+    "monthly"
+  ],
+  "remedies": [
+    {
+      "type": "donation",
+      "name": "Simple weekly giving",
+      "description": "Once a week, offer a small, comfortable amount or useful item to someone who genuinely needs support, with a relaxed and generous attitude.",
+      "target_planets": [
+        5
+      ],
+      "target_themes": [
+        "career"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Give only within your financial comfort; there should be no fear or pressure around giving."
+    },
+    {
+      "type": "meditation",
+      "name": "Breath awareness for money stress",
+      "description": "Spend 10–15 minutes focusing on slow, steady breathing while gently acknowledging and relaxing worries about business or income.",
+      "target_planets": [],
+      "target_themes": [
+        "career",
+        "general"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "Practice in a comfortable posture; stop if you feel strain or discomfort."
+    },
+    {
+      "type": "feeding_beings",
+      "name": "Share food or resources",
+      "description": "Regularly share a small portion of food or resources with people, animals or initiatives connected to nourishment and stability.",
+      "target_planets": [],
+      "target_themes": [
+        "career",
+        "general"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Ensure safe and hygienic sharing; respect local guidelines and personal boundaries."
+    },
+    {
+      "type": "mantra",
+      "name": "Abundance mindset reflection",
+      "description": "Once a day, reflect for a few minutes on areas where life is already providing enough, supporting a calmer attitude towards money.",
+      "target_planets": [],
+      "target_themes": [
+        "career"
+      ],
+      "min_duration_days": 30,
+      "recommended_frequency": "daily",
+      "safety_notes": "Use this to balance fear, not to avoid practical financial planning."
+    },
+    {
+      "type": "donation",
+      "name": "Support skill-building or education",
+      "description": "Whenever possible, support skill-building, education or training efforts that help you or others create more sustainable income.",
+      "target_planets": [],
+      "target_themes": [
+        "career",
+        "career"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "monthly",
+      "safety_notes": "Invest only in learning or initiatives you have reasonably researched and trust."
+    },
+    {
+      "type": "mantra",
+      "name": "Calm decision affirmation",
+      "description": "Before major financial choices, repeat a brief affirmation such as \"I decide with clarity, care and patience\" to steady your mindset.",
+      "target_planets": [],
+      "target_themes": [
+        "career"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "as_needed",
+      "safety_notes": "Use this to support clear thinking, while still checking facts and, when necessary, consulting professionals."
+    },
+    {
+      "type": "meditation",
+      "name": "Short financial clarity pause",
+      "description": "Take a few slow breaths and observe your thoughts about money for a couple of minutes before acting, so that reactions become more thoughtful.",
+      "target_planets": [],
+      "target_themes": [
+        "career",
+        "general"
+      ],
+      "min_duration_days": 21,
+      "recommended_frequency": "daily",
+      "safety_notes": "If financial stress feels overwhelming, consider seeking personalised guidance from a qualified advisor or counsellor."
+    }
+  ]
+}

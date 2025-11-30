@@ -1,0 +1,27 @@
+{
+  "pointId": "HEALTH_OPERATION_WINDOW_SUPPORT",
+  "theme": "health_body",
+  "subtype": "critical_health",
+  "polarity": "mixed",
+  "kind": "event",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "health",
+    "area": "critical_health",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}

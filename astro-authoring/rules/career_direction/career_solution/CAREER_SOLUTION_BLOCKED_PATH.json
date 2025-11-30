@@ -1,0 +1,27 @@
+{
+  "pointId": "CAREER_SOLUTION_BLOCKED_PATH",
+  "theme": "career_direction",
+  "subtype": "career_solution",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "monthly",
+    "yearly"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "career",
+    "area": "career_solution",
+    "trend": "down",
+    "intensity": 0.7,
+    "tone": "cautious"
+  }
+}

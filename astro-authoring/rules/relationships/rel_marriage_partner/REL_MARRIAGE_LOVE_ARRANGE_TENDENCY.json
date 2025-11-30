@@ -1,0 +1,27 @@
+{
+  "pointId": "REL_MARRIAGE_LOVE_ARRANGE_TENDENCY",
+  "theme": "relationships",
+  "subtype": "rel_marriage_partner",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "condition_tree": {
+    "all": [
+      {
+        "generic_condition": {
+          "note": "No astroHints specified; generic draft condition."
+        }
+      }
+    ]
+  },
+  "effect_json": {
+    "theme": "relationship",
+    "area": "rel_marriage_partner",
+    "trend": "mixed",
+    "intensity": 0.7,
+    "tone": "positive"
+  }
+}
