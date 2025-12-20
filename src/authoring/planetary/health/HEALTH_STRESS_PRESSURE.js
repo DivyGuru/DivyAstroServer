@@ -1,0 +1,440 @@
+export function getHEALTH_STRESS_PRESSUREVariants() {
+  const effectTheme = 'health';
+  const area = 'health_wellbeing';
+  const pointId = 'HEALTH_STRESS_PRESSURE';
+
+  const workHouses = [6, 10];
+  const mindDrainHouses = [8, 12, 6];
+  const recoveryHouses = [4, 12];
+
+  const pressurePlanets = ['SATURN', 'MARS', 'RAHU', 'KETU'];
+  const stabilizers = ['MOON', 'VENUS', 'JUPITER'];
+
+  const SUPPORT_IDS = [2, 5, 6, 4, 1];
+  const PRESSURE_IDS = [7, 3, 8, 9];
+
+  return [
+    // 1) High stress pressure (confirmed)
+    {
+      code: 'STRESS_PRESSURE_HIGH_CONFIRMED',
+      label: 'High stress pressure: workload + strain houses + nakshatra sensitivity.',
+      scopes: ['weekly', 'monthly'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: pressurePlanets, house_in: mindDrainHouses, match_mode: 'any', min_planets: 1 } },
+          { planet_in_house: { planet_in: ['SATURN', 'MARS'], house_in: workHouses, match_mode: 'any', min_planets: 1 } },
+          { overall_malefic_score: { min: 0.7 } },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: pressurePlanets, group: { context: 'health', kind: 'sensitive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: pressurePlanets, group: { context: 'health', kind: 'obstructive' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.85,
+        tone: 'challenging',
+        trigger: 'combined',
+        scenario: 'high_pressure',
+        outcome_text:
+          'In this phase, a stress/pressure yog may be active. Nakshatra sensitivity reinforces reactivity. Prioritize rest + boundaries, avoid overwork, and delay overload commitments—calm pacing, no fear framing.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Work + drain indicators with high malefic score and sensitive/obstructive nakshatra refinement.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 2) Emotional load + rest need (12th/4th emphasis)
+    {
+      code: 'STRESS_NEEDS_REST_RHYTHM',
+      label: 'Stress needs rest rhythm: recovery houses activated.',
+      scopes: ['weekly', 'monthly'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: stabilizers, house_in: recoveryHouses, match_mode: 'any', min_planets: 1 } },
+          { overall_benefic_score: { min: 0.55 } },
+          { overall_malefic_score: { min: 0.55 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.65,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'rest_rhythm',
+        outcome_text:
+          'Stress aur recovery dono active ho sakte hain. Prioritize sleep routine + micro-breaks, avoid late nights, delay extra responsibilities if possible.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Mixed environment; recovery houses suggest rest helps significantly.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 3) Work pressure tradeoff (10th/6th)
+    {
+      code: 'WORK_PRESSURE_TRADEOFF',
+      label: 'Work pressure: output vs recovery tradeoff.',
+      scopes: ['weekly', 'monthly'],
+      condition_tree: { planet_in_house: { planet_in: ['SUN', 'SATURN'], house_in: [10, 6], match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.6,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'work_tradeoff',
+        outcome_text:
+          'Work-load aur recovery ka tradeoff visible hai. Prioritize timeboxing + breaks, avoid stretching days too long, delay non-critical tasks.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: '10th/6th activation suggests workload patterns affecting stress.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 4) Daily reactivity caution
+    {
+      code: 'DAILY_STRESS_REACTIVITY',
+      label: 'Daily stress reactivity: keep day light and structured.',
+      scopes: ['hourly', 'daily'],
+      condition_tree: {
+        all: [
+          { transit_planet_in_house: { planet_in: ['MARS', 'RAHU'], house_in: [6, 12, 1], match_mode: 'any', min_planets: 1 } },
+          {
+            any: [
+              { transit_planet_in_nakshatra_group: { planet_in: ['MARS', 'RAHU'], group: { context: 'health', kind: 'sensitive' }, match_mode: 'any', min_planets: 1 } },
+              { transit_planet_in_nakshatra_group: { planet_in: ['MARS', 'RAHU'], group: { context: 'health', kind: 'obstructive' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.5,
+        tone: 'challenging',
+        trigger: 'transit',
+        scenario: 'daily_reactivity',
+        outcome_text:
+          'Today, stress reactivity may be higher. Prioritize a simple routine + breaks, avoid arguments/overload, and delay high-stakes discussions if possible.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'Short transit + sensitive nakshatra indicates temporary reactivity.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 5) Weekly recovery window (supportive transit)
+    {
+      code: 'WEEKLY_STRESS_RELIEF_WINDOW',
+      label: 'Weekly relief: recovery-friendly posture.',
+      scopes: ['weekly'],
+      condition_tree: { transit_planet_in_house: { planet_in: ['JUPITER', 'VENUS'], house_in: [4, 12, 1], match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.45,
+        tone: 'positive',
+        trigger: 'transit',
+        scenario: 'weekly_relief',
+        outcome_text:
+          'This week, stress relief support may be present. Prioritize rest + routine, avoid overcommitment, and delay overload weeks.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'Weekly transit suggests better recovery posture.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 6) Dasha pressure (stress)
+    {
+      code: 'DASHA_STRESS_PRESSURE',
+      label: 'Dasha pressure: sustained stress sensitivity.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        all: [
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: PRESSURE_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: PRESSURE_IDS } },
+              { dasha_running: { level: 'pratyantardasha', planet_in: PRESSURE_IDS } },
+            ],
+          },
+          { overall_malefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.65,
+        tone: 'challenging',
+        trigger: 'dasha',
+        scenario: 'dasha_pressure',
+        outcome_text:
+          'Dasha pressure ke saath stress sensitivity badh sakti hai. Prioritize pacing + boundaries, avoid overwork, delay extra load when possible.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Pressure dasha alignment indicates higher strain sensitivity.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 7) Dasha support (stress stabilizes)
+    {
+      code: 'DASHA_STRESS_STABILIZE',
+      label: 'Supportive dasha: stress stabilizes with routine.',
+      scopes: ['monthly', 'yearly'],
+      condition_tree: {
+        all: [
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+            ],
+          },
+          { overall_benefic_score: { min: 0.55 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.5,
+        tone: 'positive',
+        trigger: 'dasha',
+        scenario: 'stabilize',
+        outcome_text:
+          'A stabilization yog for stress is present (routine-dependent). Prioritize consistent sleep + breaks, avoid extremes, and delay overload phases.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'background',
+          certainty_note: 'Supportive dasha + moderate score supports stabilization posture.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 8) Sensitive nakshatra increases reactivity
+    {
+      code: 'STRESS_SENSITIVE_NAKSHATRA',
+      label: 'Nakshatra sensitivity increases stress reactivity.',
+      scopes: ['weekly', 'monthly'],
+      condition_tree: {
+        all: [
+          { overall_malefic_score: { min: 0.55 } },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: pressurePlanets, group: { context: 'health', kind: 'sensitive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: pressurePlanets, group: { context: 'health', kind: 'obstructive' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.6,
+        tone: 'challenging',
+        trigger: 'natal',
+        scenario: 'nakshatra_reactivity',
+        outcome_text:
+          'Nakshatra sensitivity ke kaaran stress reactivity badh sakti hai. Prioritize calm routine, avoid overstimulation, delay heavy decisions if possible.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Nakshatra refinement highlights reactivity; no medical inference.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 9) Calm support baseline (stabilizers present)
+    {
+      code: 'CALM_SUPPORT_BASELINE',
+      label: 'Calm support: stabilizers reduce stress spikes.',
+      scopes: ['monthly'],
+      condition_tree: { planet_in_house: { planet_in: stabilizers, house_in: [4, 1], match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.45,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'calm_support',
+        outcome_text:
+          'Stress spikes ko calm routine se manage karna easier ho sakta hai. Prioritize simple schedule, avoid multitasking overload, delay extra commitments.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'background',
+          certainty_note: 'Stabilizer planets in recovery/vitality houses indicate calmer handling.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 10) Mixed environment
+    {
+      code: 'STRESS_MIXED_ENVIRONMENT',
+      label: 'Mixed stress environment: keep boundaries and routine.',
+      scopes: ['monthly'],
+      condition_tree: { all: [{ overall_benefic_score: { min: 0.55 } }, { overall_malefic_score: { min: 0.55 } }] },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.55,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'mixed',
+        outcome_text:
+          'Stress aur support dono present ho sakte hain. Prioritize boundaries + rest, avoid pushing too hard, delay overload days.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Mixed signals: balanced posture recommended.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 11) High benefic baseline
+    {
+      code: 'STRESS_HIGH_BENEFIC_BASELINE',
+      label: 'Broad supportive baseline for stress.',
+      condition_tree: { overall_benefic_score: { min: 0.7 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.4,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'benefic_baseline',
+        outcome_text:
+          'Stress management supportive ho sakta hai. Prioritize routine, avoid extremes, delay overload commitments.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'low', dominance: 'background', certainty_note: 'Broad supportive baseline; not absolute.' },
+        point_id: pointId,
+      },
+    },
+
+    // 12) High malefic baseline
+    {
+      code: 'STRESS_HIGH_MALEFIC_BASELINE',
+      label: 'Broad caution baseline for stress.',
+      condition_tree: { overall_malefic_score: { min: 0.7 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.4,
+        tone: 'challenging',
+        trigger: 'natal',
+        scenario: 'malefic_baseline',
+        outcome_text:
+          'Stress sensitivity high reh sakti hai. Prioritize rest + boundaries, avoid overwork, delay overload days.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'low', dominance: 'background', certainty_note: 'Broad malefic baseline; calm caution.' },
+        point_id: pointId,
+      },
+    },
+
+    // 13) Daily posture
+    {
+      code: 'DAILY_STRESS_POSTURE',
+      label: 'Daily posture: keep day light.',
+      scopes: ['daily'],
+      condition_tree: { generic_condition: { note: 'Daily stress posture.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'daily_posture',
+        outcome_text:
+          'Today, keeping the day light may be best. Prioritize breaks, avoid overload, and delay non-essential discussions if possible.',
+        variant_meta: { tone: 'informational', confidence_level: 'low', dominance: 'background', certainty_note: 'Daily posture guidance.' },
+        point_id: pointId,
+      },
+    },
+
+    // 14) Weekly posture
+    {
+      code: 'WEEKLY_STRESS_POSTURE',
+      label: 'Weekly posture: recovery-first.',
+      scopes: ['weekly'],
+      condition_tree: { generic_condition: { note: 'Weekly stress posture.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'weekly_posture',
+        outcome_text:
+          'This week, prioritizing recovery may be best. Avoid overcommitment, delay overload tasks, and prioritize routine.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'low', dominance: 'background', certainty_note: 'Weekly posture guidance.' },
+        point_id: pointId,
+      },
+    },
+
+    // 15) Informational baseline
+    {
+      code: 'STRESS_PRESSURE_INFORMATIONAL_BASELINE',
+      label: 'Baseline informational variant for stress pressure.',
+      condition_tree: { generic_condition: { note: 'Stress pressure baseline.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'baseline',
+        outcome_text:
+          'No single strong stress signal stands out. Prioritize routine + boundaries, avoid overload, and delay extra responsibilities until clarity improves.',
+        variant_meta: { tone: 'informational', confidence_level: 'low', dominance: 'background', certainty_note: 'Baseline used when stronger stress variants do not match.' },
+        point_id: pointId,
+      },
+    },
+  ];
+}
+
+

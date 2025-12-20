@@ -1,0 +1,560 @@
+export function getMONEY_BUSINESS_GROWTH_WINVariants() {
+  const effectTheme = 'money';
+  const area = 'money_business';
+  const pointId = 'MONEY_BUSINESS_GROWTH_WIN';
+
+  const keyHouses = [2, 7, 10, 11];
+  const growthHouses = Array.from(new Set([...keyHouses, 3, 5])); // 3=efforts/marketing, 5=creative/intellect/speculation (used carefully)
+  const benefics = ['JUPITER', 'VENUS'];
+  const trade = ['MERCURY'];
+
+  return [
+    // 1) Core growth stack (natal)
+    {
+      code: 'NATAL_GROWTH_STACK',
+      label: 'Strong business growth stack via benefics/trade planets in career/gains houses (natal).',
+      condition_tree: {
+        all: [
+          {
+            planet_in_house: {
+              planet_in: [...benefics, ...trade],
+              house_in: [10, 11, 2],
+              match_mode: 'any',
+              min_planets: 2,
+            },
+          },
+          // 10th lord activation (business execution marker)
+          { house_lord_in_house: { house: 10, lord_house_in: [10, 11, 1, 6] } },
+          // Venus/Jupiter strength (if snapshot provides)
+          { planet_strength: { planet: 'VENUS', min: 0.5 } },
+          { planet_strength: { planet: 'JUPITER', min: 0.5 } },
+          // Nakshatra confirmation (business context)
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MERCURY'], group: { context: 'business', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MERCURY'], group: { context: 'business', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.9,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'strong_growth',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Multiple supportive signals align; this is prioritized as a primary opportunity signal.',
+        },
+        outcome_text:
+          'A business growth/expansion yog is present. Nakshatra support strengthens this phase. Scale band: small-to-medium or medium-to-large expansion; profit band: moderate-to-strong (execution-dependent).',
+        point_id: pointId,
+      },
+    },
+
+    // 2) Gains and scaling (11th house emphasis)
+    {
+      code: 'NATAL_GAINS_SCALING',
+      label: 'Scaling and gains signature (11th house activation).',
+      condition_tree: {
+        planet_in_house: {
+          planet_in: ['JUPITER', 'VENUS', 'MERCURY', 'SUN'],
+          house_in: [11],
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.8,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'scale_and_networks',
+        outcome_text:
+          'Scaling may be easier through networks and repeatable channels. It can help to prioritize retention, referrals, and reliable distribution.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Signals point toward gains via networks and scaling mechanics rather than isolated wins.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 3) Recognition + authority supports wins (10th house)
+    {
+      code: 'NATAL_REPUTATION_WIN',
+      label: 'Recognition and authority support business wins (10th house).',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['SUN'], house_in: [10, 11], match_mode: 'any', min_planets: 1 } },
+          {
+            planet_in_house: {
+              planet_in: ['JUPITER', 'VENUS', 'MERCURY'],
+              house_in: [10, 11, 2],
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.75,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'recognition_and_win',
+        outcome_text:
+          'Visibility and credibility may support wins. Keeping communication crisp and delivery consistent can improve conversion and reputation.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This is treated as supportive—useful for positioning and execution quality.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 4) Sales/marketing push converts to growth (3rd + 11th)
+    {
+      code: 'NATAL_MARKETING_TO_GAINS',
+      label: 'Marketing/communication strength translates into gains.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['MERCURY'], house_in: [3, 11], match_mode: 'any', min_planets: 1 } },
+          { overall_benefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.7,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'marketing_growth',
+        outcome_text:
+          'Marketing and outreach can contribute to growth. A simple messaging strategy and steady follow-up may work better than frequent pivots.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This emphasizes outreach as a key lever; results still depend on consistent follow-through.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 5) Transit: Jupiter/Venus expansion window (short-term)
+    {
+      code: 'TRANSIT_EXPANSION_WINDOW',
+      label: 'Short-term expansion window when Jupiter/Venus transit key houses.',
+      scopes: ['hourly', 'daily', 'weekly'],
+      condition_tree: {
+        transit_planet_in_house: {
+          planet_in: ['JUPITER', 'VENUS'],
+          house_in: keyHouses,
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.65,
+        tone: 'positive',
+        trigger: 'transit',
+        scenario: 'expansion_window',
+        outcome_text:
+          'A short-term expansion window may be available. You can use it for launches, outreach, and closing pending opportunities—without overcommitting.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is time-bound; it is treated as background unless reinforced by other signals.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 6) Transit: deals convert to wins (Mercury/Venus)
+    {
+      code: 'TRANSIT_DEALS_TO_WIN',
+      label: 'Deals/clients activated via Mercury/Venus transits.',
+      scopes: ['hourly', 'daily', 'weekly'],
+      condition_tree: {
+        transit_planet_in_house: {
+          planet_in: ['MERCURY', 'VENUS'],
+          house_in: [7, 10, 11, 2],
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.6,
+        tone: 'positive',
+        trigger: 'transit',
+        scenario: 'deals_convert',
+        outcome_text:
+          'Deal flow may improve in the near term. Clear terms, timelines, and follow-up can help convert conversations into outcomes.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is a lightweight short-term support signal; keep expectations grounded.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 7) Dasha: benefic/trade phase supports long-term growth
+    {
+      code: 'DASHA_GROWTH_SUPPORT',
+      label: 'Long-term growth support during benefic/trade dasha phases.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        any: [
+          // Planet ids (common convention): Sun=1, Moon=2, Mars=3, Mercury=4, Jupiter=5, Venus=6, Saturn=7, Rahu=8, Ketu=9
+          { dasha_running: { level: 'mahadasha', planet_in: [5, 6, 4] } }, // Jupiter/Venus/Mercury
+          { dasha_running: { level: 'antardasha', planet_in: [5, 6, 4] } },
+          { dasha_running: { level: 'pratyantardasha', planet_in: [5, 6, 4] } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.8,
+        tone: 'positive',
+        trigger: 'dasha',
+        scenario: 'growth_phase',
+        outcome_text:
+          'A longer-term growth phase may be building. Steady capability-building and disciplined planning can compound results over time.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This is framed as longer-term support, shaping strategy more than day-to-day decisions.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 8) High benefic score: strong support + momentum
+    {
+      code: 'HIGH_BENEFIC_MOMENTUM',
+      label: 'High overall benefic score indicates strong momentum and easier wins.',
+      condition_tree: {
+        all: [
+          { overall_benefic_score: { min: 0.7 } },
+          {
+            planet_in_house: {
+              planet_in: ['JUPITER', 'VENUS', 'MERCURY'],
+              house_in: growthHouses,
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.85,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'momentum_and_ease',
+        outcome_text:
+          'Momentum can feel smoother when you keep execution focused. Prioritize one or two growth drivers and avoid spreading effort too thin.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This supports “ease and momentum” framing, but still avoids guarantees.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 9) Double support: natal + transit align (breakthrough win)
+    {
+      code: 'ALIGNMENT_BREAKTHROUGH',
+      label: 'When natal promise and current transits align, a breakthrough win becomes likely.',
+      scopes: ['daily', 'weekly', 'monthly'],
+      condition_tree: {
+        all: [
+          {
+            planet_in_house: {
+              planet_in: ['JUPITER', 'VENUS', 'MERCURY'],
+              house_in: [10, 11, 2],
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+          {
+            transit_planet_in_house: {
+              planet_in: ['JUPITER', 'VENUS', 'MERCURY'],
+              house_in: [10, 11, 2],
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.8,
+        tone: 'positive',
+        trigger: 'combined',
+        scenario: 'breakthrough_win',
+        outcome_text:
+          'A breakthrough may be possible when preparation meets timing. Keeping operations ready and terms clean can help you capture upside.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'medium',
+          dominance: 'dominant',
+          certainty_note: 'This is treated as dominant when alignment signals appear together; still expressed without certainty.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 10) Slow build win: disciplined growth yields results (Saturn in 11th/10th but benefics present)
+    {
+      code: 'SLOW_BUILD_WIN',
+      label: 'Slow build: disciplined effort yields steady growth and eventual wins.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['SATURN'], house_in: [10, 11], match_mode: 'any', min_planets: 1 } },
+          { overall_benefic_score: { min: 0.6 } },
+          {
+            planet_in_house: {
+              planet_in: ['JUPITER', 'VENUS', 'MERCURY'],
+              house_in: [10, 11, 2],
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.65,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'slow_build_growth',
+        outcome_text:
+          'Growth may come through discipline rather than speed. You can benefit from structure, steady delivery, and realistic timelines.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This emphasizes compounding gains through consistency rather than quick wins.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 11) Sudden win spike (Rahu in 11th) with safety via high benefic score
+    {
+      code: 'SUDDEN_WIN_SPIKE',
+      label: 'Sudden win spike: strong gains activation with a need for risk discipline.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['RAHU'], house_in: [11], match_mode: 'any', min_planets: 1 } },
+          { overall_benefic_score: { min: 0.65 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.75,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'sudden_gain',
+        outcome_text:
+          'A sudden upside may appear, but it can be uneven. Consider capturing gains while keeping risk controls and buffers intact.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is treated as a volatile upside signal and is kept secondary by default.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 12) Mixed growth with risk controls
+    {
+      code: 'MIXED_GROWTH_WITH_RISK',
+      label: 'Growth potential exists, but risk-control should be active in parallel.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['JUPITER', 'VENUS', 'MERCURY'], house_in: [10, 11, 2], match_mode: 'any', min_planets: 1 } },
+          { planet_in_house: { planet_in: ['SATURN', 'MARS', 'RAHU', 'KETU'], house_in: [10, 11, 2, 8, 12], match_mode: 'any', min_planets: 1 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.7,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'mixed_growth_with_risk',
+        outcome_text:
+          'Growth may be available, but it can come with volatility. You can move forward while keeping budgets, terms, and buffers conservative.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Support and risk appear together; this is framed as balanced guidance rather than a pure win.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 13) Transit caution during growth push
+    {
+      code: 'TRANSIT_GROWTH_CAUTION',
+      label: 'Short-term caution: avoid overcommitting while pushing growth.',
+      scopes: ['hourly', 'daily', 'weekly'],
+      condition_tree: {
+        transit_planet_in_house: {
+          planet_in: ['SATURN', 'MARS', 'RAHU', 'KETU'],
+          house_in: [10, 11, 2],
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.6,
+        tone: 'challenging',
+        trigger: 'transit',
+        scenario: 'transit_growth_caution',
+        outcome_text:
+          'If you are pushing growth, you may benefit from slower commitments and extra checks in the short term—especially for budgets and timelines.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'Short-term caution is treated as background guidance to reduce avoidable errors.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 14) Dasha: slow growth with discipline (mixed)
+    {
+      code: 'DASHA_SLOW_GROWTH_DISCIPLINE',
+      label: 'Longer-term growth is possible but tends to be slower and more structured.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        any: [
+          { dasha_running: { level: 'antardasha', planet_in: [7] } }, // Saturn
+          { dasha_running: { level: 'pratyantardasha', planet_in: [7] } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.6,
+        tone: 'cautious',
+        trigger: 'dasha',
+        scenario: 'slow_growth_discipline',
+        outcome_text:
+          'Growth may still be possible, but it may reward structure over speed. Consider focusing on reliability, compliance, and repeatable execution.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'background',
+          certainty_note: 'This is treated as a longer-term pacing signal that shapes strategy and expectations.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 15) Recovery and consolidation after a push
+    {
+      code: 'CONSOLIDATION_AFTER_PUSH',
+      label: 'Consolidation phase: protect gains and reduce volatility.',
+      condition_tree: {
+        all: [
+          { overall_benefic_score: { min: 0.6 } },
+          { overall_malefic_score: { min: 0.5 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.55,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'consolidation_after_push',
+        outcome_text:
+          'A consolidation phase may suit you now. You can protect gains by improving quality, tightening costs, and reducing operational noise.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is used as a balancing note when both supportive and challenging signals are present.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 16) Neutral low-confidence upside (kept in background)
+    {
+      code: 'MINOR_UPSIDE_SIGNAL',
+      label: 'A minor upside signal that should be treated lightly.',
+      condition_tree: { generic_condition: { note: 'Minor upside signal (background).' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.4,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'minor_upside',
+        outcome_text:
+          'There may be small supportive openings. Treat them as incremental improvements rather than major shifts, and keep decisions grounded.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is intentionally low-confidence and should not drive major decisions on its own.',
+        },
+        point_id: pointId,
+      },
+    },
+  ];
+}
+
+

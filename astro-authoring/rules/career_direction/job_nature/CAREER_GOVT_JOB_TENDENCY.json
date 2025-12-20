@@ -8,20 +8,94 @@
     "yearly",
     "life_theme"
   ],
-  "condition_tree": {
-    "all": [
-      {
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "CAREER_GOVT_JOB_TENDENCY__GENERIC_BASE",
+      "label": "Generic draft condition (baseline).",
+      "scopes": null,
+      "condition_tree": {
         "generic_condition": {
-          "note": "No astroHints specified; generic draft condition."
+          "note": "Author real govt-job tendency conditions here."
         }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "job_nature",
+        "trend": "mixed",
+        "intensity": 0.6,
+        "tone": "mixed",
+        "trigger": "natal",
+        "point_id": "CAREER_GOVT_JOB_TENDENCY"
       }
-    ]
-  },
-  "effect_json": {
-    "theme": "career",
-    "area": "job_nature",
-    "trend": "mixed",
-    "intensity": 0.7,
-    "tone": "positive"
-  }
+    },
+    {
+      "index": 2,
+      "code": "CAREER_GOVT_JOB_TENDENCY__GENERIC_SUPPORT",
+      "label": "Generic supportive variant.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Author real supportive govt-job tendency conditions here."
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "job_nature",
+        "trend": "up",
+        "intensity": 0.65,
+        "tone": "positive",
+        "trigger": "natal",
+        "point_id": "CAREER_GOVT_JOB_TENDENCY"
+      }
+    },
+    {
+      "index": 3,
+      "code": "CAREER_GOVT_JOB_TENDENCY__TRANSIT_GENERIC",
+      "label": "Generic transit variant.",
+      "scopes": [
+        "daily",
+        "weekly",
+        "monthly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real transit conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "job_nature",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "mixed",
+        "trigger": "transit",
+        "point_id": "CAREER_GOVT_JOB_TENDENCY"
+      }
+    },
+    {
+      "index": 4,
+      "code": "CAREER_GOVT_JOB_TENDENCY__DASHA_GENERIC",
+      "label": "Generic dasha variant.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real dasha conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "job_nature",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "mixed",
+        "trigger": "dasha",
+        "point_id": "CAREER_GOVT_JOB_TENDENCY"
+      }
+    }
+  ]
 }

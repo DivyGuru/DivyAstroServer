@@ -1,0 +1,499 @@
+export function getPROGENY_GENERALVariants() {
+  const effectTheme = 'family';
+  const area = 'family_children';
+  const pointId = 'PROGENY_GENERAL';
+
+  const childHouses = [5, 2, 4, 9, 11];
+  const caregivingHouses = [4, 5];
+  const benefics = ['JUPITER', 'VENUS', 'MOON'];
+  const trade = ['MERCURY'];
+  const malefics = ['SATURN', 'MARS', 'RAHU', 'KETU'];
+
+  // Planet ids: Sun=1, Moon=2, Mars=3, Mercury=4, Jupiter=5, Venus=6, Saturn=7, Rahu=8, Ketu=9
+  const SUPPORT_IDS = [2, 5, 6, 4]; // Moon/Jupiter/Venus/Mercury
+  const PRESSURE_IDS = [7, 3, 8, 9]; // Saturn/Mars/Rahu/Ketu
+
+  return [
+    // 1) Supportive baseline for family expansion (natal)
+    {
+      code: 'NATAL_PROGENY_SUPPORT',
+      label: 'Supportive baseline for family expansion responsibilities (natal).',
+      condition_tree: {
+        all: [
+          {
+            planet_in_house: {
+              planet_in: [...benefics, ...trade],
+              house_in: childHouses,
+              match_mode: 'any',
+              min_planets: 2,
+            },
+          },
+          // Dasha alignment (supportive) OR transit activation (supportive)
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+              { transit_planet_in_house: { planet_in: ['JUPITER'], house_in: [5, 2, 11], match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+          // Nakshatra confirmation: supportive OR neutral (never alone; only confirms)
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MOON'], group: { context: 'progeny', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MOON'], group: { context: 'progeny', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.75,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'supportive_baseline',
+        outcome_text:
+          'A progeny-support yog is present. Nakshatra support strengthens this signal. Step-by-step planning, emotional readiness, and stable routines may support better outcomes.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Planetary and dasha/transit alignment are present along with nakshatra confirmation, so this is treated as a strong supportive yog.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 2) Emotional readiness and nurturing support (Moon/Venus)
+    {
+      code: 'NATAL_NURTURING_READINESS',
+      label: 'Nurturing readiness: emotional warmth supports caregiving responsibilities.',
+      condition_tree: {
+        all: [
+          {
+            planet_in_house: {
+              planet_in: ['MOON', 'VENUS'],
+              house_in: caregivingHouses,
+              match_mode: 'any',
+              min_planets: 1,
+            },
+          },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['MOON', 'VENUS'], group: { context: 'progeny', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['MOON', 'VENUS'], group: { context: 'progeny', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.6,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'nurturing_readiness',
+        outcome_text:
+          'A progeny-support yog is present. Nakshatra support strengthens this signal. Emotional readiness and nurturing energy may be stronger—gentle communication and predictable routines can build confidence.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Nurturing signals are present along with nakshatra confirmation, so this is treated as a supportive indicator.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 3) Male-progeny inclination yog (strong, with nakshatra supportive/neutral confirmation)
+    {
+      code: 'PUTRA_YOG_STRONG',
+      label: 'Male-progeny inclination yog: strong indicators with nakshatra supportive/neutral confirmation.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['JUPITER', 'SUN', 'MARS'], house_in: [5, 9, 11, 2], match_mode: 'any', min_planets: 2 } },
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+              { transit_planet_in_house: { planet_in: ['JUPITER'], house_in: [5, 2, 11], match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'SUN'], group: { context: 'progeny', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'SUN'], group: { context: 'progeny', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.65,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'putra_yog_strong',
+        outcome_text:
+          'A male-progeny inclination yog is present. Nakshatra support strengthens this signal. With supportive timing, this yog can activate more cleanly (no guarantees).',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Male-progeny inclination indicators and dasha/transit alignment are present along with supportive/neutral nakshatra confirmation.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 4) Short-term supportive window (transit benefics)
+    {
+      code: 'TRANSIT_SUPPORTIVE_WINDOW',
+      label: 'Short-term supportive window for family/children-related discussions.',
+      scopes: ['hourly', 'daily', 'weekly'],
+      condition_tree: {
+        transit_planet_in_house: {
+          planet_in: ['JUPITER', 'VENUS', 'MOON'],
+          house_in: [5, 4, 2, 11],
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.5,
+        tone: 'positive',
+        trigger: 'transit',
+        scenario: 'short_term_support',
+        outcome_text:
+          'A short-term supportive window may be available. It can help to have calm discussions, align on responsibilities, and take stepwise decisions.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'This is time-bound support and is treated as background guidance.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 5) Long-term supportive phase (dasha)
+    {
+      code: 'DASHA_SUPPORTIVE_PHASE',
+      label: 'Long-term supportive phase for family responsibilities (benefic/trade dasha).',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        any: [
+          { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+          { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.55,
+        tone: 'positive',
+        trigger: 'dasha',
+        scenario: 'long_term_support',
+        outcome_text:
+          'A longer supportive phase may be building. Consistency, readiness, and practical planning can compound stability over time.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'background',
+          certainty_note: 'This is framed as longer-term support and informs strategy more than short-term decisions.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 6) Pressure and hesitation (Saturn)
+    {
+      code: 'NATAL_PRESSURE_HESITATION',
+      label: 'Pressure and hesitation: responsibilities feel heavy; pacing helps.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['SATURN'], house_in: [5, 4, 6], match_mode: 'any', min_planets: 1 } },
+          { overall_malefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.65,
+        tone: 'cautious',
+        trigger: 'natal',
+        scenario: 'pressure_hesitation',
+        outcome_text:
+          'This phase may feel heavier or more cautious. Moving step-by-step, reducing external pressure, and focusing on readiness can help.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'Signals suggest a slower pace; structure and patience are emphasized.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 7) Uncertainty / mixed signals (Rahu/Ketu)
+    {
+      code: 'NATAL_UNCERTAINTY_MIXED',
+      label: 'Uncertainty/mixed signals: clarity becomes important.',
+      condition_tree: {
+        planet_in_house: { planet_in: ['RAHU', 'KETU'], house_in: [5, 8, 12], match_mode: 'any', min_planets: 1 },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.65,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'uncertainty_mixed',
+        outcome_text:
+          'Uncertainty may feel stronger. Clarifying expectations, avoiding rushed decisions, and keeping communication calm can reduce stress.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This is treated as an information-clarity signal rather than a final outcome indicator.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 8) External pressure from work or responsibilities (6/10)
+    {
+      code: 'EXTERNAL_PRESSURE_WORKLOAD',
+      label: 'External pressure: workload affects readiness and bandwidth.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['SATURN'], house_in: [6, 10], match_mode: 'any', min_planets: 1 } },
+          { overall_malefic_score: { min: 0.55 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.6,
+        tone: 'cautious',
+        trigger: 'natal',
+        scenario: 'workload_pressure',
+        outcome_text:
+          'Workload or responsibilities may affect emotional bandwidth. Clear planning, realistic pacing, and shared support can help reduce pressure.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'background',
+          certainty_note: 'This frames sensitivity as readiness + bandwidth, not as a fixed outcome.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 9) Mixed environment: support + stress together
+    {
+      code: 'MIXED_SUPPORT_AND_STRESS',
+      label: 'Support and stress coexist; balanced decisions help.',
+      condition_tree: {
+        all: [
+          { overall_benefic_score: { min: 0.55 } },
+          { overall_malefic_score: { min: 0.55 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.6,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'mixed_environment',
+        outcome_text:
+          'Support and stress may coexist. Gentle communication, stepwise decisions, and practical planning can help you stay grounded.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'medium',
+          dominance: 'dominant',
+          certainty_note: 'Mixed indicators require balanced guidance and patience.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 10) Short-term sensitivity (transit malefics)
+    {
+      code: 'TRANSIT_SENSITIVITY',
+      label: 'Short-term sensitivity: malefic transits activate stress houses.',
+      scopes: ['hourly', 'daily', 'weekly'],
+      condition_tree: {
+        transit_planet_in_house: {
+          planet_in: ['SATURN', 'MARS', 'RAHU', 'KETU'],
+          house_in: [5, 6, 12],
+          match_mode: 'any',
+          min_planets: 1,
+        },
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.5,
+        tone: 'challenging',
+        trigger: 'transit',
+        scenario: 'short_term_sensitivity',
+        outcome_text:
+          'This may be a more sensitive window. Slower decisions and extra care with communication can reduce avoidable stress.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'Time-bound caution is treated as background guidance.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 11) Recovery with structure (Saturn + benefic)
+    {
+      code: 'RECOVERY_WITH_STRUCTURE',
+      label: 'Recovery with structure: gradual improvement through consistency.',
+      scopes: ['monthly', 'yearly'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['SATURN'], house_in: [4, 6], match_mode: 'any', min_planets: 1 } },
+          { overall_benefic_score: { min: 0.6 } },
+          { overall_malefic_score: { min: 0.5 } },
+          { overall_malefic_score: { max: 0.75 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.55,
+        tone: 'cautious',
+        trigger: 'natal',
+        scenario: 'recovery_structure',
+        outcome_text:
+          'Stability can improve through structure. Predictable routines, shared responsibilities, and calm boundaries can support a steadier phase over time.',
+        variant_meta: {
+          tone: 'stabilizing',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This is framed as gradual recovery support through structure, not as certainty.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 12) Female-progeny inclination yog (strong, with nakshatra supportive/neutral confirmation)
+    {
+      code: 'PUTRI_YOG_STRONG',
+      label: 'Female-progeny inclination yog: strong indicators with nakshatra supportive/neutral confirmation.',
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: ['MOON', 'VENUS', 'JUPITER'], house_in: [5, 4, 2, 11], match_mode: 'any', min_planets: 2 } },
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+              { transit_planet_in_house: { planet_in: ['VENUS', 'JUPITER'], house_in: [5, 4, 2, 11], match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['MOON', 'VENUS'], group: { context: 'progeny', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['MOON', 'VENUS'], group: { context: 'progeny', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.65,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'putri_yog_strong',
+        outcome_text:
+          'A female-progeny inclination yog is present. Nakshatra support strengthens this signal. With supportive timing, this yog can activate more cleanly (no guarantees).',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Female-progeny inclination indicators and dasha/transit alignment are present along with supportive/neutral nakshatra confirmation.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 13) Dasha pressure phase (malefic)
+    {
+      code: 'DASHA_PRESSURE_PHASE',
+      label: 'Longer pressure phase: pacing and emotional support are important.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        any: [
+          { dasha_running: { level: 'mahadasha', planet_in: PRESSURE_IDS } },
+          { dasha_running: { level: 'antardasha', planet_in: PRESSURE_IDS } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.6,
+        tone: 'challenging',
+        trigger: 'dasha',
+        scenario: 'pressure_phase',
+        outcome_text:
+          'A longer sensitive phase may require patience and steady support. Pacing decisions and reducing stressors can help you stay grounded.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'medium',
+          dominance: 'supporting',
+          certainty_note: 'This guides longer-term pacing and readiness without absolute claims.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 14) Informational baseline
+    {
+      code: 'PROGENY_GENERAL_INFORMATIONAL_BASELINE',
+      label: 'Baseline informational variant for progeny/general context.',
+      condition_tree: { generic_condition: { note: 'Progeny general baseline (background).' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'informational_baseline',
+        outcome_text:
+          'No single strong signal stands out here. Emotional readiness, calm planning, and consistent support routines may be the most helpful focus.',
+        variant_meta: {
+          tone: 'informational',
+          confidence_level: 'low',
+          dominance: 'background',
+          certainty_note: 'Used as a baseline when stronger progeny-general variants do not match.',
+        },
+        point_id: pointId,
+      },
+    },
+  ];
+}
+
+

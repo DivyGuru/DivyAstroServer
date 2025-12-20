@@ -74,6 +74,7 @@ export const SUBTYPES = {
     BASIC_STABILITY: 'money_basic_stability',
     WEALTH_GROWTH: 'money_wealth_growth',
     SOURCE_OF_EARNINGS: 'source_of_earnings',
+    PERSONAL_FINANCE: 'finance_personal',
   },
   [THEMES.CAREER_DIRECTION]: {
     CAREER_GROWTH: 'career_growth',
@@ -102,6 +103,7 @@ export const SUBTYPES = {
     ILLNESS_RECOVERY: 'health_illness_recovery',
     LIFESTYLE_BALANCE: 'health_lifestyle_balance',
     CRITICAL_HEALTH: 'critical_health',
+    WELL_BEING: 'health_wellbeing',
   },
   [THEMES.MENTAL_STATE]: {
     STRESS_ANXIETY: 'mind_stress_anxiety',
@@ -287,6 +289,103 @@ const MONEY_INVESTMENT_RISK = makePoint({
   description: 'risky निवेश, speculative loss possibility वाला phase।',
 });
 
+// Personal finance (advanced) — finance intelligence (flow vs stock, timing, direction)
+const FINANCE_GENERAL = makePoint({
+  id: 'FINANCE_GENERAL',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — overall direction',
+  description: 'Flow vs stock, disha (inflow/outflow/redirection), and overall money posture.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['finance', 'personal_money', 'direction'],
+});
+
+const FINANCE_INCOME_FLOW = makePoint({
+  id: 'FINANCE_INCOME_FLOW',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — income flow',
+  description: 'Income flow strength, volatility, and inflow channels.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['finance', 'income_flow'],
+});
+
+const FINANCE_EXPENSE_PRESSURE = makePoint({
+  id: 'FINANCE_EXPENSE_PRESSURE',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — expense pressure',
+  description: 'Expense/leakage pressure and short-term spending sensitivity.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['finance', 'expenses', 'pressure'],
+});
+
+const FINANCE_SAVINGS_GROWTH = makePoint({
+  id: 'FINANCE_SAVINGS_GROWTH',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — savings growth',
+  description: 'Savings/emergency fund and wealth stock-building direction.',
+  defaultScopes: ['weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['finance', 'savings', 'wealth_stock'],
+});
+
+const FINANCE_DEBT_LOAN = makePoint({
+  id: 'FINANCE_DEBT_LOAN',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — debt/loan',
+  description: 'Debt load, repayment posture, and borrowing caution windows.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['finance', 'debt', 'loan'],
+});
+
+const FINANCE_INVESTMENT_TIMING = makePoint({
+  id: 'FINANCE_INVESTMENT_TIMING',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — investment timing',
+  description: 'Timing windows for investing: long-term vs speculative posture.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['finance', 'investment', 'timing'],
+});
+
+const FINANCE_SUDDEN_GAIN_LOSS = makePoint({
+  id: 'FINANCE_SUDDEN_GAIN_LOSS',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — sudden gain/loss',
+  description: 'Volatility, shocks, and sudden opportunity vs risk posture.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'event',
+  tags: ['finance', 'volatility', 'sudden'],
+});
+
+const FINANCE_LONG_TERM_WEALTH = makePoint({
+  id: 'FINANCE_LONG_TERM_WEALTH',
+  theme: THEMES.MONEY_FINANCE,
+  subtype: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+  label: 'Personal finance — long-term wealth',
+  description: '2–5 year wealth trajectory and stock-building phases.',
+  defaultScopes: ['yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['finance', 'wealth', 'multi_year'],
+});
+
 // Source of earnings
 const MONEY_MULTIPLE_SOURCES_OF_INCOME = makePoint({
   id: 'MONEY_MULTIPLE_SOURCES_OF_INCOME',
@@ -334,6 +433,79 @@ const CAREER_GROWTH_OPPORTUNITY_WIN = makePoint({
   subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
   label: 'Career growth opportunity / win',
   description: 'strong growth, promotion, recognition और जीत वाला phase।',
+});
+
+// Career module (advanced, authored variants exist; taxonomy allow-list entry)
+const CAREER_GENERAL = makePoint({
+  id: 'CAREER_GENERAL',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
+  label: 'Career — overall direction',
+  description: 'General career posture: support vs challenge, momentum, and decision framing.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['career', 'general', 'direction'],
+});
+
+const CAREER_STABILITY = makePoint({
+  id: 'CAREER_STABILITY',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
+  label: 'Career stability',
+  description: 'Stability vs instability signals; structure and consolidation phases.',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['career', 'stability'],
+});
+
+const CAREER_GROWTH_PROMOTION = makePoint({
+  id: 'CAREER_GROWTH_PROMOTION',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
+  label: 'Career growth / promotion',
+  description: 'Promotion/growth windows, recognition, responsibility bands (non-absolute).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'positive',
+  kind: 'achievement',
+  tags: ['career', 'growth', 'promotion'],
+});
+
+const CAREER_JOB_CHANGE = makePoint({
+  id: 'CAREER_JOB_CHANGE',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_CHANGE,
+  label: 'Career job change / role shift',
+  description: 'Role shift timing, readiness phases, and decision support (no guarantees).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'event',
+  tags: ['career', 'job_change', 'role_shift'],
+});
+
+const CAREER_WORKPLACE_CONFLICT = makePoint({
+  id: 'CAREER_WORKPLACE_CONFLICT',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].WORK_STRESS,
+  label: 'Workplace conflict / politics',
+  description: 'Colleague/boss friction, politics stress, repair and boundaries guidance.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly'],
+  polarity: 'negative',
+  kind: 'problem',
+  tags: ['career', 'workplace', 'conflict', 'politics'],
+});
+
+const CAREER_SKILL_STAGNATION = makePoint({
+  id: 'CAREER_SKILL_STAGNATION',
+  theme: THEMES.CAREER_DIRECTION,
+  subtype: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
+  label: 'Skill stagnation / growth block',
+  description: 'Learning blocks vs upskilling support; relevance and competence cycles.',
+  defaultScopes: ['weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['career', 'skills', 'stagnation'],
 });
 
 const CAREER_GROWTH_BLOCKED = makePoint({
@@ -522,6 +694,103 @@ const REL_LOVE_GENERAL = makePoint({
   subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
   label: 'Overall प्रेम जीवन',
   description: 'प्रेम जीवन की overall supportive vs dull स्थिति।',
+});
+
+// Relationship module (advanced, authored variants exist; taxonomy allow-list entry)
+const RELATIONSHIP_GENERAL = makePoint({
+  id: 'RELATIONSHIP_GENERAL',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
+  label: 'Relationship — overall direction',
+  description: 'Overall relationship climate: support vs strain, maturity, and clarity.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['relationship', 'general'],
+});
+
+const RELATIONSHIP_STABILITY = makePoint({
+  id: 'RELATIONSHIP_STABILITY',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
+  label: 'Relationship stability',
+  description: 'Stability vs distance cycles; long-term consistency themes (non-absolute).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['relationship', 'stability'],
+});
+
+const RELATIONSHIP_MARRIAGE_TIMING = makePoint({
+  id: 'RELATIONSHIP_MARRIAGE_TIMING',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].MARRIAGE_PARTNER,
+  label: 'Marriage timing (month–year windows)',
+  description: 'Timing windows and readiness framing for marriage decisions (no guarantees).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'event',
+  tags: ['relationship', 'marriage', 'timing'],
+});
+
+const RELATIONSHIP_CONFLICT_PATCHUP = makePoint({
+  id: 'RELATIONSHIP_CONFLICT_PATCHUP',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
+  label: 'Conflict / patch-up cycles',
+  description: 'Misunderstandings, repair potential, and reconnection support phases.',
+  defaultScopes: ['daily', 'weekly', 'monthly'],
+  polarity: 'mixed',
+  kind: 'event',
+  tags: ['relationship', 'conflict', 'patchup'],
+});
+
+const RELATIONSHIP_EMOTIONAL_DISTANCE = makePoint({
+  id: 'RELATIONSHIP_EMOTIONAL_DISTANCE',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
+  label: 'Emotional distance',
+  description: 'Distance/withdrawal cycles and communication repair framing (non-absolute).',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['relationship', 'distance'],
+});
+
+const FAMILY_RELATIONS_GENERAL = makePoint({
+  id: 'FAMILY_RELATIONS_GENERAL',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].FAMILY_RELATIONS,
+  label: 'Family relations — overall',
+  description: 'Family harmony vs friction; boundaries and support framing.',
+  defaultScopes: ['weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['family', 'relationships', 'general'],
+});
+
+const FAMILY_CONFLICT_PRESSURE = makePoint({
+  id: 'FAMILY_CONFLICT_PRESSURE',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].FAMILY_RELATIONS,
+  label: 'Family conflict / pressure',
+  description: 'External pressure and conflict sensitivity; calm boundaries framing.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly'],
+  polarity: 'negative',
+  kind: 'problem',
+  tags: ['family', 'conflict', 'pressure'],
+});
+
+const LONG_TERM_RELATIONSHIP_BOND = makePoint({
+  id: 'LONG_TERM_RELATIONSHIP_BOND',
+  theme: THEMES.RELATIONSHIPS,
+  subtype: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
+  label: 'Long-term relationship bond',
+  description: 'Bond strengthening vs erosion cycles; stability and repair posture.',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['relationship', 'long_term', 'bond'],
 });
 
 const REL_LOVE_NEW_CONNECTION = makePoint({
@@ -741,6 +1010,176 @@ const FAMILY_CHILD_CONCEPTION_WINDOW = makePoint({
   tags: ['children', 'conception'],
 });
 
+// Children / Progeny module (taxonomy allow-list entry; exact names required for ingest)
+const CHILDREN_GENERAL = makePoint({
+  id: 'CHILDREN_GENERAL',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Children / progeny — overall',
+  description: 'General progeny/children direction (advisory; non-absolute).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['children', 'progeny', 'general'],
+});
+
+const CHILDREN_PROGENY_SUPPORT = makePoint({
+  id: 'CHILDREN_PROGENY_SUPPORT',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny support',
+  description: 'Supportive phases for progeny-related progress (non-medical; non-absolute).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'positive',
+  kind: 'state',
+  tags: ['children', 'progeny', 'support'],
+});
+
+const CHILDREN_PROGENY_DELAY = makePoint({
+  id: 'CHILDREN_PROGENY_DELAY',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny delay / block',
+  description: 'Delay-style patterns and pacing (no diagnosis; no absolutes).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['children', 'progeny', 'delay'],
+});
+
+const CHILDREN_PUTRA_YOG = makePoint({
+  id: 'CHILDREN_PUTRA_YOG',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Male-progeny inclination yog',
+  description: 'Male-progeny inclination signals (soft; non-absolute; no guarantees).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['children', 'progeny', 'male_inclination'],
+});
+
+const CHILDREN_PUTRI_YOG = makePoint({
+  id: 'CHILDREN_PUTRI_YOG',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Female-progeny inclination yog',
+  description: 'Female-progeny inclination signals (soft; non-absolute; no guarantees).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['children', 'progeny', 'female_inclination'],
+});
+
+const CHILDREN_MULTIPLE_PROGENY = makePoint({
+  id: 'CHILDREN_MULTIPLE_PROGENY',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Multiple progeny tendency',
+  description: 'Soft tendency towards multiple children (non-absolute; no exact counts).',
+  defaultScopes: ['yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['children', 'progeny', 'multiple_tendency'],
+});
+
+const CHILDREN_PARENTING_PRESSURE = makePoint({
+  id: 'CHILDREN_PARENTING_PRESSURE',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Parenting pressure',
+  description: 'Responsibility load and parenting-related stress cycles (advisory).',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['children', 'parenting', 'pressure'],
+});
+
+const CHILDREN_LONG_TERM_BOND = makePoint({
+  id: 'CHILDREN_LONG_TERM_BOND',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Long-term parent–child bond',
+  description: 'Long-term bonding and nurturing direction (non-absolute).',
+  defaultScopes: ['yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['children', 'bond', 'long_term'],
+});
+
+// Progeny module point codes (authored variants exist; taxonomy allow-list entry)
+const PROGENY_GENERAL = makePoint({
+  id: 'PROGENY_GENERAL',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — general',
+  description: 'General progeny/children direction (advisory; non-absolute).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['progeny', 'children', 'general'],
+});
+
+const PROGENY_TIMING_WINDOW = makePoint({
+  id: 'PROGENY_TIMING_WINDOW',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — timing window',
+  description: 'Timing-sensitive windows for progeny-related progress (no exact dates).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'event',
+  tags: ['progeny', 'timing', 'window'],
+});
+
+const PROGENY_DELAY_BLOCK = makePoint({
+  id: 'PROGENY_DELAY_BLOCK',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — delay/block',
+  description: 'Delay-style patterns and pacing guidance (no diagnosis; no absolutes).',
+  defaultScopes: ['monthly', 'yearly', 'life_theme'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['progeny', 'delay', 'block'],
+});
+
+const PROGENY_MULTIPLE_TENDENCY = makePoint({
+  id: 'PROGENY_MULTIPLE_TENDENCY',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — multiple tendency',
+  description: 'Soft tendency towards multiple children (non-absolute; no exact counts).',
+  defaultScopes: ['yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['progeny', 'multiple_tendency'],
+});
+
+const PROGENY_PARENTING_PRESSURE = makePoint({
+  id: 'PROGENY_PARENTING_PRESSURE',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — parenting pressure',
+  description: 'Responsibility load, stress cycles, and pacing guidance (advisory).',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['progeny', 'parenting', 'pressure'],
+});
+
+const PROGENY_EMOTIONAL_BOND = makePoint({
+  id: 'PROGENY_EMOTIONAL_BOND',
+  theme: THEMES.FAMILY_HOME,
+  subtype: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
+  label: 'Progeny — emotional bond',
+  description: 'Bonding/nurturing direction and emotional connection cycles (non-absolute).',
+  defaultScopes: ['weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['progeny', 'bond', 'emotional'],
+});
+
 const FAMILY_CHILD_RESPONSIBILITY_PRESSURE = makePoint({
   id: 'FAMILY_CHILD_RESPONSIBILITY_PRESSURE',
   theme: THEMES.FAMILY_HOME,
@@ -905,6 +1344,103 @@ const HEALTH_RECOVERY_LONG_TERM = makePoint({
   kind: 'state',
   defaultScopes: ['monthly', 'yearly', 'life_theme'],
   tags: ['health', 'recovery', 'long_term'],
+});
+
+// Health / Well-being (advanced, non-medical)
+const HEALTH_GENERAL = makePoint({
+  id: 'HEALTH_GENERAL',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Overall health & well-being direction',
+  description: 'Non-medical: energy vs strain, recovery direction, routine balance.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'wellbeing', 'direction'],
+});
+
+const HEALTH_ENERGY_LEVEL = makePoint({
+  id: 'HEALTH_ENERGY_LEVEL',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Energy level & stamina band',
+  description: 'Non-medical: energy band, fatigue sensitivity, recovery pacing.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'energy', 'stamina'],
+});
+
+const HEALTH_STRESS_PRESSURE = makePoint({
+  id: 'HEALTH_STRESS_PRESSURE',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Stress pressure & reactivity',
+  description: 'Non-medical: stress load sensitivity, pacing, boundaries.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'negative',
+  kind: 'state',
+  tags: ['health', 'stress', 'pressure'],
+});
+
+const HEALTH_RECOVERY_PHASE = makePoint({
+  id: 'HEALTH_RECOVERY_PHASE',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Recovery phase & repair support',
+  description: 'Non-medical: recovery windows, repair posture, pacing.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'recovery', 'repair'],
+});
+
+const HEALTH_IMMUNITY_BALANCE = makePoint({
+  id: 'HEALTH_IMMUNITY_BALANCE',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Resilience / immunity balance',
+  description: 'Non-medical: resilience and recovery stability (no diagnosis).',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'resilience', 'immunity_balance'],
+});
+
+const HEALTH_LIFESTYLE_IMPACT = makePoint({
+  id: 'HEALTH_LIFESTYLE_IMPACT',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Lifestyle impact on energy',
+  description: 'Non-medical: routine consistency vs disruption impact.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'lifestyle', 'routine'],
+});
+
+const HEALTH_WORK_HEALTH_TRADEOFF = makePoint({
+  id: 'HEALTH_WORK_HEALTH_TRADEOFF',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Work vs health tradeoff',
+  description: 'Non-medical: workload sustainability and recovery tradeoffs.',
+  defaultScopes: ['daily', 'weekly', 'monthly', 'yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'workload', 'tradeoff'],
+});
+
+const HEALTH_LONG_TERM_VITALITY = makePoint({
+  id: 'HEALTH_LONG_TERM_VITALITY',
+  theme: THEMES.HEALTH_BODY,
+  subtype: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+  label: 'Long-term vitality (2–5 year)',
+  description: 'Non-medical: long-term vitality direction and resilience cycles.',
+  defaultScopes: ['yearly', 'life_theme'],
+  polarity: 'mixed',
+  kind: 'state',
+  tags: ['health', 'long_term', 'vitality'],
 });
 
 // THEME 6: MENTAL_STATE – मन / भावनाएँ / mental स्थिति
@@ -1251,38 +1787,36 @@ export const problemTaxonomy = {
         points: [
           MONEY_JOB_STABILITY,
           MONEY_JOB_PROMOTION_WIN,
-          MONEY_JOB_STUCK_PHASE,
-          MONEY_JOB_CHANGE_DECISION,
-          MONEY_JOB_LOSS_RISK,
         ],
       },
       [SUBTYPES[THEMES.MONEY_FINANCE].BASIC_STABILITY]: {
         id: SUBTYPES[THEMES.MONEY_FINANCE].BASIC_STABILITY,
         label: 'Basic आर्थिक सुरक्षा (Basic Stability)',
-        points: [
-          MONEY_BASIC_SAFETY_NET,
-          MONEY_DEBT_PRESSURE,
-          MONEY_SAVINGS_BUILDUP,
-          MONEY_UNEXPECTED_EXPENSES,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.MONEY_FINANCE].WEALTH_GROWTH]: {
         id: SUBTYPES[THEMES.MONEY_FINANCE].WEALTH_GROWTH,
         label: 'दीर्घकालिक धन वृद्धि (Wealth Growth)',
+        points: [],
+      },
+      [SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE]: {
+        id: SUBTYPES[THEMES.MONEY_FINANCE].PERSONAL_FINANCE,
+        label: 'Personal finance (Advanced)',
         points: [
-          MONEY_WEALTH_ACCUMULATION,
-          MONEY_INVESTMENT_OPPORTUNITY_WIN,
-          MONEY_INVESTMENT_RISK,
+          FINANCE_GENERAL,
+          FINANCE_INCOME_FLOW,
+          FINANCE_EXPENSE_PRESSURE,
+          FINANCE_SAVINGS_GROWTH,
+          FINANCE_DEBT_LOAN,
+          FINANCE_INVESTMENT_TIMING,
+          FINANCE_SUDDEN_GAIN_LOSS,
+          FINANCE_LONG_TERM_WEALTH,
         ],
       },
       [SUBTYPES[THEMES.MONEY_FINANCE].SOURCE_OF_EARNINGS]: {
         id: SUBTYPES[THEMES.MONEY_FINANCE].SOURCE_OF_EARNINGS,
         label: 'आय के स्रोत (Source of earnings)',
-        points: [
-          MONEY_MULTIPLE_SOURCES_OF_INCOME,
-          MONEY_SINGLE_SOURCE_RISK,
-          MONEY_FREELANCE_SELFEMPLOY,
-        ],
+        points: [],
       },
     },
   },
@@ -1294,51 +1828,40 @@ export const problemTaxonomy = {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_GROWTH,
         label: 'Career growth',
         points: [
-          CAREER_GROWTH_OPPORTUNITY_WIN,
-          CAREER_GROWTH_BLOCKED,
-          CAREER_SKILL_ALIGNMENT,
-          CAREER_PUBLIC_RECOGNITION,
+          CAREER_GENERAL,
+          CAREER_STABILITY,
+          CAREER_GROWTH_PROMOTION,
+          CAREER_SKILL_STAGNATION,
         ],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_CHANGE]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_CHANGE,
         label: 'Career change',
         points: [
-          CAREER_CHANGE_CONFUSION,
-          CAREER_CHANGE_RIGHT_TIME,
-          CAREER_CHANGE_FORCED,
+          CAREER_JOB_CHANGE,
         ],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].WORK_STRESS]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].WORK_STRESS,
         label: 'Work stress',
         points: [
-          CAREER_WORKLOAD_HIGH_STRESS,
-          CAREER_TEAM_CONFLICT,
-          CAREER_WORK_ENJOYMENT_HIGH,
+          CAREER_WORKPLACE_CONFLICT,
         ],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].EDUCATION]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].EDUCATION,
         label: 'Education',
-        points: [
-          EDU_GENERAL_DIRECTION,
-          EDU_SUBJECT_SELECTION,
-          EDU_COMPETITIVE_EXAMS,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_SOLUTION]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_SOLUTION,
         label: 'Career solutions',
-        points: [
-          CAREER_SOLUTION_BLOCKED_PATH,
-          CAREER_SOLUTION_FIELD_SWITCH,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_SUBJECT_CHOICE]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].CAREER_SUBJECT_CHOICE,
         label: 'Career subject choice',
-        points: [CAREER_SUBJECT_CHOICE],
+        points: [],
       },
       [SUBTYPES[THEMES.CAREER_DIRECTION].JOB_NATURE]: {
         id: SUBTYPES[THEMES.CAREER_DIRECTION].JOB_NATURE,
@@ -1355,48 +1878,37 @@ export const problemTaxonomy = {
         id: SUBTYPES[THEMES.RELATIONSHIPS].LOVE,
         label: 'प्रेम (Love)',
         points: [
+          RELATIONSHIP_GENERAL,
+          RELATIONSHIP_STABILITY,
+          RELATIONSHIP_CONFLICT_PATCHUP,
+          RELATIONSHIP_EMOTIONAL_DISTANCE,
+          LONG_TERM_RELATIONSHIP_BOND,
           REL_LOVE_GENERAL,
-          REL_LOVE_NEW_CONNECTION,
-          REL_LOVE_MISUNDERSTANDING,
           REL_LOVE_BREAKUP_PAIN,
-          REL_LOVE_HEALING_REUNION,
-          REL_LOVE_PATCHUP_POSSIBILITY,
         ],
       },
       [SUBTYPES[THEMES.RELATIONSHIPS].MARRIAGE_PARTNER]: {
         id: SUBTYPES[THEMES.RELATIONSHIPS].MARRIAGE_PARTNER,
         label: 'Marriage / life partner',
-        points: [
-          REL_MARRIAGE_TIMING,
-          REL_MARRIAGE_HARMONY,
-          REL_MARRIAGE_CONFLICT_COMPLEX,
-          REL_MARRIAGE_FAMILY_PRESSURE,
-          REL_MARRIAGE_LOVE_ARRANGE_TENDENCY,
-        ],
+        points: [RELATIONSHIP_MARRIAGE_TIMING],
       },
       [SUBTYPES[THEMES.RELATIONSHIPS].FAMILY_RELATIONS]: {
         id: SUBTYPES[THEMES.RELATIONSHIPS].FAMILY_RELATIONS,
         label: 'Family relations',
         points: [
-          REL_FAMILY_SUPPORT_STRONG,
-          REL_FAMILY_RESPONSIBILITY_PRESSURE,
-          REL_FAMILY_CONFLICT_SAD,
-          REL_PARENT_CHILD_BOND,
+          FAMILY_RELATIONS_GENERAL,
+          FAMILY_CONFLICT_PRESSURE,
         ],
       },
       [SUBTYPES[THEMES.RELATIONSHIPS].SOCIAL_CONNECTIONS]: {
         id: SUBTYPES[THEMES.RELATIONSHIPS].SOCIAL_CONNECTIONS,
         label: 'Social connections',
-        points: [
-          REL_SOCIAL_LONELINESS,
-          REL_SOCIAL_NEW_NETWORK,
-          REL_SOCIAL_REPUTATION_WIN,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.RELATIONSHIPS].PARTNER_LOYALTY]: {
         id: SUBTYPES[THEMES.RELATIONSHIPS].PARTNER_LOYALTY,
         label: 'Partner loyalty / trust',
-        points: [REL_PARTNER_LOYALTY_TRUST],
+        points: [],
       },
     },
   },
@@ -1407,38 +1919,29 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.FAMILY_HOME].PARENTS]: {
         id: SUBTYPES[THEMES.FAMILY_HOME].PARENTS,
         label: 'Parents',
-        points: [
-          FAMILY_PARENTS_HEALTH_CONCERN,
-          FAMILY_PARENTS_SUPPORT_STRONG,
-          FAMILY_PARENTS_RELATION_COMPLEX,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.FAMILY_HOME].CHILDREN]: {
         id: SUBTYPES[THEMES.FAMILY_HOME].CHILDREN,
         label: 'Children',
         points: [
-          FAMILY_CHILD_EDU_STRESS,
-          FAMILY_CHILD_HAPPY_PHASE,
-          FAMILY_CHILD_CONCEPTION_WINDOW,
-          FAMILY_CHILD_RESPONSIBILITY_PRESSURE,
+          PROGENY_GENERAL,
+          PROGENY_TIMING_WINDOW,
+          PROGENY_DELAY_BLOCK,
+          PROGENY_MULTIPLE_TENDENCY,
+          PROGENY_PARENTING_PRESSURE,
+          PROGENY_EMOTIONAL_BOND,
         ],
       },
       [SUBTYPES[THEMES.FAMILY_HOME].HOME_ENVIRONMENT]: {
         id: SUBTYPES[THEMES.FAMILY_HOME].HOME_ENVIRONMENT,
         label: 'Home environment',
-        points: [
-          FAMILY_HOME_PEACEFUL,
-          FAMILY_HOME_TENSION,
-          FAMILY_HOME_SHIFT_RELOCATION,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.FAMILY_HOME].FAMILY_PROPERTY_HOME]: {
         id: SUBTYPES[THEMES.FAMILY_HOME].FAMILY_PROPERTY_HOME,
         label: 'Family property / home',
-        points: [
-          FAMILY_HOME_OWN_HOUSE_POSSIBILITY,
-          FAMILY_RENTAL_SHIFT_STRESS,
-        ],
+        points: [],
       },
     },
   },
@@ -1449,36 +1952,35 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.HEALTH_BODY].BODY_ENERGY]: {
         id: SUBTYPES[THEMES.HEALTH_BODY].BODY_ENERGY,
         label: 'Body energy',
-        points: [
-          HEALTH_ENERGY_HIGH,
-          HEALTH_ENERGY_LOW_TIRED,
-          HEALTH_SLEEP_DISTURB,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.HEALTH_BODY].ILLNESS_RECOVERY]: {
         id: SUBTYPES[THEMES.HEALTH_BODY].ILLNESS_RECOVERY,
         label: 'Illness & recovery',
-        points: [
-          HEALTH_ACUTE_ISSUE,
-          HEALTH_RECOVERY_SUPPORT,
-          HEALTH_SENSITIVITY_CAUTION,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.HEALTH_BODY].LIFESTYLE_BALANCE]: {
         id: SUBTYPES[THEMES.HEALTH_BODY].LIFESTYLE_BALANCE,
         label: 'Lifestyle balance',
-        points: [
-          HEALTH_LIFESTYLE_IMPROVEMENT_WIN,
-          HEALTH_LIFESTYLE_NEGLECT,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.HEALTH_BODY].CRITICAL_HEALTH]: {
         id: SUBTYPES[THEMES.HEALTH_BODY].CRITICAL_HEALTH,
         label: 'Critical health periods',
+        points: [],
+      },
+      [SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING]: {
+        id: SUBTYPES[THEMES.HEALTH_BODY].WELL_BEING,
+        label: 'Health / Well-being (Advanced)',
         points: [
-          HEALTH_CRITICAL_SENSITIVITY_PERIOD,
-          HEALTH_OPERATION_WINDOW_SUPPORT,
-          HEALTH_RECOVERY_LONG_TERM,
+          HEALTH_GENERAL,
+          HEALTH_ENERGY_LEVEL,
+          HEALTH_STRESS_PRESSURE,
+          HEALTH_RECOVERY_PHASE,
+          HEALTH_IMMUNITY_BALANCE,
+          HEALTH_LIFESTYLE_IMPACT,
+          HEALTH_WORK_HEALTH_TRADEOFF,
+          HEALTH_LONG_TERM_VITALITY,
         ],
       },
     },
@@ -1490,29 +1992,17 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.MENTAL_STATE].STRESS_ANXIETY]: {
         id: SUBTYPES[THEMES.MENTAL_STATE].STRESS_ANXIETY,
         label: 'Stress & anxiety',
-        points: [
-          MIND_STRESS_SENSITIVE_DAY,
-          MIND_ANXIETY_HIGH,
-          MIND_STRESS_RELEASE_WINDOW,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.MENTAL_STATE].CONFIDENCE_CLARITY]: {
         id: SUBTYPES[THEMES.MENTAL_STATE].CONFIDENCE_CLARITY,
         label: 'Confidence & clarity',
-        points: [
-          MIND_CLARITY_FOCUS,
-          MIND_CONFIDENCE_HIGH_WIN,
-          MIND_CONFIDENCE_LOW_SELFDOUBT,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.MENTAL_STATE].EMOTIONAL_HEALING]: {
         id: SUBTYPES[THEMES.MENTAL_STATE].EMOTIONAL_HEALING,
         label: 'Emotional healing',
-        points: [
-          MIND_EMOTIONAL_OVERFLOW,
-          MIND_HEALING_PROCESS,
-          MIND_NEED_FOR_SPACE,
-        ],
+        points: [],
       },
     },
   },
@@ -1523,17 +2013,17 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.SPIRITUAL_GROWTH].SADHANA]: {
         id: SUBTYPES[THEMES.SPIRITUAL_GROWTH].SADHANA,
         label: 'Sadhana',
-        points: [SPIRIT_SADHANA_DEEP, SPIRIT_SADHANA_BLOCKED, SPIRIT_SADHANA_NEW_START],
+        points: [],
       },
       [SUBTYPES[THEMES.SPIRITUAL_GROWTH].FAITH_CRISIS]: {
         id: SUBTYPES[THEMES.SPIRITUAL_GROWTH].FAITH_CRISIS,
         label: 'Faith & trust',
-        points: [SPIRIT_FAITH_DOUBT, SPIRIT_FAITH_RENEWAL],
+        points: [],
       },
       [SUBTYPES[THEMES.SPIRITUAL_GROWTH].PURPOSE_MEANING]: {
         id: SUBTYPES[THEMES.SPIRITUAL_GROWTH].PURPOSE_MEANING,
         label: 'Purpose & meaning',
-        points: [SPIRIT_PURPOSE_SEARCH, SPIRIT_PURPOSE_ALIGNMENT_WIN],
+        points: [],
       },
     },
   },
@@ -1544,17 +2034,17 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.TIMING_LUCK].GOOD_PERIOD]: {
         id: SUBTYPES[THEMES.TIMING_LUCK].GOOD_PERIOD,
         label: 'Good periods',
-        points: [TIME_LUCK_SUPPORTIVE_WIN, TIME_LUCK_HELP_FROM_OTHERS],
+        points: [],
       },
       [SUBTYPES[THEMES.TIMING_LUCK].CHALLENGE_PERIOD]: {
         id: SUBTYPES[THEMES.TIMING_LUCK].CHALLENGE_PERIOD,
         label: 'Challenge periods',
-        points: [TIME_CHALLENGE_TEST_PHASE, TIME_DELAY_BLOCKS],
+        points: [],
       },
       [SUBTYPES[THEMES.TIMING_LUCK].TURNING_POINTS]: {
         id: SUBTYPES[THEMES.TIMING_LUCK].TURNING_POINTS,
         label: 'Turning points',
-        points: [TIME_TURNING_POINT_DECISION, TIME_END_OF_PHASE],
+        points: [],
       },
     },
   },
@@ -1565,22 +2055,22 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.EVENTS_CHANGES].TRAVEL_MOVE]: {
         id: SUBTYPES[THEMES.EVENTS_CHANGES].TRAVEL_MOVE,
         label: 'Travel / relocation',
-        points: [EVENT_TRAVEL_OPPORTUNITY, EVENT_RELOCATION_BIG_CHANGE],
+        points: [],
       },
       [SUBTYPES[THEMES.EVENTS_CHANGES].EDUCATION_EXAMS]: {
         id: SUBTYPES[THEMES.EVENTS_CHANGES].EDUCATION_EXAMS,
         label: 'Education / exams',
-        points: [EVENT_EDU_STUDY_FOCUS, EVENT_EXAM_PRESSURE_STRESS],
+        points: [],
       },
       [SUBTYPES[THEMES.EVENTS_CHANGES].LEGAL_CONFLICTS]: {
         id: SUBTYPES[THEMES.EVENTS_CHANGES].LEGAL_CONFLICTS,
         label: 'Legal matters',
-        points: [EVENT_LEGAL_CONFLICT, EVENT_LEGAL_RESOLUTION_WIN],
+        points: [],
       },
       [SUBTYPES[THEMES.EVENTS_CHANGES].LOSS_GRIEF]: {
         id: SUBTYPES[THEMES.EVENTS_CHANGES].LOSS_GRIEF,
         label: 'Loss / grief',
-        points: [EVENT_LOSS_GRIEF_PAIN, EVENT_GRIEF_HEALING],
+        points: [],
       },
     },
   },
@@ -1591,21 +2081,17 @@ export const problemTaxonomy = {
       [SUBTYPES[THEMES.SELF_IDENTITY].SELF_WORTH]: {
         id: SUBTYPES[THEMES.SELF_IDENTITY].SELF_WORTH,
         label: 'Self worth',
-        points: [
-          SELF_WORTH_LOW,
-          SELF_WORTH_HEALING,
-          SELF_WORTH_HIGH_HEALTHY,
-        ],
+        points: [],
       },
       [SUBTYPES[THEMES.SELF_IDENTITY].EXPRESSION]: {
         id: SUBTYPES[THEMES.SELF_IDENTITY].EXPRESSION,
         label: 'Expression',
-        points: [SELF_EXPRESSION_BLOCKED, SELF_EXPRESSION_FLOW],
+        points: [],
       },
       [SUBTYPES[THEMES.SELF_IDENTITY].BOUNDARIES]: {
         id: SUBTYPES[THEMES.SELF_IDENTITY].BOUNDARIES,
         label: 'Boundaries',
-        points: [SELF_BOUNDARY_ISSUES, SELF_BOUNDARY_HEALTHY],
+        points: [],
       },
     },
   },

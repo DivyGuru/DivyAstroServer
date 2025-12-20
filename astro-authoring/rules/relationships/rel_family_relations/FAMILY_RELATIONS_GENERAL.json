@@ -1,0 +1,714 @@
+{
+  "pointId": "FAMILY_RELATIONS_GENERAL",
+  "theme": "relationships",
+  "subtype": "rel_family_relations",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "weekly",
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "FAMILY_RELATIONS_GENERAL__NATAL_FAMILY_HARMONY",
+      "label": "Family harmony: supportive indicators in 4th/2nd/11th.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS",
+            "MERCURY"
+          ],
+          "house_in": [
+            4,
+            2,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 2
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.75,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "family_harmony",
+        "outcome_text": "Family relationships may feel more supportive. Consistent respect, clear communication, and practical reliability can strengthen harmony.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Multiple supportive family-harmony signals are present, so this is treated as a primary stabilizing indicator."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 2,
+      "code": "FAMILY_RELATIONS_GENERAL__HOME_WARMTH_BONDING",
+      "label": "Home warmth and bonding: supportive comfort routines reduce tension.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS",
+            "JUPITER"
+          ],
+          "house_in": [
+            4,
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "home_warmth",
+        "outcome_text": "Home warmth and bonding may be easier to create. Small consistent gestures and clear expectations can improve the family atmosphere.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Signals emphasize comfort and reassurance as practical levers for family harmony."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 3,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_COMMUNICATION_CLARITY",
+      "label": "Communication clarity supports family alignment and reduces misunderstandings.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "MERCURY"
+              ],
+              "house_in": [
+                2,
+                4,
+                11
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "communication_clarity",
+        "outcome_text": "Clear communication may reduce misunderstandings. Keeping messages respectful, specific, and consistent can strengthen alignment.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Signals suggest communication hygiene is an important stabilizer for family dynamics."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 4,
+      "code": "FAMILY_RELATIONS_GENERAL__TRANSIT_FAMILY_HARMONY",
+      "label": "Short-term harmony window via benefic transits to family houses.",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "transit_planet_in_house": {
+          "planet_in": [
+            "VENUS",
+            "JUPITER"
+          ],
+          "house_in": [
+            4,
+            2,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "transit",
+        "scenario": "short_term_harmony",
+        "outcome_text": "A short-term calming window may support smoother family interactions. It can help to clarify plans and reduce small misunderstandings.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is time-bound support, treated as background unless reinforced."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 5,
+      "code": "FAMILY_RELATIONS_GENERAL__DASHA_FAMILY_SUPPORT",
+      "label": "Longer supportive family phase during benefic/trade dasha.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "dasha",
+        "scenario": "long_term_support",
+        "outcome_text": "A longer supportive phase may help family relationships feel steadier. Consistency, respectful boundaries, and calm communication can compound improvements.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is framed as longer-term support and informs strategy more than short-term decisions."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 6,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_RESPONSIBILITY_LOAD",
+      "label": "Family responsibility load increases; structure and boundaries help.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN"
+              ],
+              "house_in": [
+                4,
+                2,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.6
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "responsibility_load",
+        "outcome_text": "Family responsibilities may feel heavier. Clear boundaries, practical planning, and fair division of effort can reduce resentment and stress.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Signals indicate a “slow, heavy” pattern; structure is emphasized to reduce friction."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 7,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_CONFLICT_SENSITIVITY",
+      "label": "Family conflict sensitivity: reactivity increases.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            4,
+            2,
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "down",
+        "intensity": 0.7,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "reactivity_conflict",
+        "outcome_text": "Family tension may rise if conversations become reactive. Taking pauses, keeping discussions specific, and returning to repair can reduce escalation.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as a heat-management signal to reduce avoidable conflict."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 8,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_AMBIGUITY",
+      "label": "Family ambiguity: mixed signals create misunderstandings.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            4,
+            2,
+            8,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "ambiguity",
+        "outcome_text": "Mixed signals may create misunderstandings. Clarifying expectations, confirming plans, and keeping communication transparent can reduce confusion.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as an information-clarity signal, not a judgment of intentions."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 9,
+      "code": "FAMILY_RELATIONS_GENERAL__MIXED_FAMILY_SIGNALS",
+      "label": "Mixed family signals: support exists alongside stress.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "JUPITER",
+                "VENUS",
+                "MERCURY"
+              ],
+              "house_in": [
+                4,
+                2,
+                11
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                6,
+                8,
+                12
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "mixed_signals",
+        "outcome_text": "Support and stress may coexist in family dynamics. You can protect harmony by setting boundaries respectfully and focusing on steady, practical cooperation.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "dominant",
+          "certainty_note": "Both supportive and challenging indicators appear together, so balanced guidance is emphasized."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 10,
+      "code": "FAMILY_RELATIONS_GENERAL__TRANSIT_FAMILY_SENSITIVITY",
+      "label": "Short-term family sensitivity from malefic transits.",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "transit_planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                4,
+                2,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.5
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "down",
+        "intensity": 0.55,
+        "tone": "challenging",
+        "trigger": "transit",
+        "scenario": "short_term_sensitivity",
+        "outcome_text": "This may be a more sensitive short-term window in family interactions. Slower responses and clearer boundaries can reduce misunderstandings.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is time-bound caution, treated as background guidance."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 11,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_REPAIR_STRUCTURE",
+      "label": "Family repair improves through structure and calm boundaries.",
+      "scopes": [
+        "monthly",
+        "yearly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN"
+              ],
+              "house_in": [
+                4,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.6
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "max": 0.75
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "repair_structure",
+        "outcome_text": "Family harmony can improve through structure. Clear roles, predictable routines, and respectful boundaries can reduce repeated friction.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as a mitigation path: structure reduces ambiguity and repeated stress."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 12,
+      "code": "FAMILY_RELATIONS_GENERAL__SUPPORTIVE_FAMILY_CIRCLE",
+      "label": "Supportive circle: networks and community help family relationships.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS",
+            "MERCURY"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "supportive_circle",
+        "outcome_text": "Support from community or extended family may help. Clear communication and practical cooperation can strengthen overall family stability.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is a supportive factor and is kept secondary to direct family communication."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 13,
+      "code": "FAMILY_RELATIONS_GENERAL__DASHA_FAMILY_PRESSURE",
+      "label": "Longer pressure phase increases family stress; boundaries and patience help.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "down",
+        "intensity": 0.6,
+        "tone": "challenging",
+        "trigger": "dasha",
+        "scenario": "long_term_pressure",
+        "outcome_text": "A longer sensitive phase may increase family stress. Patience, calm boundaries, and consistent communication can reduce avoidable conflict.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This guides longer-term strategy during pressure patterns without making absolute claims."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 14,
+      "code": "FAMILY_RELATIONS_GENERAL__HIGH_BENEFIC_FAMILY_BASELINE",
+      "label": "Broad supportive baseline for family harmony (high benefic environment).",
+      "scopes": null,
+      "condition_tree": {
+        "overall_benefic_score": {
+          "min": 0.7
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "up",
+        "intensity": 0.45,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "benefic_baseline",
+        "outcome_text": "Overall support may feel stronger for family harmony. Small consistent gestures and clear communication can help maintain a calmer atmosphere.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a broad supportive baseline and does not imply certainty."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 15,
+      "code": "FAMILY_RELATIONS_GENERAL__HIGH_MALEFIC_FAMILY_STRESS",
+      "label": "High stress: elevated malefic score increases family sensitivity.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "overall_malefic_score": {
+              "min": 0.75
+            }
+          },
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                4,
+                2,
+                6,
+                12
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "down",
+        "intensity": 0.8,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "peak_stress",
+        "outcome_text": "Family sensitivity may be higher. Slowing down conversations, setting respectful boundaries, and focusing on practical cooperation can reduce escalation.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Strong pressure indicators are present; guidance focuses on calm boundaries and de-escalation."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    },
+    {
+      "index": 16,
+      "code": "FAMILY_RELATIONS_GENERAL__FAMILY_INFORMATIONAL_BASELINE",
+      "label": "Baseline informational variant for family relations context.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Family relations baseline (background)."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_relations_general",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "informational_baseline",
+        "outcome_text": "No single strong family signal stands out here. Respectful communication, clear boundaries, and steady practical support can help keep relationships balanced.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Used as a baseline when stronger family-relations variants do not match."
+        },
+        "point_id": "FAMILY_RELATIONS_GENERAL"
+      }
+    }
+  ]
+}

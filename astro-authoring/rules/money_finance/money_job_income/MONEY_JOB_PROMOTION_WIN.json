@@ -12,20 +12,94 @@
     "yearly",
     "life_theme"
   ],
-  "condition_tree": {
-    "all": [
-      {
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "MONEY_JOB_PROMOTION_WIN__GENERIC_BASE",
+      "label": "Generic draft condition (baseline).",
+      "scopes": null,
+      "condition_tree": {
         "generic_condition": {
-          "note": "No astroHints specified; generic draft condition."
+          "note": "Author real promotion-win conditions here."
         }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "money_job_income",
+        "trend": "up",
+        "intensity": 0.7,
+        "tone": "positive",
+        "trigger": "natal",
+        "point_id": "MONEY_JOB_PROMOTION_WIN"
       }
-    ]
-  },
-  "effect_json": {
-    "theme": "money",
-    "area": "money_job_income",
-    "trend": "mixed",
-    "intensity": 0.7,
-    "tone": "positive"
-  }
+    },
+    {
+      "index": 2,
+      "code": "MONEY_JOB_PROMOTION_WIN__GENERIC_STRONG_WIN",
+      "label": "Generic strong win variant.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Author real high-confidence promotion conditions here."
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "money_job_income",
+        "trend": "up",
+        "intensity": 0.85,
+        "tone": "positive",
+        "trigger": "natal",
+        "point_id": "MONEY_JOB_PROMOTION_WIN"
+      }
+    },
+    {
+      "index": 3,
+      "code": "MONEY_JOB_PROMOTION_WIN__TRANSIT_GENERIC",
+      "label": "Generic transit variant (short-term movement).",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real transit conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "money_job_income",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "transit",
+        "point_id": "MONEY_JOB_PROMOTION_WIN"
+      }
+    },
+    {
+      "index": 4,
+      "code": "MONEY_JOB_PROMOTION_WIN__DASHA_GENERIC",
+      "label": "Generic dasha variant (longer-term phase).",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real dasha conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "money_job_income",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "dasha",
+        "point_id": "MONEY_JOB_PROMOTION_WIN"
+      }
+    }
+  ]
 }

@@ -19,7 +19,7 @@ Mark with `[x]` as you progress.
 | MONEY_BUSINESS_START              | नया business शुरू करने के लिए समय                         | [ ]        | [ ]      | [ ]    |
 | MONEY_BUSINESS_GROWTH_WIN         | business में बढ़िया growth / profit / जीत वाला phase     | [ ]        | [ ]      | [ ]    |
 | MONEY_BUSINESS_LOSS_RISK          | नुकसान, risk, cash-flow problem वाला phase               | [ ]        | [ ]      | [ ]    |
-| MONEY_BUSINESS_PARTNERSHIP_COMPLEX| partnership में confusion, trust issues, agreement mess    | [ ]        | [ ]      | [ ]    |
+| MONEY_BUSINESS_PARTNERSHIP_COMPLEX| partnership में confusion, trust issues, agreement mess    | [x]        | [ ]      | [ ]    |
 
 #### Subtype: JOB_INCOME – नौकरी / वेतन / आय
 

@@ -1,0 +1,403 @@
+export function getFINANCE_SUDDEN_GAIN_LOSSVariants() {
+  const effectTheme = 'money';
+  const area = 'money_finance_personal';
+  const pointId = 'FINANCE_SUDDEN_GAIN_LOSS';
+
+  const shockHouses = [8, 12];
+  const gainHouses = [11, 2];
+  const riskHouses = [8, 12, 6];
+
+  const benefics = ['JUPITER', 'VENUS'];
+  const trade = ['MERCURY'];
+  const malefics = ['RAHU', 'KETU', 'MARS', 'SATURN'];
+
+  const SUPPORT_IDS = [5, 6, 4, 1, 2];
+  const PRESSURE_IDS = [7, 3, 8, 9];
+
+  return [
+    // 1) Sudden gain window (confirmed)
+    {
+      code: 'SUDDEN_GAIN_WINDOW_CONFIRMED',
+      label: 'Sudden gain window: gains houses + supportive alignment + nakshatra confirmation.',
+      scopes: ['monthly', 'weekly'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: [...benefics, ...trade], house_in: gainHouses, match_mode: 'any', min_planets: 2 } },
+          { overall_benefic_score: { min: 0.65 } },
+          {
+            any: [
+              { transit_planet_in_house: { planet_in: ['JUPITER'], house_in: [11, 2], match_mode: 'any', min_planets: 1 } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+            ],
+          },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MERCURY'], group: { context: 'finance', kind: 'supportive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['JUPITER', 'VENUS', 'MERCURY'], group: { context: 'finance', kind: 'neutral' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.75,
+        tone: 'positive',
+        trigger: 'combined',
+        scenario: 'sudden_gain',
+        outcome_text:
+          'A gains yog is present, and a sudden uplift chance may be active. Nakshatra support strengthens this phase. Prioritize locking gains + buffers, avoid overconfidence, and delay high-risk re-entry.',
+        variant_meta: {
+          tone: 'opportunity',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Gains activation + supportive alignment with nakshatra confirmation; framed as chance, not guarantee.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 2) Sudden loss risk (confirmed)
+    {
+      code: 'SUDDEN_LOSS_RISK_CONFIRMED',
+      label: 'Sudden loss risk: shock houses + malefic pressure + sensitive nakshatra.',
+      scopes: ['monthly', 'weekly'],
+      condition_tree: {
+        all: [
+          { planet_in_house: { planet_in: malefics, house_in: shockHouses, match_mode: 'any', min_planets: 1 } },
+          { overall_malefic_score: { min: 0.7 } },
+          {
+            any: [
+              { planet_in_nakshatra_group: { planet_in: ['RAHU', 'KETU', 'MARS', 'SATURN'], group: { context: 'finance', kind: 'sensitive' }, match_mode: 'any', min_planets: 1 } },
+              { planet_in_nakshatra_group: { planet_in: ['RAHU', 'KETU', 'MARS', 'SATURN'], group: { context: 'finance', kind: 'obstructive' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.8,
+        tone: 'challenging',
+        trigger: 'combined',
+        scenario: 'sudden_loss',
+        outcome_text:
+          'In this phase, sudden loss/volatility risk may rise. Nakshatra sensitivity reinforces this caution. Prioritize capital protection + liquidity, avoid leverage, and delay speculative exposure.',
+        variant_meta: {
+          tone: 'cautionary',
+          confidence_level: 'high',
+          dominance: 'dominant',
+          certainty_note: 'Shock houses + high malefic score with sensitive/obstructive nakshatra refinement.',
+        },
+        point_id: pointId,
+      },
+    },
+
+    // 3) Mixed: gain chance but volatility
+    {
+      code: 'GAIN_WITH_VOLATILITY',
+      label: 'Gain possible but volatile; lock profits quickly.',
+      scopes: ['monthly'],
+      condition_tree: {
+        all: [
+          { overall_benefic_score: { min: 0.6 } },
+          { overall_malefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.65,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'mixed',
+        outcome_text:
+          'A gains yog is present, but volatility is also active. Prioritize profit-booking + buffers, avoid over-sizing, and delay leverage.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'medium', dominance: 'supporting', certainty_note: 'Mixed environment; lock gains and control downside.' },
+        point_id: pointId,
+      },
+    },
+
+    // 4) Transit shock sensitivity (weekly)
+    {
+      code: 'WEEKLY_SHOCK_SENSITIVITY',
+      label: 'Weekly shock sensitivity: keep decisions conservative.',
+      scopes: ['weekly'],
+      condition_tree: { transit_planet_in_house: { planet_in: ['MARS', 'RAHU', 'KETU'], house_in: riskHouses, match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.5,
+        tone: 'challenging',
+        trigger: 'transit',
+        scenario: 'weekly_shock',
+        outcome_text:
+          'This week, volatility sensitivity may increase. Prioritize conservative decisions, avoid speculative bets, and delay high-stakes commitments.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'low', dominance: 'background', certainty_note: 'Weekly transit indicates higher volatility mood.' },
+        point_id: pointId,
+      },
+    },
+
+    // 5) Daily caution (impulsive risk)
+    {
+      code: 'DAILY_VOLATILITY_CAUTION',
+      label: 'Daily volatility caution: avoid reactive decisions.',
+      scopes: ['daily'],
+      condition_tree: {
+        all: [
+          { transit_planet_in_house: { planet_in: ['MARS', 'RAHU'], house_in: [8, 12], match_mode: 'any', min_planets: 1 } },
+          {
+            any: [
+              { transit_planet_in_nakshatra_group: { planet_in: ['MARS', 'RAHU'], group: { context: 'finance', kind: 'sensitive' }, match_mode: 'any', min_planets: 1 } },
+              { transit_planet_in_nakshatra_group: { planet_in: ['MARS', 'RAHU'], group: { context: 'finance', kind: 'obstructive' }, match_mode: 'any', min_planets: 1 } },
+            ],
+          },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.45,
+        tone: 'challenging',
+        trigger: 'transit',
+        scenario: 'daily_caution',
+        outcome_text:
+          'Today, avoid reactive decisions. Prioritize risk control, avoid impulse trades, and delay big commitments.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'low', dominance: 'background', certainty_note: 'Short transit + sensitive nakshatra indicates temporary volatility mood.' },
+        point_id: pointId,
+      },
+    },
+
+    // 6) Dasha support: gains stabilize
+    {
+      code: 'DASHA_GAIN_SUPPORT',
+      label: 'Supportive dasha: gains stabilize over months.',
+      scopes: ['monthly', 'yearly'],
+      condition_tree: {
+        all: [
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: SUPPORT_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: SUPPORT_IDS } },
+            ],
+          },
+          { overall_benefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.55,
+        tone: 'positive',
+        trigger: 'dasha',
+        scenario: 'dasha_support',
+        outcome_text:
+          'A gains yog is present (steady band). Prioritize building reserves, avoid over-risking, and delay leverage.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'medium', dominance: 'supporting', certainty_note: 'Supportive dasha alignment indicates steadier gains potential.' },
+        point_id: pointId,
+      },
+    },
+
+    // 7) Dasha pressure: protect capital
+    {
+      code: 'DASHA_LOSS_PRESSURE',
+      label: 'Pressure dasha: protect capital from volatility.',
+      scopes: ['monthly', 'yearly', 'life_theme'],
+      condition_tree: {
+        all: [
+          {
+            any: [
+              { dasha_running: { level: 'mahadasha', planet_in: PRESSURE_IDS } },
+              { dasha_running: { level: 'antardasha', planet_in: PRESSURE_IDS } },
+            ],
+          },
+          { overall_malefic_score: { min: 0.6 } },
+        ],
+      },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.6,
+        tone: 'challenging',
+        trigger: 'dasha',
+        scenario: 'dasha_pressure',
+        outcome_text:
+          'In this phase, capital protection is the priority. Prioritize liquidity + buffers, avoid speculation, and delay leverage-based decisions.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'medium', dominance: 'supporting', certainty_note: 'Malefic dasha alignment increases downside sensitivity.' },
+        point_id: pointId,
+      },
+    },
+
+    // 8) Risk from hidden terms (Rahu/Ketu)
+    {
+      code: 'HIDDEN_RISK_TERMS',
+      label: 'Hidden risk: unclear terms increase sudden downside.',
+      scopes: ['monthly'],
+      condition_tree: { planet_in_house: { planet_in: ['RAHU', 'KETU'], house_in: [8, 12], match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.55,
+        tone: 'challenging',
+        trigger: 'natal',
+        scenario: 'hidden_terms',
+        outcome_text:
+          'Hidden-risk pattern ban sakta hai. Prioritize clarity + due diligence, avoid vague commitments, delay big decisions until details are verified.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'medium', dominance: 'supporting', certainty_note: 'Rahu/Ketu in shock/loss houses indicates clarity risk.' },
+        point_id: pointId,
+      },
+    },
+
+    // 9) Gain through networks (11th)
+    {
+      code: 'GAIN_VIA_NETWORKS',
+      label: 'Gains through networks/contacts.',
+      condition_tree: { planet_in_house: { planet_in: ['JUPITER', 'VENUS', 'MERCURY', 'SUN'], house_in: [11], match_mode: 'any', min_planets: 1 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.5,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'network_gain',
+        outcome_text:
+          'A gains-through-network yog is present. Prioritize follow-ups + closing discipline, avoid scattered commitments, and delay low-quality opportunities.',
+        variant_meta: { tone: 'opportunity', confidence_level: 'medium', dominance: 'background', certainty_note: '11th-house activation suggests gains via networks.' },
+        point_id: pointId,
+      },
+    },
+
+    // 10) High benefic baseline
+    {
+      code: 'SUDDEN_HIGH_BENEFIC_BASELINE',
+      label: 'Broad supportive baseline: chances improve but stay prudent.',
+      condition_tree: { overall_benefic_score: { min: 0.7 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'up',
+        intensity: 0.4,
+        tone: 'positive',
+        trigger: 'natal',
+        scenario: 'benefic_baseline',
+        outcome_text:
+          'Supportive baseline hai—chances improve ho sakte hain. Prioritize prudence, avoid overconfidence, delay leverage.',
+        variant_meta: { tone: 'opportunity', confidence_level: 'low', dominance: 'background', certainty_note: 'Broad supportive baseline; not a guarantee.' },
+        point_id: pointId,
+      },
+    },
+
+    // 11) High malefic baseline
+    {
+      code: 'SUDDEN_HIGH_MALEFIC_BASELINE',
+      label: 'Broad caution baseline: protect capital.',
+      condition_tree: { overall_malefic_score: { min: 0.7 } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'down',
+        intensity: 0.4,
+        tone: 'challenging',
+        trigger: 'natal',
+        scenario: 'malefic_baseline',
+        outcome_text:
+          'Caution baseline active hai. Prioritize capital protection, avoid speculative exposure, delay high-risk moves.',
+        variant_meta: { tone: 'cautionary', confidence_level: 'low', dominance: 'background', certainty_note: 'Broad malefic baseline; used as background caution.' },
+        point_id: pointId,
+      },
+    },
+
+    // 12) Asset-class reminder
+    {
+      code: 'ASSET_CLASS_REMINDER',
+      label: 'Asset class differentiation reminder.',
+      condition_tree: { generic_condition: { note: 'Asset class differentiation reminder.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'asset_class',
+        outcome_text:
+          'Positive signal ho to bhi asset-class wise difference hota hai. Prioritize liquidity + risk control, avoid all-in concentration, delay speculative over-allocation.',
+        variant_meta: { tone: 'informational', confidence_level: 'low', dominance: 'background', certainty_note: 'Narrative control variant for safe interpretation.' },
+        point_id: pointId,
+      },
+    },
+
+    // 13) Yearly posture
+    {
+      code: 'YEARLY_VOLATILITY_POSTURE',
+      label: 'Yearly posture: keep buffers and reduce fragility.',
+      scopes: ['yearly'],
+      condition_tree: { generic_condition: { note: 'Yearly volatility posture.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'yearly_posture',
+        outcome_text:
+          'Is varsh fragility reduce karna best rahega. Prioritize buffers + diversification, avoid leverage, delay high-risk commitments.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'low', dominance: 'background', certainty_note: 'Yearly posture guidance.' },
+        point_id: pointId,
+      },
+    },
+
+    // 14) Monthly posture
+    {
+      code: 'MONTHLY_LOCK_GAINS_POSTURE',
+      label: 'Monthly posture: lock gains, reduce risk.',
+      scopes: ['monthly'],
+      condition_tree: { generic_condition: { note: 'Monthly lock gains posture.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'monthly_posture',
+        outcome_text:
+          'Is mahine risk ko controlled rakhein. Prioritize profit-locking + buffers, avoid overtrading, delay leverage.',
+        variant_meta: { tone: 'stabilizing', confidence_level: 'low', dominance: 'background', certainty_note: 'Monthly posture guidance.' },
+        point_id: pointId,
+      },
+    },
+
+    // 15) Informational baseline
+    {
+      code: 'SUDDEN_GAIN_LOSS_INFORMATIONAL_BASELINE',
+      label: 'Baseline informational variant for sudden gain/loss.',
+      condition_tree: { generic_condition: { note: 'Sudden gain/loss baseline.' } },
+      effect_json: {
+        theme: effectTheme,
+        area,
+        trend: 'mixed',
+        intensity: 0.35,
+        tone: 'mixed',
+        trigger: 'natal',
+        scenario: 'baseline',
+        outcome_text:
+          'No single strong sudden gain/loss signal stands out. Prioritize risk control + buffers, avoid impulsive bets, and delay leverage until clarity improves.',
+        variant_meta: { tone: 'informational', confidence_level: 'low', dominance: 'background', certainty_note: 'Baseline used when stronger sudden gain/loss variants do not match.' },
+        point_id: pointId,
+      },
+    },
+  ];
+}
+
+

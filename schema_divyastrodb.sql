@@ -218,6 +218,13 @@ CREATE TABLE IF NOT EXISTS rules (
 ALTER TABLE IF NOT EXISTS rules
   ADD COLUMN IF NOT EXISTS point_code TEXT;
 
+-- Variant code for authoring-level idempotency and diagnostics
+ALTER TABLE rules
+  ADD COLUMN IF NOT EXISTS variant_code TEXT;
+
+CREATE INDEX IF NOT EXISTS idx_rules_point_variant
+ON rules (point_code, variant_code);
+
 CREATE TABLE IF NOT EXISTS text_template_localizations (
     id              BIGSERIAL PRIMARY KEY,
     template_id     BIGINT NOT NULL REFERENCES text_templates(id) ON DELETE CASCADE,
@@ -371,4 +378,247 @@ ON prediction_applied_rules (prediction_id);
 -- CREATE INDEX IF NOT EXISTS idx_astro_state_planets_state_gin
 --   ON astro_state_snapshots USING GIN (planets_state);
 
+-- =============================================================================
+-- 10. REMEDIES ENGINE FOUNDATION (DECOUPLED EXTENSION)
+-- =============================================================================
+-- NOTE:
+-- - This section extends the SAME PostgreSQL database with new types/tables only.
+-- - No CREATE DATABASE.
+-- - No changes to existing prediction rules or prediction tables are required.
 
+-- =========================
+-- 10.1 ENUM TYPES (Engine-local)
+-- =========================
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'remedy_action_category') THEN
+    CREATE TYPE remedy_action_category AS ENUM (
+      'meditation',
+      'jap',
+      'donation',
+      'feeding_beings',
+      'fast',
+      'puja'
+    );
+  END IF;
+END$$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'remedy_intensity_level') THEN
+    CREATE TYPE remedy_intensity_level AS ENUM ('low', 'medium', 'high');
+  END IF;
+END$$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'remedy_timeframe') THEN
+    CREATE TYPE remedy_timeframe AS ENUM ('temporary', 'period_based', 'long_term');
+  END IF;
+END$$;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'remedy_compatibility_relation') THEN
+    CREATE TYPE remedy_compatibility_relation AS ENUM ('allowed', 'disallowed');
+  END IF;
+END$$;
+
+-- =========================
+-- 10.2 REMEDY ACTIONS (Atomic, category-limited)
+-- =========================
+
+CREATE TABLE IF NOT EXISTS remedy_actions (
+  id                BIGSERIAL PRIMARY KEY,
+  code              TEXT UNIQUE NOT NULL,
+  name              TEXT NOT NULL,
+  category          remedy_action_category NOT NULL,
+  description       TEXT NOT NULL,
+
+  -- planets as numeric IDs (same convention used in snapshots/dasha fields)
+  applicable_planets  SMALLINT[] NULL,
+
+  is_active         BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+  -- Hard safety enforcement at schema level (minimal, non-negotiable)
+  CONSTRAINT chk_remedy_actions_no_death_language
+    CHECK (description !~* '(death|die|lifespan|life\\s*span)')
+);
+
+CREATE INDEX IF NOT EXISTS idx_remedy_actions_category ON remedy_actions (category);
+CREATE INDEX IF NOT EXISTS idx_remedy_actions_active ON remedy_actions (is_active);
+
+-- =========================
+-- 10.3 COMPATIBILITY LAYER (Allow/Disallow pairs)
+-- =========================
+
+CREATE TABLE IF NOT EXISTS remedy_action_compatibility (
+  action_id        BIGINT NOT NULL REFERENCES remedy_actions(id) ON DELETE CASCADE,
+  other_action_id  BIGINT NOT NULL REFERENCES remedy_actions(id) ON DELETE CASCADE,
+  relation         remedy_compatibility_relation NOT NULL,
+  reason           TEXT,
+  created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT pk_remedy_action_compatibility PRIMARY KEY (action_id, other_action_id),
+  CONSTRAINT chk_remedy_action_compatibility_no_self CHECK (action_id <> other_action_id)
+);
+
+-- =========================
+-- 10.4 REMEDY PLAN TEMPLATES (Bundles)
+-- =========================
+
+CREATE TABLE IF NOT EXISTS remedy_plan_templates (
+  id                BIGSERIAL PRIMARY KEY,
+  code              TEXT UNIQUE NOT NULL,
+  name              TEXT NOT NULL,
+  intensity_level   remedy_intensity_level NOT NULL,
+  timeframe         remedy_timeframe NOT NULL,
+  description       TEXT NOT NULL,
+  is_active         BOOLEAN NOT NULL DEFAULT TRUE,
+
+  -- maintained by trigger; used for enforceable checks
+  inner_action_count  INTEGER NOT NULL DEFAULT 0,
+  outer_action_count  INTEGER NOT NULL DEFAULT 0,
+
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT chk_remedy_plan_no_death_language
+    CHECK (description !~* '(death|die|lifespan|life\\s*span)')
+);
+
+CREATE TABLE IF NOT EXISTS remedy_plan_actions (
+  plan_id     BIGINT NOT NULL REFERENCES remedy_plan_templates(id) ON DELETE CASCADE,
+  action_id   BIGINT NOT NULL REFERENCES remedy_actions(id) ON DELETE RESTRICT,
+  sort_order  INTEGER NOT NULL DEFAULT 0,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT pk_remedy_plan_actions PRIMARY KEY (plan_id, action_id)
+);
+
+-- =========================
+-- 10.5 TRIGGERS: maintain inner/outer counts + enforce inner+outer rule
+-- =========================
+
+CREATE OR REPLACE FUNCTION fn_recompute_plan_counts(p_plan_id BIGINT)
+RETURNS VOID AS $$
+DECLARE
+  inner_count INTEGER;
+  outer_count INTEGER;
+BEGIN
+  SELECT
+    COALESCE(SUM(CASE WHEN a.category IN ('meditation','jap') THEN 1 ELSE 0 END), 0),
+    COALESCE(SUM(CASE WHEN a.category IN ('donation','feeding_beings') THEN 1 ELSE 0 END), 0)
+  INTO inner_count, outer_count
+  FROM remedy_plan_actions pa
+  JOIN remedy_actions a ON a.id = pa.action_id
+  WHERE pa.plan_id = p_plan_id
+    AND a.is_active = TRUE;
+
+  UPDATE remedy_plan_templates
+  SET inner_action_count = inner_count,
+      outer_action_count = outer_count,
+      updated_at = NOW()
+  WHERE id = p_plan_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION trg_remedy_plan_actions_recount()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF (TG_OP = 'DELETE') THEN
+    PERFORM fn_recompute_plan_counts(OLD.plan_id);
+    RETURN OLD;
+  ELSE
+    PERFORM fn_recompute_plan_counts(NEW.plan_id);
+    RETURN NEW;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_remedy_plan_actions_recount_ins ON remedy_plan_actions;
+DROP TRIGGER IF EXISTS trg_remedy_plan_actions_recount_upd ON remedy_plan_actions;
+DROP TRIGGER IF EXISTS trg_remedy_plan_actions_recount_del ON remedy_plan_actions;
+
+CREATE TRIGGER trg_remedy_plan_actions_recount_ins
+AFTER INSERT ON remedy_plan_actions
+FOR EACH ROW EXECUTE FUNCTION trg_remedy_plan_actions_recount();
+
+CREATE TRIGGER trg_remedy_plan_actions_recount_upd
+AFTER UPDATE ON remedy_plan_actions
+FOR EACH ROW EXECUTE FUNCTION trg_remedy_plan_actions_recount();
+
+CREATE TRIGGER trg_remedy_plan_actions_recount_del
+AFTER DELETE ON remedy_plan_actions
+FOR EACH ROW EXECUTE FUNCTION trg_remedy_plan_actions_recount();
+
+CREATE OR REPLACE FUNCTION trg_remedy_plan_templates_enforce_inner_outer()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Strict global rule:
+  -- Every ACTIVE plan must include at least:
+  -- - one inner practice (Meditation or Jap)
+  -- - one outward action (Donation or Feeding beings)
+  IF (NEW.is_active = TRUE) THEN
+    IF (NEW.inner_action_count < 1 OR NEW.outer_action_count < 1) THEN
+      RAISE EXCEPTION 'Active remedy plan % must include >=1 inner (meditation/jap) and >=1 outer (donation/feeding_beings) action', NEW.code;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_remedy_plan_templates_enforce ON remedy_plan_templates;
+CREATE TRIGGER trg_remedy_plan_templates_enforce
+BEFORE INSERT OR UPDATE ON remedy_plan_templates
+FOR EACH ROW EXECUTE FUNCTION trg_remedy_plan_templates_enforce_inner_outer();
+
+-- =========================
+-- 10.6 REMEDY RULE LAYER (Triggers → plan templates)
+-- =========================
+
+CREATE TABLE IF NOT EXISTS remedy_trigger_rules (
+  id              BIGSERIAL PRIMARY KEY,
+  code            TEXT UNIQUE NOT NULL,
+
+  -- Optional binding: a point code or generic rule
+  point_code      TEXT NULL,
+
+  -- Trigger conditions: Dasha / Transit / Severity (extensible JSON)
+  trigger_conditions JSONB NOT NULL DEFAULT '{}'::jsonb,
+
+  -- Severity mapping (0..1 scale)
+  severity_min    NUMERIC NOT NULL DEFAULT 0,
+  severity_max    NUMERIC NOT NULL DEFAULT 1,
+
+  intensity_level remedy_intensity_level NOT NULL,
+  timeframe       remedy_timeframe NOT NULL,
+
+  plan_id         BIGINT NOT NULL REFERENCES remedy_plan_templates(id) ON DELETE RESTRICT,
+
+  -- Free-form reference (e.g. point code, rule codes, or external KB reference)
+  rule_reference  TEXT NULL,
+
+  priority        INTEGER NOT NULL DEFAULT 0,
+  is_active       BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+  CONSTRAINT chk_remedy_trigger_rules_severity_range
+    CHECK (severity_min >= 0 AND severity_max <= 1 AND severity_min <= severity_max)
+);
+
+CREATE INDEX IF NOT EXISTS idx_remedy_trigger_rules_point ON remedy_trigger_rules (point_code);
+CREATE INDEX IF NOT EXISTS idx_remedy_trigger_rules_active ON remedy_trigger_rules (is_active);
+CREATE INDEX IF NOT EXISTS idx_remedy_trigger_rules_priority ON remedy_trigger_rules (priority);
+
+
+-- =============================================================================
+-- OPTIONAL: CLEAR ALL DATA (DESTRUCTIVE)
+-- =============================================================================
+-- To clear all table data while keeping the schema, run:
+--   scripts/clearAllData.sql
+--

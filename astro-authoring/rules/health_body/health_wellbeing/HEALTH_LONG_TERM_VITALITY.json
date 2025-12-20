@@ -1,0 +1,688 @@
+{
+  "pointId": "HEALTH_LONG_TERM_VITALITY",
+  "theme": "health_body",
+  "subtype": "health_wellbeing",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "yearly",
+    "life_theme"
+  ],
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "HEALTH_LONG_TERM_VITALITY__LONG_TERM_VITALITY_STRONG_CONFIRMED",
+      "label": "Long-term vitality: supportive indicators + dasha + nakshatra confirmation.",
+      "scopes": [
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "JUPITER",
+                "VENUS",
+                "MOON",
+                "SUN"
+              ],
+              "house_in": [
+                1,
+                10,
+                4
+              ],
+              "match_mode": "any",
+              "min_planets": 2
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.65
+            }
+          },
+          {
+            "any": [
+              {
+                "dasha_running": {
+                  "level": "mahadasha",
+                  "planet_in": [
+                    2,
+                    5,
+                    6,
+                    4,
+                    1
+                  ]
+                }
+              },
+              {
+                "dasha_running": {
+                  "level": "antardasha",
+                  "planet_in": [
+                    2,
+                    5,
+                    6,
+                    4,
+                    1
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "any": [
+              {
+                "planet_in_nakshatra_group": {
+                  "planet_in": [
+                    "MOON",
+                    "JUPITER",
+                    "SUN"
+                  ],
+                  "group": {
+                    "context": "health",
+                    "kind": "supportive"
+                  },
+                  "match_mode": "any",
+                  "min_planets": 1
+                }
+              },
+              {
+                "planet_in_nakshatra_group": {
+                  "planet_in": [
+                    "MOON",
+                    "JUPITER",
+                    "SUN"
+                  ],
+                  "group": {
+                    "context": "health",
+                    "kind": "neutral"
+                  },
+                  "match_mode": "any",
+                  "min_planets": 1
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "up",
+        "intensity": 0.75,
+        "tone": "positive",
+        "trigger": "combined",
+        "scenario": "long_term_vitality",
+        "outcome_text": "Long-term vitality direction may be supportive. Nakshatra support strengthens this resilience. DISHA: energy inflow—prioritize a consistent routine, avoid boom-bust cycles, and delay chronic overload patterns.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Long-term vitality indicators + supportive dasha alignment with nakshatra confirmation."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 2,
+      "code": "HEALTH_LONG_TERM_VITALITY__LONG_TERM_STRAIN_SENSITIVITY",
+      "label": "Long-term strain sensitivity: protect routines.",
+      "scopes": [
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                6,
+                12,
+                8
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.65
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "down",
+        "intensity": 0.65,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "long_term_strain",
+        "outcome_text": "Long-term me strain sensitivity badh sakti hai. High strain ≠ illness. DISHA: depletion—prioritize boundaries + rest, avoid overwork cycles, delay chronic overload patterns.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Drain houses + elevated malefic score indicates higher long-term strain sensitivity."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 3,
+      "code": "HEALTH_LONG_TERM_VITALITY__MULTIYEAR_STRAIN_RECOVERY_CYCLES",
+      "label": "Multi-year: 2 major strain-recovery cycles.",
+      "scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Multi-year cycles framing."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "cycles",
+        "outcome_text": "Agle 2–5 saal me 2 major strain–recovery cycles dikh sakte hain. Prioritize sustainable routines, avoid boom-bust overwork, delay overload commitments when possible.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Count-based phases framing; non-medical and non-absolute."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 4,
+      "code": "HEALTH_LONG_TERM_VITALITY__DASHA_LONG_TERM_SUPPORT",
+      "label": "Supportive dasha: long-term vitality steadies.",
+      "scopes": [
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "any": [
+              {
+                "dasha_running": {
+                  "level": "mahadasha",
+                  "planet_in": [
+                    2,
+                    5,
+                    6,
+                    4,
+                    1
+                  ]
+                }
+              },
+              {
+                "dasha_running": {
+                  "level": "antardasha",
+                  "planet_in": [
+                    2,
+                    5,
+                    6,
+                    4,
+                    1
+                  ]
+                }
+              },
+              {
+                "dasha_running": {
+                  "level": "pratyantardasha",
+                  "planet_in": [
+                    2,
+                    5,
+                    6,
+                    4,
+                    1
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.6
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "dasha",
+        "scenario": "dasha_support",
+        "outcome_text": "A vitality-support yog is present (long-term band). Prioritize routine + rest, avoid extremes, and delay chronic overload patterns.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Supportive dasha alignment supports steadier long-term vitality."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 5,
+      "code": "HEALTH_LONG_TERM_VITALITY__DASHA_LONG_TERM_PRESSURE",
+      "label": "Pressure dasha: protect long-term recovery.",
+      "scopes": [
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "any": [
+              {
+                "dasha_running": {
+                  "level": "mahadasha",
+                  "planet_in": [
+                    7,
+                    3,
+                    8,
+                    9
+                  ]
+                }
+              },
+              {
+                "dasha_running": {
+                  "level": "antardasha",
+                  "planet_in": [
+                    7,
+                    3,
+                    8,
+                    9
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.6
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "down",
+        "intensity": 0.55,
+        "tone": "challenging",
+        "trigger": "dasha",
+        "scenario": "dasha_pressure",
+        "outcome_text": "Dasha pressure ke saath long-term strain sensitivity badh sakti hai. Prioritize boundaries + rest, avoid overwork cycles, delay overload phases.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Pressure dasha alignment increases depletion sensitivity."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 6,
+      "code": "HEALTH_LONG_TERM_VITALITY__RESILIENCE_DELAY_BY_NAKSHATRA",
+      "label": "Nakshatra sensitivity: resilience phased.",
+      "scopes": [
+        "yearly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          },
+          {
+            "any": [
+              {
+                "planet_in_nakshatra_group": {
+                  "planet_in": [
+                    "JUPITER",
+                    "VENUS",
+                    "MOON",
+                    "SUN"
+                  ],
+                  "group": {
+                    "context": "health",
+                    "kind": "sensitive"
+                  },
+                  "match_mode": "any",
+                  "min_planets": 1
+                }
+              },
+              {
+                "planet_in_nakshatra_group": {
+                  "planet_in": [
+                    "JUPITER",
+                    "VENUS",
+                    "MOON",
+                    "SUN"
+                  ],
+                  "group": {
+                    "context": "health",
+                    "kind": "obstructive"
+                  },
+                  "match_mode": "any",
+                  "min_planets": 1
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "nakshatra_delay",
+        "outcome_text": "Support is present, but it may not be fully strong—nakshatra sensitivity suggests resilience can be phased. Prioritize gentle consistency, avoid extremes, and delay overload patterns.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "Nakshatra sensitivity indicates pacing; non-medical."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 7,
+      "code": "HEALTH_LONG_TERM_VITALITY__LONG_TERM_MIXED_ENVIRONMENT",
+      "label": "Mixed long-term signals: balance and pacing.",
+      "scopes": [
+        "yearly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.55
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "mixed",
+        "outcome_text": "Long-term me support aur strain dono active ho sakte hain. Prioritize pacing + routine, avoid overwork cycles, delay overload phases.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Mixed long-term environment; balance-first posture."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 8,
+      "code": "HEALTH_LONG_TERM_VITALITY__YEARLY_VITALITY_POSTURE",
+      "label": "Yearly posture: stability-first vitality.",
+      "scopes": [
+        "yearly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Yearly vitality posture."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "yearly_posture",
+        "outcome_text": "Is varsh vitality ko stable rakhna priority rahega. Prioritize routine + rest, avoid extremes, delay overload commitments.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Yearly posture guidance; non-medical."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 9,
+      "code": "HEALTH_LONG_TERM_VITALITY__LIFETHEME_PROTECT_RECOVERY",
+      "label": "Life theme: protect recovery capacity and routines.",
+      "scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Life theme recovery protection posture."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "life_theme_posture",
+        "outcome_text": "Long-term me recovery capacity ko protect karna best rahega. Prioritize sustainable routines, avoid chronic overload, delay boom-bust cycles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Life-theme posture guidance; non-absolute."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 10,
+      "code": "HEALTH_LONG_TERM_VITALITY__LONG_TERM_HIGH_BENEFIC_BASELINE",
+      "label": "Broad supportive baseline for long-term vitality.",
+      "scopes": null,
+      "condition_tree": {
+        "overall_benefic_score": {
+          "min": 0.7
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "up",
+        "intensity": 0.4,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "benefic_baseline",
+        "outcome_text": "Long-term support favorable ho sakta hai. Prioritize consistency, avoid overwork cycles, delay extremes.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Broad supportive baseline; non-medical."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 11,
+      "code": "HEALTH_LONG_TERM_VITALITY__LONG_TERM_HIGH_MALEFIC_BASELINE",
+      "label": "Broad caution baseline for long-term vitality.",
+      "scopes": null,
+      "condition_tree": {
+        "overall_malefic_score": {
+          "min": 0.7
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "down",
+        "intensity": 0.4,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "malefic_baseline",
+        "outcome_text": "Long-term me strain sensitivity high reh sakti hai. Prioritize rest + boundaries, avoid overwork cycles, delay overload phases.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Broad malefic baseline; calm caution."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 12,
+      "code": "HEALTH_LONG_TERM_VITALITY__MONTHLY_VITALITY_POSTURE",
+      "label": "Monthly posture: protect energy.",
+      "scopes": [
+        "monthly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Monthly vitality posture."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "monthly_posture",
+        "outcome_text": "Is mahine energy protection best rahegi. Prioritize routine + breaks, avoid overload, delay extremes.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Monthly posture guidance."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 13,
+      "code": "HEALTH_LONG_TERM_VITALITY__WEEKLY_VITALITY_POSTURE",
+      "label": "Weekly posture: recovery-first.",
+      "scopes": [
+        "weekly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Weekly vitality posture."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "weekly_posture",
+        "outcome_text": "This week, prioritizing recovery may be wise. Avoid overload, delay late nights, and prioritize routine.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Weekly posture guidance."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 14,
+      "code": "HEALTH_LONG_TERM_VITALITY__DAILY_VITALITY_POSTURE",
+      "label": "Daily posture: keep day light.",
+      "scopes": [
+        "daily"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Daily vitality posture."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "daily_posture",
+        "outcome_text": "Today, keeping the day light may be best. Prioritize breaks + sleep, avoid over-exertion, and delay overload tasks if possible.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Daily posture guidance."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    },
+    {
+      "index": 15,
+      "code": "HEALTH_LONG_TERM_VITALITY__HEALTH_LONG_TERM_VITALITY_INFORMATIONAL_BASELINE",
+      "label": "Baseline informational variant for long-term vitality.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Long-term vitality baseline."
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "health_wellbeing",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "baseline",
+        "outcome_text": "No single strong long-term vitality signal stands out. Prioritize sustainable routine + rest, avoid chronic overload, and delay extremes until clarity improves.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Baseline used when stronger long-term vitality variants do not match."
+        },
+        "point_id": "HEALTH_LONG_TERM_VITALITY"
+      }
+    }
+  ]
+}

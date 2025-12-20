@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { query } from '../config/db.js';
 import { generatePredictionForWindowCore } from './services/predictionEngine.js';
+import { findBestMonthYearWindowsForPoint } from './services/timingWindowFinder.js';
 
 dotenv.config();
 
@@ -444,6 +445,16 @@ app.get('/predictions/:windowId', async (req, res) => {
   const language = req.query.lang || 'en';
 
   try {
+    // Fetch window context (needed for timing windows)
+    const winCtxRes = await query(
+      `SELECT id, user_id, chart_id, scope, start_at, end_at
+       FROM prediction_windows
+       WHERE id = $1
+       LIMIT 1`,
+      [windowId]
+    );
+    const windowCtx = winCtxRes.rowCount ? winCtxRes.rows[0] : null;
+
     // Fetch prediction row (prefer given language)
     const predRes = await query(
       `
@@ -531,11 +542,377 @@ app.get('/predictions/:windowId', async (req, res) => {
       [prediction.id]
     );
 
+    // ---- Marriage timing month–year windows (deterministic, no guessing) ----
+    // Rule: compute windows only if RELATIONSHIP_MARRIAGE_TIMING is present among applied rules.
+    let marriageTimingWindows = null;
+    try {
+      const hasMarriageTiming = appliedRes.rows.some((r) => String(r.point_code || '') === 'RELATIONSHIP_MARRIAGE_TIMING');
+      if (hasMarriageTiming && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+        const winResult = await findBestMonthYearWindowsForPoint({
+          userId: Number(windowCtx.user_id),
+          chartId: Number(windowCtx.chart_id),
+          pointCodes: ['RELATIONSHIP_MARRIAGE_TIMING'],
+          contextKey: 'marriage',
+          startAt: windowCtx.start_at,
+          monthsAhead: 24,
+          limit: 3,
+          minBaseScore: 0.25,
+        });
+
+        const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+        const primary = ranges[0]?.range_text || null;
+        const secondary = ranges[1]?.range_text || null;
+        const tertiary = ranges[2]?.range_text || null;
+
+        // Narrative (English-only; no exact date, no guarantees)
+        let narrative_hi = null;
+        if (primary) {
+          narrative_hi =
+            `A marriage yog is present.\n` +
+            `Strongest window appears to be ${primary}.\n` +
+            (secondary ? `Secondary window: ${secondary}.\n` : '') +
+            (tertiary ? `Additional window: ${tertiary}.\n` : '');
+          narrative_hi = narrative_hi.trim();
+        }
+
+        marriageTimingWindows = {
+          ok: true,
+          point_code: 'RELATIONSHIP_MARRIAGE_TIMING',
+          primary_window: primary,
+          secondary_window: secondary,
+          additional_window: tertiary,
+          windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+          narrative_hi,
+          source: 'timingWindowFinder_v1',
+        };
+      }
+    } catch (e) {
+      // Non-blocking: do not fail the prediction response if windows cannot be computed.
+      marriageTimingWindows = { ok: false, error: String(e?.message || e), point_code: 'RELATIONSHIP_MARRIAGE_TIMING' };
+    }
+
+    // ---- Career month–year windows (deterministic, no guessing) ----
+    let careerTimingWindows = null;
+    try {
+      const careerPointCodes = [
+        'CAREER_STABILITY',
+        'CAREER_GROWTH_PROMOTION',
+        'CAREER_JOB_CHANGE',
+        'CAREER_WORKPLACE_CONFLICT',
+        'CAREER_SKILL_STAGNATION',
+      ];
+
+      const presentCareerPoints = careerPointCodes.filter((pc) =>
+        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+      );
+
+      if (presentCareerPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+        const windowsByPoint = {};
+
+        for (const pc of presentCareerPoints) {
+          // eslint-disable-next-line no-await-in-loop
+          const winResult = await findBestMonthYearWindowsForPoint({
+            userId: Number(windowCtx.user_id),
+            chartId: Number(windowCtx.chart_id),
+            pointCodes: [pc],
+            contextKey: 'career',
+            startAt: windowCtx.start_at,
+            monthsAhead: 24,
+            limit: 3,
+            minBaseScore: 0.25,
+          });
+
+          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+          const primary = ranges[0]?.range_text || null;
+          const secondary = ranges[1]?.range_text || null;
+          const tertiary = ranges[2]?.range_text || null;
+
+          let headingHi = null;
+          if (pc === 'CAREER_STABILITY') headingHi = 'A career stability yog is present.';
+          else if (pc === 'CAREER_GROWTH_PROMOTION') headingHi = 'A career growth/promotion yog is present.';
+          else if (pc === 'CAREER_JOB_CHANGE') headingHi = 'A career change/role-shift yog is present.';
+          else if (pc === 'CAREER_WORKPLACE_CONFLICT') headingHi = 'Workplace stress/politics sensitivity may be higher.';
+          else if (pc === 'CAREER_SKILL_STAGNATION') headingHi = 'A slower-growth / skill-stagnation phase may be active.';
+
+          let narrative_hi = null;
+          if (primary && headingHi) {
+            narrative_hi =
+              `${headingHi}\n` +
+              `Strongest window appears to be ${primary}.\n` +
+              (secondary ? `Secondary window: ${secondary}.\n` : '') +
+              (tertiary ? `Additional window: ${tertiary}.\n` : '');
+            narrative_hi = narrative_hi.trim();
+          }
+
+          windowsByPoint[pc] = {
+            ok: true,
+            point_code: pc,
+            primary_window: primary,
+            secondary_window: secondary,
+            additional_window: tertiary,
+            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+            narrative_hi,
+            source: 'timingWindowFinder_v1',
+          };
+        }
+
+        careerTimingWindows = {
+          ok: true,
+          context: 'career',
+          windowsByPoint,
+        };
+      }
+    } catch (e) {
+      careerTimingWindows = { ok: false, error: String(e?.message || e), context: 'career' };
+    }
+
+    // ---- Business month–year windows (deterministic, no guessing) ----
+    let businessTimingWindows = null;
+    try {
+      const businessPointCodes = [
+        'MONEY_BUSINESS_GENERAL',
+        'MONEY_BUSINESS_GROWTH_WIN',
+        'MONEY_BUSINESS_LOSS_RISK',
+        'MONEY_BUSINESS_START',
+        'MONEY_BUSINESS_PARTNERSHIP_COMPLEX',
+      ];
+
+      const presentBusinessPoints = businessPointCodes.filter((pc) =>
+        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+      );
+
+      if (presentBusinessPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+        const windowsByPoint = {};
+
+        for (const pc of presentBusinessPoints) {
+          // eslint-disable-next-line no-await-in-loop
+          const winResult = await findBestMonthYearWindowsForPoint({
+            userId: Number(windowCtx.user_id),
+            chartId: Number(windowCtx.chart_id),
+            pointCodes: [pc],
+            contextKey: 'business',
+            startAt: windowCtx.start_at,
+            monthsAhead: 24,
+            limit: 3,
+            minBaseScore: 0.25,
+          });
+
+          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+          const primary = ranges[0]?.range_text || null;
+          const secondary = ranges[1]?.range_text || null;
+          const tertiary = ranges[2]?.range_text || null;
+
+          let headingHi = null;
+          if (pc === 'MONEY_BUSINESS_GENERAL') headingHi = 'A business-support yog is present.';
+          else if (pc === 'MONEY_BUSINESS_GROWTH_WIN') headingHi = 'A business growth/expansion yog is present.';
+          else if (pc === 'MONEY_BUSINESS_START') headingHi = 'A business-start yog is present.';
+          else if (pc === 'MONEY_BUSINESS_PARTNERSHIP_COMPLEX') headingHi = 'A business partnership signal is active.';
+          else if (pc === 'MONEY_BUSINESS_LOSS_RISK') headingHi = 'Risk management is important in this phase.';
+
+          let narrative_hi = null;
+          if (primary && headingHi) {
+            narrative_hi =
+              `${headingHi}\n` +
+              `Strongest window appears to be ${primary}.\n` +
+              (secondary ? `Secondary window: ${secondary}.\n` : '') +
+              (tertiary ? `Additional window: ${tertiary}.\n` : '');
+            narrative_hi = narrative_hi.trim();
+          }
+
+          windowsByPoint[pc] = {
+            ok: true,
+            point_code: pc,
+            primary_window: primary,
+            secondary_window: secondary,
+            additional_window: tertiary,
+            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+            narrative_hi,
+            source: 'timingWindowFinder_v1',
+          };
+        }
+
+        businessTimingWindows = {
+          ok: true,
+          context: 'business',
+          windowsByPoint,
+        };
+      }
+    } catch (e) {
+      businessTimingWindows = { ok: false, error: String(e?.message || e), context: 'business' };
+    }
+
+    // ---- Finance month–year windows (deterministic, no guessing) ----
+    let financeTimingWindows = null;
+    try {
+      const financePointCodes = [
+        'FINANCE_GENERAL',
+        'FINANCE_INCOME_FLOW',
+        'FINANCE_EXPENSE_PRESSURE',
+        'FINANCE_SAVINGS_GROWTH',
+        'FINANCE_DEBT_LOAN',
+        'FINANCE_INVESTMENT_TIMING',
+        'FINANCE_SUDDEN_GAIN_LOSS',
+        'FINANCE_LONG_TERM_WEALTH',
+      ];
+
+      const presentFinancePoints = financePointCodes.filter((pc) =>
+        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+      );
+
+      if (presentFinancePoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+        const windowsByPoint = {};
+
+        for (const pc of presentFinancePoints) {
+          // eslint-disable-next-line no-await-in-loop
+          const winResult = await findBestMonthYearWindowsForPoint({
+            userId: Number(windowCtx.user_id),
+            chartId: Number(windowCtx.chart_id),
+            pointCodes: [pc],
+            contextKey: 'finance',
+            startAt: windowCtx.start_at,
+            monthsAhead: 24,
+            limit: 3,
+            minBaseScore: 0.25,
+          });
+
+          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+          const primary = ranges[0]?.range_text || null;
+          const secondary = ranges[1]?.range_text || null;
+          const tertiary = ranges[2]?.range_text || null;
+
+          let headingHi = null;
+          if (pc === 'FINANCE_GENERAL') headingHi = 'A wealth-support yog is present.';
+          else if (pc === 'FINANCE_INCOME_FLOW') headingHi = 'An income-flow signal is strong.';
+          else if (pc === 'FINANCE_EXPENSE_PRESSURE') headingHi = 'Expense pressure may be higher in this phase.';
+          else if (pc === 'FINANCE_SAVINGS_GROWTH') headingHi = 'A gains-and-savings yog is present.';
+          else if (pc === 'FINANCE_DEBT_LOAN') headingHi = 'Debt/loan risk control is important in this phase.';
+          else if (pc === 'FINANCE_INVESTMENT_TIMING') headingHi = 'Investment timing may be supportive.';
+          else if (pc === 'FINANCE_SUDDEN_GAIN_LOSS') headingHi = 'Volatility direction may be more sensitive in this phase.';
+          else if (pc === 'FINANCE_LONG_TERM_WEALTH') headingHi = 'Long-term wealth direction can be supportive.';
+
+          let narrative_hi = null;
+          if (primary && headingHi) {
+            narrative_hi =
+              `${headingHi}\n` +
+              `Strongest window appears to be ${primary}.\n` +
+              (secondary ? `Secondary window: ${secondary}.\n` : '') +
+              (tertiary ? `Additional window: ${tertiary}.\n` : '');
+            narrative_hi = narrative_hi.trim();
+          }
+
+          windowsByPoint[pc] = {
+            ok: true,
+            point_code: pc,
+            primary_window: primary,
+            secondary_window: secondary,
+            additional_window: tertiary,
+            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+            narrative_hi,
+            source: 'timingWindowFinder_v1',
+          };
+        }
+
+        financeTimingWindows = {
+          ok: true,
+          context: 'finance',
+          windowsByPoint,
+        };
+      }
+    } catch (e) {
+      financeTimingWindows = { ok: false, error: String(e?.message || e), context: 'finance' };
+    }
+
+    // ---- Health month–year windows (deterministic, no guessing) ----
+    let healthTimingWindows = null;
+    try {
+      const healthPointCodes = [
+        'HEALTH_GENERAL',
+        'HEALTH_ENERGY_LEVEL',
+        'HEALTH_STRESS_PRESSURE',
+        'HEALTH_RECOVERY_PHASE',
+        'HEALTH_IMMUNITY_BALANCE',
+        'HEALTH_LIFESTYLE_IMPACT',
+        'HEALTH_WORK_HEALTH_TRADEOFF',
+        'HEALTH_LONG_TERM_VITALITY',
+      ];
+
+      const presentHealthPoints = healthPointCodes.filter((pc) =>
+        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+      );
+
+      if (presentHealthPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+        const windowsByPoint = {};
+
+        for (const pc of presentHealthPoints) {
+          // eslint-disable-next-line no-await-in-loop
+          const winResult = await findBestMonthYearWindowsForPoint({
+            userId: Number(windowCtx.user_id),
+            chartId: Number(windowCtx.chart_id),
+            pointCodes: [pc],
+            contextKey: 'health',
+            startAt: windowCtx.start_at,
+            monthsAhead: 24,
+            limit: 3,
+            minBaseScore: 0.25,
+          });
+
+          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+          const primary = ranges[0]?.range_text || null;
+          const secondary = ranges[1]?.range_text || null;
+          const tertiary = ranges[2]?.range_text || null;
+
+          let headingHi = null;
+          if (pc === 'HEALTH_GENERAL') headingHi = 'A vitality-support yog is present.';
+          else if (pc === 'HEALTH_ENERGY_LEVEL') headingHi = 'Energy balance may be supportive.';
+          else if (pc === 'HEALTH_STRESS_PRESSURE') headingHi = 'Stress sensitivity may be higher in this phase.';
+          else if (pc === 'HEALTH_RECOVERY_PHASE') headingHi = 'A recovery/healing yog is strong.';
+          else if (pc === 'HEALTH_IMMUNITY_BALANCE') headingHi = 'A resilience/balance yog is present.';
+          else if (pc === 'HEALTH_LIFESTYLE_IMPACT') headingHi = 'Routine balance can provide support.';
+          else if (pc === 'HEALTH_WORK_HEALTH_TRADEOFF') headingHi = 'Work–health tradeoff needs active management.';
+          else if (pc === 'HEALTH_LONG_TERM_VITALITY') headingHi = 'Long-term vitality direction may be supportive.';
+
+          let narrative_hi = null;
+          if (primary && headingHi) {
+            narrative_hi =
+              `${headingHi}\n` +
+              `Strongest window appears to be ${primary}.\n` +
+              (secondary ? `Secondary window: ${secondary}.\n` : '') +
+              (tertiary ? `Additional window: ${tertiary}.\n` : '');
+            narrative_hi = narrative_hi.trim();
+          }
+
+          windowsByPoint[pc] = {
+            ok: true,
+            point_code: pc,
+            primary_window: primary,
+            secondary_window: secondary,
+            additional_window: tertiary,
+            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+            narrative_hi,
+            source: 'timingWindowFinder_v1',
+          };
+        }
+
+        healthTimingWindows = {
+          ok: true,
+          context: 'health',
+          windowsByPoint,
+        };
+      }
+    } catch (e) {
+      healthTimingWindows = { ok: false, error: String(e?.message || e), context: 'health' };
+    }
+
     return res.json({
       ok: true,
       prediction,
       appliedRules: appliedRes.rows,
       remedies: remediesRes.rows,
+      marriageTimingWindows,
+      careerTimingWindows,
+      businessTimingWindows,
+      financeTimingWindows,
+      healthTimingWindows,
     });
   } catch (err) {
     return res.status(500).json({ ok: false, error: err.message });

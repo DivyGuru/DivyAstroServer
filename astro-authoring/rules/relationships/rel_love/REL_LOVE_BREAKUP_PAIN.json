@@ -12,20 +12,94 @@
     "yearly",
     "life_theme"
   ],
-  "condition_tree": {
-    "all": [
-      {
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "REL_LOVE_BREAKUP_PAIN__GENERIC_BASE",
+      "label": "Generic draft condition (baseline).",
+      "scopes": null,
+      "condition_tree": {
         "generic_condition": {
-          "note": "No astroHints specified; generic draft condition."
+          "note": "Author real breakup-pain conditions here."
         }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "rel_love",
+        "trend": "down",
+        "intensity": 0.75,
+        "tone": "challenging",
+        "trigger": "natal",
+        "point_id": "REL_LOVE_BREAKUP_PAIN"
       }
-    ]
-  },
-  "effect_json": {
-    "theme": "relationship",
-    "area": "rel_love",
-    "trend": "down",
-    "intensity": 0.7,
-    "tone": "cautious"
-  }
+    },
+    {
+      "index": 2,
+      "code": "REL_LOVE_BREAKUP_PAIN__GENERIC_MIXED",
+      "label": "Generic mixed-signal variant.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Author real mixed breakup/healing conditions here."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "rel_love",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "mixed",
+        "trigger": "natal",
+        "point_id": "REL_LOVE_BREAKUP_PAIN"
+      }
+    },
+    {
+      "index": 3,
+      "code": "REL_LOVE_BREAKUP_PAIN__TRANSIT_GENERIC",
+      "label": "Generic transit variant.",
+      "scopes": [
+        "daily",
+        "weekly",
+        "monthly"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real transit conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "rel_love",
+        "trend": "down",
+        "intensity": 0.6,
+        "tone": "challenging",
+        "trigger": "transit",
+        "point_id": "REL_LOVE_BREAKUP_PAIN"
+      }
+    },
+    {
+      "index": 4,
+      "code": "REL_LOVE_BREAKUP_PAIN__DASHA_GENERIC",
+      "label": "Generic dasha variant.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Replace with real dasha conditions during authoring."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "rel_love",
+        "trend": "down",
+        "intensity": 0.6,
+        "tone": "challenging",
+        "trigger": "dasha",
+        "point_id": "REL_LOVE_BREAKUP_PAIN"
+      }
+    }
+  ]
 }

@@ -1,0 +1,706 @@
+{
+  "pointId": "RELATIONSHIP_STABILITY",
+  "theme": "relationships",
+  "subtype": "rel_love",
+  "polarity": "mixed",
+  "kind": "state",
+  "defaultScopes": [
+    "monthly",
+    "yearly",
+    "life_theme"
+  ],
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "RELATIONSHIP_STABILITY__NATAL_STABLE_FOUNDATION",
+      "label": "Strong relational stability foundation: benefics/trade planets support 7/4/2/11.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS",
+            "MERCURY"
+          ],
+          "house_in": [
+            7,
+            4,
+            2,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 2
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.8,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "stable_foundation",
+        "outcome_text": "Relationship stability may feel stronger. You can reinforce it through consistent follow-through, calm repair after misunderstandings, and shared routines that build trust.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Multiple stability indicators are present together, so this is treated as a primary stabilizing signal."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 2,
+      "code": "RELATIONSHIP_STABILITY__NATAL_EMOTIONAL_SECURITY",
+      "label": "Emotional security and comfort strengthen stability (4th/5th support).",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "VENUS",
+                "JUPITER"
+              ],
+              "house_in": [
+                5,
+                7,
+                4
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.65,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "emotional_security",
+        "outcome_text": "Emotional safety may be easier to maintain. Small consistent gestures, reliable communication, and a predictable routine can support long-term stability.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "Signals suggest comfort and reassurance are effective stability levers right now."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 3,
+      "code": "RELATIONSHIP_STABILITY__DISCIPLINED_COMMITMENT",
+      "label": "Disciplined commitment: structure supports stability when balanced with benefic support.",
+      "scopes": [
+        "monthly",
+        "yearly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN"
+              ],
+              "house_in": [
+                7,
+                4
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.6
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "max": 0.75
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "mixed",
+        "intensity": 0.6,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "disciplined_commitment",
+        "outcome_text": "Stability may improve with structure. Clear agreements, predictable routines, and gentle boundary-setting can reduce repeated misunderstandings.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as a mitigation path: structure supports stability when applied calmly."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 4,
+      "code": "RELATIONSHIP_STABILITY__TRANSIT_STABILITY_WINDOW",
+      "label": "Short-term stability window: supportive transits activate relationship houses.",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "transit_planet_in_house": {
+          "planet_in": [
+            "VENUS",
+            "JUPITER"
+          ],
+          "house_in": [
+            7,
+            4,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "transit",
+        "scenario": "short_term_stability",
+        "outcome_text": "A short-term stabilizing window may be available. It can help to resolve small issues, clarify plans, and reinforce trust through reliable follow-through.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is time-bound support and is treated as background unless reinforced."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 5,
+      "code": "RELATIONSHIP_STABILITY__DASHA_LONG_TERM_STABILITY",
+      "label": "Long-term stability support during benefic/trade dasha phases.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "dasha",
+        "scenario": "long_term_stability",
+        "outcome_text": "A longer-term stabilizing phase may be building. Consistent care, calm communication, and practical commitment can strengthen stability over time.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is framed as longer-term support and is used mainly to guide strategy and expectations."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 6,
+      "code": "RELATIONSHIP_STABILITY__HIGH_INSTABILITY_PRESSURE",
+      "label": "Instability pressure: malefics in relationship houses with elevated malefic score.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                7,
+                12,
+                8,
+                2
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.7
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "down",
+        "intensity": 0.8,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "instability_pressure",
+        "outcome_text": "Relationship stability may feel more fragile. Slower decisions, clearer boundaries, and focusing on repair rather than blame can reduce escalation.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Multiple strain indicators are simultaneously present; risk-management and calm repair are prioritized."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 7,
+      "code": "RELATIONSHIP_STABILITY__VOLATILITY_ARGUMENTS",
+      "label": "Volatility and arguments risk (Mars in 7/1/6).",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            7,
+            1,
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "down",
+        "intensity": 0.7,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "volatility_arguments",
+        "outcome_text": "Reactivity may rise. Taking pauses, keeping discussions factual, and returning to repair after cooling down can help protect stability.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as a risk-control signal; reduce heat before attempting resolution."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 8,
+      "code": "RELATIONSHIP_STABILITY__DISTANCE_CYCLE",
+      "label": "Distance cycle: emotional fatigue or reduced availability affects bonding.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "KETU",
+            "SATURN"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "distance_cycle",
+        "outcome_text": "Emotional distance may feel more noticeable. Scheduling intentional check-ins and keeping communication simple can reduce misunderstandings during busier phases.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is framed as a distance-cycle pattern; small consistent actions help."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 9,
+      "code": "RELATIONSHIP_STABILITY__AMBIGUITY_TRUST_STRAIN",
+      "label": "Ambiguity/trust strain: unclear expectations can weaken stability.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            7,
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "down",
+        "intensity": 0.7,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "ambiguity_trust_strain",
+        "outcome_text": "Uncertainty may create avoidable tension. Confirming expectations, writing down important decisions, and keeping boundaries clear can support stability.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as an agreement/clarity signal rather than a definitive relationship outcome."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 10,
+      "code": "RELATIONSHIP_STABILITY__MIXED_STABILITY_SIGNALS",
+      "label": "Mixed stability: support exists but strain is active as well.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "JUPITER",
+                "VENUS",
+                "MERCURY"
+              ],
+              "house_in": [
+                7,
+                4,
+                2,
+                11
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                7,
+                12,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "mixed",
+        "intensity": 0.7,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "mixed_stability",
+        "outcome_text": "Support and strain may coexist. You can protect stability by pacing sensitive conversations, keeping commitments realistic, and focusing on repair after misunderstandings.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "dominant",
+          "certainty_note": "Both supportive and challenging indicators appear together, so a balanced posture is recommended."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 11,
+      "code": "RELATIONSHIP_STABILITY__TRANSIT_SENSITIVITY_WINDOW",
+      "label": "Short-term sensitivity: malefic transits activate 7/12/6.",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "transit_planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                7,
+                12,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.5
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "down",
+        "intensity": 0.55,
+        "tone": "challenging",
+        "trigger": "transit",
+        "scenario": "short_term_sensitivity",
+        "outcome_text": "This may be a more sensitive window. Slower responses, clearer boundaries, and avoiding impulsive decisions can reduce misunderstandings.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is time-bound caution and is treated as background guidance."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 12,
+      "code": "RELATIONSHIP_STABILITY__REPAIR_CAPACITY",
+      "label": "Repair capacity: supportive indicators exist even when stress is present.",
+      "scopes": [
+        "monthly",
+        "yearly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "overall_benefic_score": {
+              "min": 0.6
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.5
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "repair_capacity",
+        "outcome_text": "Even with stress, repair may be possible. Keeping communication calm, choosing fewer high-quality conversations, and following through on agreements can stabilize outcomes.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is used as a balancing note when both supportive and challenging signals are present."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 13,
+      "code": "RELATIONSHIP_STABILITY__DASHA_PRESSURE_STABILITY",
+      "label": "Longer-term pressure: stability needs intentional care during malefic dasha.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "down",
+        "intensity": 0.65,
+        "tone": "challenging",
+        "trigger": "dasha",
+        "scenario": "long_term_pressure",
+        "outcome_text": "A longer pressure phase may require more patience and structure. Keeping expectations realistic and focusing on repair and boundaries can support stability.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as longer-term pressure patterns; it guides strategy without making absolute claims."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 14,
+      "code": "RELATIONSHIP_STABILITY__SHARED_PLANS_STABILIZE",
+      "label": "Shared plans stabilize connection: Mercury/11th supports coordination.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            11,
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "shared_plans",
+        "outcome_text": "Coordinating schedules and making shared plans may reduce friction. Clarifying responsibilities and timelines can protect stability.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This supports practical coordination as a relationship stabilizer."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 15,
+      "code": "RELATIONSHIP_STABILITY__HIGH_BENEFIC_STABILITY_BASELINE",
+      "label": "High overall benefic environment supports stability baseline.",
+      "scopes": null,
+      "condition_tree": {
+        "overall_benefic_score": {
+          "min": 0.7
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "benefic_baseline",
+        "outcome_text": "Overall support may feel stronger. You can use this period to build healthy routines and reinforce trust through consistent behavior.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a broad supportive baseline and does not imply certainty."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    },
+    {
+      "index": 16,
+      "code": "RELATIONSHIP_STABILITY__STABILITY_INFORMATIONAL_BASELINE",
+      "label": "Baseline informational variant for relationship stability context.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Relationship stability baseline (background)."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "relationship_stability",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "informational_baseline",
+        "outcome_text": "No single strong stability signal stands out here. Consistency, clear communication, and respectful boundaries may be the most helpful focus.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Used as a baseline when stronger stability variants do not match."
+        },
+        "point_id": "RELATIONSHIP_STABILITY"
+      }
+    }
+  ]
+}

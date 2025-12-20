@@ -1,0 +1,713 @@
+{
+  "pointId": "FAMILY_CONFLICT_PRESSURE",
+  "theme": "relationships",
+  "subtype": "rel_family_relations",
+  "polarity": "negative",
+  "kind": "problem",
+  "defaultScopes": [
+    "daily",
+    "weekly",
+    "monthly",
+    "yearly"
+  ],
+  "possibilities": [
+    {
+      "index": 1,
+      "code": "FAMILY_CONFLICT_PRESSURE__HIGH_FAMILY_PRESSURE",
+      "label": "High family pressure: elevated malefic score with malefics in family/stress houses.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                6,
+                8,
+                12,
+                4,
+                2
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.75
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.85,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "high_pressure",
+        "outcome_text": "Family pressure may feel stronger. Slowing down difficult conversations, setting respectful boundaries, and focusing on practical cooperation can reduce escalation.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Strong pressure indicators are present, so de-escalation and boundaries are prioritized."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 2,
+      "code": "FAMILY_CONFLICT_PRESSURE__CONTROL_INTERFERENCE_PATTERN",
+      "label": "Control/interference pattern: external expectations create stress in family dynamics.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "RAHU",
+                "SATURN"
+              ],
+              "house_in": [
+                4,
+                2
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.6
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.75,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "control_interference",
+        "outcome_text": "Family expectations may feel controlling or intrusive. Calm boundaries, private alignment, and respectful communication can reduce repeated pressure.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as an external-pressure signal; boundaries are emphasized without moral judgment."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 3,
+      "code": "FAMILY_CONFLICT_PRESSURE__FAMILY_REACTIVITY_ARGUMENTS",
+      "label": "Reactivity and arguments risk in family settings.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            4,
+            2,
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.7,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "reactivity_arguments",
+        "outcome_text": "Reactivity may rise in family interactions. Taking pauses, keeping discussions specific, and returning to repair can reduce escalation.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as a heat-management signal: reduce intensity before attempting resolution."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 4,
+      "code": "FAMILY_CONFLICT_PRESSURE__HIDDEN_TENSIONS",
+      "label": "Hidden tensions: mixed signals create misunderstandings in family decisions.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            4,
+            2,
+            8,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "hidden_tensions",
+        "outcome_text": "Mixed signals may create misunderstandings. Clarifying expectations, confirming plans, and keeping communication transparent can reduce confusion.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is treated as an information-clarity signal, not a judgment of intentions."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 5,
+      "code": "FAMILY_CONFLICT_PRESSURE__TRANSIT_FAMILY_PRESSURE",
+      "label": "Short-term family pressure from malefic transits.",
+      "scopes": [
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "transit_planet_in_house": {
+              "planet_in": [
+                "SATURN",
+                "MARS",
+                "RAHU",
+                "KETU"
+              ],
+              "house_in": [
+                4,
+                2,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.5
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.55,
+        "tone": "challenging",
+        "trigger": "transit",
+        "scenario": "short_term_sensitivity",
+        "outcome_text": "This may be a more sensitive short-term window. Slower responses and clear boundaries can reduce avoidable conflict.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Time-bound caution is treated as background guidance to reduce avoidable escalation."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 6,
+      "code": "FAMILY_CONFLICT_PRESSURE__TRANSIT_RELIEF_WINDOW",
+      "label": "Short-term relief: supportive transits reduce pressure and improve decisions.",
+      "scopes": [
+        "daily",
+        "weekly"
+      ],
+      "condition_tree": {
+        "transit_planet_in_house": {
+          "planet_in": [
+            "VENUS",
+            "JUPITER"
+          ],
+          "house_in": [
+            2,
+            4,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "transit",
+        "scenario": "relief_window",
+        "outcome_text": "Pressure may ease slightly in the short term. It can be a good time to stabilize routines, clarify plans, and reduce misunderstandings calmly.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is time-bound and used mainly to support cleanup and stabilization."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 7,
+      "code": "FAMILY_CONFLICT_PRESSURE__DASHA_FAMILY_PRESSURE_PHASE",
+      "label": "Longer pressure phase increases family stress; boundaries and patience help.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                7,
+                3,
+                8,
+                9
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.65,
+        "tone": "challenging",
+        "trigger": "dasha",
+        "scenario": "long_term_pressure",
+        "outcome_text": "A longer sensitive phase may increase family pressure. Patience, calm boundaries, and consistent communication can reduce repeated conflict.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This guides longer-term strategy during pressure patterns without making absolute claims."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 8,
+      "code": "FAMILY_CONFLICT_PRESSURE__DASHA_REPAIR_SUPPORT",
+      "label": "Repair support during benefic/trade dasha phases.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "any": [
+          {
+            "dasha_running": {
+              "level": "mahadasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          },
+          {
+            "dasha_running": {
+              "level": "antardasha",
+              "planet_in": [
+                5,
+                6,
+                4
+              ]
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "dasha",
+        "scenario": "repair_support",
+        "outcome_text": "Repair may feel easier over time. Clear communication, accountability, and practical cooperation can gradually improve family dynamics.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is framed as gradual support; outcomes depend on consistent follow-through."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 9,
+      "code": "FAMILY_CONFLICT_PRESSURE__MIXED_PRESSURE_SUPPORT",
+      "label": "Mixed: pressure exists, but support for repair is also present.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.55
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.6,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "mixed_signals",
+        "outcome_text": "Support and pressure may coexist. You can protect relationships by pacing sensitive conversations, clarifying expectations, and following through consistently.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "dominant",
+          "certainty_note": "Mixed indicators require balanced guidance: move forward, but with clearer boundaries and calmer communication."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 10,
+      "code": "FAMILY_CONFLICT_PRESSURE__PRACTICAL_CLARITY_REDUCES_PRESSURE",
+      "label": "Practical clarity reduces family pressure (communication lever).",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "MERCURY"
+              ],
+              "house_in": [
+                2,
+                4,
+                11
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.55
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "clarity_lever",
+        "outcome_text": "Clarity may reduce pressure. Writing down decisions, confirming timelines, and keeping communication respectful can reduce misunderstandings.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "Signals suggest clarity and structure reduce recurring pressure patterns."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 11,
+      "code": "FAMILY_CONFLICT_PRESSURE__RESPONSIBILITY_BURNOUT_RISK",
+      "label": "Responsibility burnout risk: pacing and boundaries are needed.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN"
+              ],
+              "house_in": [
+                6,
+                4
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.6
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "burnout_risk",
+        "outcome_text": "Responsibility load may feel tiring. Fair division of effort, clear boundaries, and steady routines can prevent burnout and resentment.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as sustainability guidance, not as a definitive outcome."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 12,
+      "code": "FAMILY_CONFLICT_PRESSURE__ESCALATION_RISK",
+      "label": "Escalation risk: reactivity plus pressure increases friction.",
+      "scopes": null,
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "MARS",
+                "SATURN"
+              ],
+              "house_in": [
+                4,
+                6,
+                2
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.65
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "down",
+        "intensity": 0.8,
+        "tone": "challenging",
+        "trigger": "natal",
+        "scenario": "escalation_risk",
+        "outcome_text": "Escalation risk may be higher. Slowing down, avoiding harsh language, and returning to repair can reduce avoidable damage to relationships.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "high",
+          "dominance": "dominant",
+          "certainty_note": "Conflict pressure is stronger here; de-escalation and boundaries are prioritized."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 13,
+      "code": "FAMILY_CONFLICT_PRESSURE__BENEFIC_PRESSURE_BUFFER",
+      "label": "Supportive environment buffers pressure (broad baseline).",
+      "scopes": null,
+      "condition_tree": {
+        "overall_benefic_score": {
+          "min": 0.7
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.45,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "benefic_baseline",
+        "outcome_text": "Overall support may help you handle family pressure more calmly. Clear communication and steady boundaries can protect relationships.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a broad supportive baseline and does not imply certainty."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 14,
+      "code": "FAMILY_CONFLICT_PRESSURE__FAMILY_PRESSURE_INFORMATIONAL_BASELINE",
+      "label": "Baseline informational variant for family conflict/pressure context.",
+      "scopes": null,
+      "condition_tree": {
+        "generic_condition": {
+          "note": "Family conflict/pressure baseline (background)."
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.35,
+        "tone": "mixed",
+        "trigger": "natal",
+        "scenario": "informational_baseline",
+        "outcome_text": "No single strong pressure signal stands out here. Respectful boundaries, clear communication, and practical cooperation can help maintain balance.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Used as a baseline when stronger family-pressure variants do not match."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 15,
+      "code": "FAMILY_CONFLICT_PRESSURE__COMMUNITY_SUPPORT_BUFFER",
+      "label": "Community/network support buffers family pressure.",
+      "scopes": null,
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS",
+            "MERCURY"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.45,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "community_buffer",
+        "outcome_text": "Support from trusted people may help you stay grounded. Clear priorities and steady boundaries can reduce pressure over time.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "background",
+          "certainty_note": "This is treated as a supportive factor, not a guarantee."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    },
+    {
+      "index": 16,
+      "code": "FAMILY_CONFLICT_PRESSURE__RECOVERY_WITH_STRUCTURE",
+      "label": "Recovery with structure: gradual improvement through consistency.",
+      "scopes": [
+        "monthly",
+        "yearly",
+        "life_theme"
+      ],
+      "condition_tree": {
+        "all": [
+          {
+            "planet_in_house": {
+              "planet_in": [
+                "SATURN"
+              ],
+              "house_in": [
+                4,
+                6
+              ],
+              "match_mode": "any",
+              "min_planets": 1
+            }
+          },
+          {
+            "overall_benefic_score": {
+              "min": 0.6
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "min": 0.5
+            }
+          },
+          {
+            "overall_malefic_score": {
+              "max": 0.75
+            }
+          }
+        ]
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "family_conflict_pressure",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "recovery_structure",
+        "outcome_text": "Stability can improve through structure. Consistent routines, fair boundaries, and respectful communication can gradually reduce pressure.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "medium",
+          "dominance": "supporting",
+          "certainty_note": "This is framed as a resilience path: gradual improvement through structure."
+        },
+        "point_id": "FAMILY_CONFLICT_PRESSURE"
+      }
+    }
+  ]
+}
