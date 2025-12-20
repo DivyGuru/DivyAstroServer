@@ -568,12 +568,14 @@ async function insertOrUpdateRemedies(point, remedies) {
 
 async function main() {
   const pointId = process.argv[2];
+  const dbOnly = process.argv.includes('--db-only');
 
   printHeader('🧪 setRemedies');
 
   if (!pointId) {
     console.error('❌ pointId missing.');
     console.error('   Usage: node scripts/setRemedies.js MONEY_BUSINESS_GENERAL');
+    console.error('   Optional: --db-only (skip writing draft JSON files)');
     process.exit(1);
   }
 
@@ -593,8 +595,12 @@ async function main() {
     console.log('\n📝 Mock remedies (preview):');
     console.log(JSON.stringify(remedies, null, 2));
 
-    // Save to authoring JSON file (for AI / manual editing)
-    await saveRemediesJson(point, remedies);
+    // Save to authoring JSON file (for AI / manual editing) unless dbOnly
+    if (!dbOnly) {
+      await saveRemediesJson(point, remedies);
+    } else {
+      console.log('\nℹ️  --db-only enabled: skipping draft remedies JSON file write.');
+    }
 
     const inserted = await insertOrUpdateRemedies(point, remedies);
     console.log('\n💊 Remedies inserted:');

@@ -253,7 +253,7 @@ async function upsertRulesForPoint(point, ruleGroup, variants) {
       JSON.stringify(v.effect_json),
       1.0, // base_weight
       null, // template_id
-      false, // is_active (draft)
+      true, // is_active
       point.id, // point_code
       variantCode, // variant_code
     ];
