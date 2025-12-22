@@ -5,7 +5,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { query } from '../config/db.js';
 import { generatePredictionForWindowCore } from './services/predictionEngine.js';
+import { generateKundli } from './services/kundliGeneration.js';
 import { findBestMonthYearWindowsForPoint } from './services/timingWindowFinder.js';
+import { getWindowDatesForScope } from './services/windowHelpers.js';
 
 dotenv.config();
 
@@ -77,6 +79,378 @@ app.post('/windows/:windowId/generate', async (req, res) => {
   }
 });
 
+// ---- Kundli Generation (New Pipeline) ----------------------------------------
+
+/**
+ * GET /kundli/:windowId
+ * 
+ * Returns kundli-ready JSON using the new pipeline:
+ * Signal Aggregation → Time Patch Engine → Narrative Composer
+ * 
+ * Query parameters:
+ * - scope (optional): 'daily' | 'monthly' | 'yearly' - If provided, ensures window has correct scope
+ * 
+ * Response format:
+ * {
+ *   meta: { window_id, generated_at, overall_confidence },
+ *   sections: [
+ *     {
+ *       domain: string,
+ *       summary_metrics: { pressure, support, stability, confidence },
+ *       time_windows: { years: [], months: [] },
+ *       narrative: string,
+ *       remedy_hook?: { message, cta },
+ *       remedies?: Array<{ type, title, description, frequency, duration }>
+ *     }
+ *   ]
+ * }
+ */
+app.get('/kundli/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  const { scope } = req.query;
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    // If scope is provided, validate window scope matches
+    if (scope) {
+      const validScopes = ['daily', 'monthly', 'yearly'];
+      if (!validScopes.includes(scope)) {
+        return res.status(400).json({ 
+          ok: false, 
+          error: `Invalid scope. Must be one of: ${validScopes.join(', ')}` 
+        });
+      }
+      
+      // Check window scope
+      const windowRes = await query(
+        'SELECT scope FROM prediction_windows WHERE id = $1',
+        [windowId]
+      );
+      
+      if (windowRes.rowCount === 0) {
+        return res.status(404).json({ 
+          ok: false, 
+          error: `Window not found: ${windowId}` 
+        });
+      }
+      
+      const windowScope = windowRes.rows[0].scope;
+      if (windowScope !== scope) {
+        return res.status(400).json({ 
+          ok: false, 
+          error: `Window scope mismatch. Expected: ${scope}, Found: ${windowScope}` 
+        });
+      }
+    }
+    
+    const kundli = await generateKundli(windowId);
+    
+    return res.json({
+      ok: true,
+      ...kundli
+    });
+  } catch (err) {
+    console.error('Kundli generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate kundli' 
+    });
+  }
+});
+
+/**
+ * GET /kundli/monthly/:windowId
+ * 
+ * Convenience endpoint for monthly kundli.
+ * Validates that window scope is 'monthly' before generating kundli.
+ */
+app.get('/kundli/monthly/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    // Validate window scope
+    const windowRes = await query(
+      'SELECT scope FROM prediction_windows WHERE id = $1',
+      [windowId]
+    );
+    
+    if (windowRes.rowCount === 0) {
+      return res.status(404).json({ 
+        ok: false, 
+        error: `Window not found: ${windowId}` 
+      });
+    }
+    
+    const windowScope = windowRes.rows[0].scope;
+    if (windowScope !== 'monthly') {
+      return res.status(400).json({ 
+        ok: false, 
+        error: `Window scope must be 'monthly'. Found: ${windowScope}` 
+      });
+    }
+    
+    const kundli = await generateKundli(windowId);
+    
+    return res.json({
+      ok: true,
+      ...kundli
+    });
+  } catch (err) {
+    console.error('Monthly kundli generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate monthly kundli' 
+    });
+  }
+});
+
+/**
+ * GET /kundli/yearly/:windowId
+ * 
+ * Convenience endpoint for yearly kundli.
+ * Validates that window scope is 'yearly' before generating kundli.
+ */
+app.get('/kundli/yearly/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    // Validate window scope
+    const windowRes = await query(
+      'SELECT scope FROM prediction_windows WHERE id = $1',
+      [windowId]
+    );
+    
+    if (windowRes.rowCount === 0) {
+      return res.status(404).json({ 
+        ok: false, 
+        error: `Window not found: ${windowId}` 
+      });
+    }
+    
+    const windowScope = windowRes.rows[0].scope;
+    if (windowScope !== 'yearly') {
+      return res.status(400).json({ 
+        ok: false, 
+        error: `Window scope must be 'yearly'. Found: ${windowScope}` 
+      });
+    }
+    
+    const kundli = await generateKundli(windowId);
+    
+    return res.json({
+      ok: true,
+      ...kundli
+    });
+  } catch (err) {
+    console.error('Yearly kundli generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate yearly kundli' 
+    });
+  }
+});
+
+/**
+ * GET /varshfal/:windowId
+ * 
+ * Returns Varshfal-style (Annual Predictions) data for yearly windows.
+ * Similar to sample PDF structure: Muntha + Year Timeline with Dasha Periods.
+ * 
+ * Response format:
+ * {
+ *   ok: true,
+ *   meta: { window_id, generated_at, year },
+ *   details: { lagna, moon, ... },
+ *   muntha: { house, narrative } | null,
+ *   timeline_periods: [
+ *     { from, to, dasha_planet, bhav, narrative }
+ *   ]
+ * }
+ */
+app.get('/varshfal/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateVarshfal } = await import('./services/varshfalGeneration.js');
+    const varshfal = await generateVarshfal(windowId);
+    
+    return res.json({
+      ok: true,
+      ...varshfal
+    });
+  } catch (err) {
+    console.error('Varshfal generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate varshfal' 
+    });
+  }
+});
+
+/**
+ * GET /mahadasha-phal/:windowId
+ * 
+ * Returns Vimshottari Mahadasha Phal (Dasha Predictions) data.
+ * Similar to sample PDF structure: All Mahadasha periods with planet positions and narratives.
+ * 
+ * Response format:
+ * {
+ *   ok: true,
+ *   meta: { window_id, generated_at, birth_date },
+ *   mahadasha_periods: [
+ *     {
+ *       planet: string,
+ *       from: string (ISO date),
+ *       to: string (ISO date),
+ *       planet_position: { sign, signName, house } | null,
+ *       narrative: string,
+ *       is_current: boolean
+ *     }
+ *   ]
+ * }
+ */
+app.get('/mahadasha-phal/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateMahadashaPhal } = await import('./services/mahadashaPhalGeneration.js');
+    const mahadashaPhal = await generateMahadashaPhal(windowId);
+    
+    return res.json({
+      ok: true,
+      ...mahadashaPhal
+    });
+  } catch (err) {
+    console.error('Mahadasha Phal generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate mahadasha phal' 
+    });
+  }
+});
+
+/**
+ * GET /transit-today/:windowId?date=2025-12-22
+ * 
+ * Returns Transit Today data for a specific date.
+ * Similar to sample PDF structure: Each planet's transit position with narrative.
+ * 
+ * Query Parameters:
+ * - date (optional): Target date in ISO format (YYYY-MM-DD). Defaults to today.
+ * 
+ * Response format:
+ * {
+ *   ok: true,
+ *   meta: { window_id, generated_at, date },
+ *   transits: [
+ *     {
+ *       planet: string,
+ *       sign: number,
+ *       signName: string,
+ *       house: number,
+ *       longitude: number,
+ *       narrative: string
+ *     }
+ *   ]
+ * }
+ */
+app.get('/transit-today/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  const { date } = req.query; // Optional date parameter
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateTransitToday } = await import('./services/transitTodayGeneration.js');
+    const transitToday = await generateTransitToday(windowId, date);
+    
+    return res.json({
+      ok: true,
+      ...transitToday
+    });
+  } catch (err) {
+    console.error('Transit Today generation failed:', err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate transit today' 
+    });
+  }
+});
+
+/**
+ * GET /lalkitab-prediction/:windowId
+ * 
+ * Returns Lal Kitab Prediction data based on planet positions.
+ * Similar to sample PDF structure: Planet in house predictions with remedies.
+ * 
+ * Response format:
+ * {
+ *   ok: true,
+ *   meta: { window_id, generated_at },
+ *   predictions: [
+ *     {
+ *       planet: string,
+ *       house: number,
+ *       narrative: string,
+ *       remedies: [
+ *         {
+ *           number: number,
+ *           description: string
+ *         }
+ *       ] | null
+ *     }
+ *   ]
+ * }
+ */
+app.get('/lalkitab-prediction/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  console.log(`[GET /lalkitab-prediction/${windowId}] Request received`);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateLalkitabPrediction } = await import('./services/lalkitabPredictionGeneration.js');
+    console.log(`[GET /lalkitab-prediction/${windowId}] Service imported, calling generateLalkitabPrediction`);
+    const lalkitabPrediction = await generateLalkitabPrediction(windowId);
+    console.log(`[GET /lalkitab-prediction/${windowId}] Generated ${lalkitabPrediction.predictions?.length || 0} predictions`);
+    
+    return res.json({
+      ok: true,
+      ...lalkitabPrediction
+    });
+  } catch (err) {
+    console.error(`[GET /lalkitab-prediction/${windowId}] Error:`, err);
+    return res.status(500).json({ 
+      ok: false, 
+      error: err.message || 'Failed to generate lalkitab prediction' 
+    });
+  }
+});
+
 // ---- User management --------------------------------------------------------
 
 /**
@@ -144,7 +518,7 @@ app.post('/users/ensure', async (req, res) => {
  * }
  */
 app.post('/windows', async (req, res) => {
-  const { user_id, chart_id, scope, start_at, end_at, timezone = 'Asia/Kolkata', chart_data } = req.body;
+  const { user_id, chart_id, scope, start_at, end_at, timezone = 'Asia/Kolkata', chart_data, date } = req.body;
 
   if (!user_id || !chart_id || !scope) {
     return res.status(400).json({
@@ -174,18 +548,49 @@ app.post('/windows', async (req, res) => {
   }
 
   try {
+    // For time-based scopes (daily, monthly, yearly), auto-generate dates if not provided
+    let finalStartAt = start_at;
+    let finalEndAt = end_at;
+    
+    if (['daily', 'monthly', 'yearly'].includes(scope)) {
+      if (!start_at || !end_at) {
+        // Use provided date or current date
+        const targetDate = date ? new Date(date) : new Date();
+        const windowDates = getWindowDatesForScope(scope, targetDate, timezone);
+        finalStartAt = windowDates.start_at;
+        finalEndAt = windowDates.end_at;
+      }
+    }
+    
     // Check if window already exists for this user/chart/scope/time
-    if (start_at && end_at) {
-      const existingRes = await query(
-        `SELECT id FROM prediction_windows
-         WHERE user_id = $1
-           AND chart_id = $2
-           AND scope = $3
-           AND start_at = $4
-           AND end_at = $5
-         LIMIT 1`,
-        [user_id, chart_id, scope, start_at, end_at]
-      );
+    // For yearly windows, we need exact start_at match (not just date range overlap)
+    if (finalStartAt && finalEndAt) {
+      let existingRes;
+      
+      if (scope === 'yearly') {
+        // For yearly windows, check exact start_at match (to avoid returning old windows)
+        existingRes = await query(
+          `SELECT id FROM prediction_windows
+           WHERE user_id = $1
+             AND chart_id = $2
+             AND scope = $3
+             AND start_at = $4
+           LIMIT 1`,
+          [user_id, chart_id, scope, finalStartAt]
+        );
+      } else {
+        // For other scopes, check both start_at and end_at
+        existingRes = await query(
+          `SELECT id FROM prediction_windows
+           WHERE user_id = $1
+             AND chart_id = $2
+             AND scope = $3
+             AND start_at = $4
+             AND end_at = $5
+           LIMIT 1`,
+          [user_id, chart_id, scope, finalStartAt, finalEndAt]
+        );
+      }
 
       if (existingRes.rowCount > 0) {
         const existingWindow = existingRes.rows[0];
@@ -221,7 +626,7 @@ app.post('/windows', async (req, res) => {
        )
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [user_id, chart_id, scope, start_at || null, end_at || null, timezone]
+      [user_id, chart_id, scope, finalStartAt || null, finalEndAt || null, timezone]
     );
 
     const newWindow = insertRes.rows[0];
@@ -278,6 +683,43 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
   const moon_sign = chartData.moon?.sign || chartData.moonSign || null;
   const moon_nakshatra = chartData.moon?.nakshatra || chartData.moonNakshatra || null;
 
+  // Extract varshaphal data (for yearly windows)
+  const varshaphal_data = chartData.varshaphal || null;
+  
+  // Extract dasha data (for Mahadasha Phal)
+  const dasha_data = chartData.dasha || null;
+  
+  // Debug logging for dasha data
+  if (dasha_data) {
+    console.log(`[createAstroSnapshot] Window ${windowId}: Found dasha data`);
+    console.log(`[createAstroSnapshot] dasha keys: ${Object.keys(dasha_data).join(', ')}`);
+    if (dasha_data.mahadashaPeriods) {
+      console.log(`[createAstroSnapshot] mahadashaPeriods count: ${dasha_data.mahadashaPeriods.length}`);
+    }
+    if (dasha_data.mahadasha) {
+      console.log(`[createAstroSnapshot] mahadasha: ${dasha_data.mahadasha.planet}`);
+    }
+  } else {
+    console.log(`[createAstroSnapshot] Window ${windowId}: No dasha data in chartData`);
+    console.log(`[createAstroSnapshot] chartData keys: ${Object.keys(chartData).join(', ')}`);
+  }
+  
+  // Build metadata object
+  const metadata = {};
+  if (varshaphal_data) {
+    metadata.varshaphal = varshaphal_data;
+  }
+  if (dasha_data) {
+    metadata.dasha = dasha_data;
+    console.log(`[createAstroSnapshot] Window ${windowId}: Storing dasha in metadata`);
+  }
+  // Also store birth date if available
+  if (chartData.birthDate || chartData.birth_date) {
+    metadata.birthDate = chartData.birthDate || chartData.birth_date;
+  }
+  
+  const hasMetadata = Object.keys(metadata).length > 0;
+
   // Check if snapshot already exists
   const existing = await query(
     'SELECT id FROM astro_state_snapshots WHERE window_id = $1',
@@ -286,6 +728,55 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
   
   if (existing.rowCount > 0) {
     // Update existing snapshot
+    // IMPORTANT: Merge with existing metadata instead of overwriting
+    const existingSnapshot = await query(
+      'SELECT houses_state FROM astro_state_snapshots WHERE window_id = $1',
+      [windowId]
+    );
+    
+    let existingMetadata = {};
+    if (existingSnapshot.rowCount > 0) {
+      let existingHouses = existingSnapshot.rows[0].houses_state;
+      
+      // Parse if string
+      if (typeof existingHouses === 'string') {
+        try {
+          existingHouses = JSON.parse(existingHouses);
+        } catch (e) {
+          // ignore
+        }
+      }
+      
+      // Extract existing metadata
+      if (existingHouses && typeof existingHouses === 'object' && existingHouses._metadata) {
+        existingMetadata = existingHouses._metadata;
+      }
+    }
+    
+    // Merge metadata (new data takes precedence, but preserve existing)
+    const mergedMetadata = {
+      ...existingMetadata,
+      ...metadata
+    };
+    
+    // Store merged metadata (including varshaphal and dasha) in houses_state
+    let houses_with_metadata = houses_state;
+    if (Object.keys(mergedMetadata).length > 0) {
+      if (Array.isArray(houses_state)) {
+        houses_with_metadata = {
+          houses: houses_state,
+          _metadata: mergedMetadata
+        };
+      } else if (houses_state && typeof houses_state === 'object') {
+        houses_with_metadata = {
+          ...houses_state,
+          _metadata: mergedMetadata
+        };
+      } else {
+        houses_with_metadata = { _metadata: mergedMetadata };
+      }
+    }
+    
     await query(
       `UPDATE astro_state_snapshots
        SET planets_state = $1::jsonb,
@@ -300,7 +791,7 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
        WHERE window_id = $9`,
       [
         JSON.stringify(planets_state),
-        JSON.stringify(houses_state),
+        JSON.stringify(houses_with_metadata),
         JSON.stringify(yogas_state),
         JSON.stringify(doshas_state),
         JSON.stringify(transits_state),
@@ -312,6 +803,27 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
     );
   } else {
     // Create new snapshot
+    // Store metadata (including varshaphal and dasha) in houses_state as extra field
+    let houses_with_metadata = houses_state;
+    if (hasMetadata) {
+      if (Array.isArray(houses_state)) {
+        // If houses_state is an array, convert to object with array and metadata
+        houses_with_metadata = {
+          houses: houses_state,
+          _metadata: metadata
+        };
+      } else if (houses_state && typeof houses_state === 'object') {
+        // If already an object, add metadata
+        houses_with_metadata = {
+          ...houses_state,
+          _metadata: metadata
+        };
+      } else {
+        // If null or invalid, create object with just metadata
+        houses_with_metadata = { _metadata: metadata };
+      }
+    }
+    
     await query(
       `INSERT INTO astro_state_snapshots (
          user_id, chart_id, window_id,
@@ -328,7 +840,7 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
         moon_sign,
         moon_nakshatra,
         JSON.stringify(planets_state),
-        JSON.stringify(houses_state),
+        JSON.stringify(houses_with_metadata),
         JSON.stringify(yogas_state),
         JSON.stringify(doshas_state),
         JSON.stringify(transits_state),
@@ -367,10 +879,19 @@ app.get('/users/:firebaseUid/windows', async (req, res) => {
     }
 
     if (date) {
-      // Find windows that contain this date
-      sql += ` AND start_at <= $${params.length + 1}::date
-               AND end_at >= $${params.length + 1}::date`;
-      params.push(date);
+      if (scope === 'yearly') {
+        // For yearly windows, find windows that start on or very close to the requested date
+        // This ensures we get the correct yearly window for the requested date
+        const requestedDate = new Date(date);
+        const requestedDateStr = requestedDate.toISOString().split('T')[0];
+        sql += ` AND DATE(start_at) = $${params.length + 1}::date`;
+        params.push(requestedDateStr);
+      } else {
+        // For other scopes, find windows that contain this date
+        sql += ` AND start_at <= $${params.length + 1}::date
+                 AND end_at >= $${params.length + 1}::date`;
+        params.push(date);
+      }
     }
 
     sql += ' ORDER BY start_at DESC, created_at DESC';
@@ -405,6 +926,19 @@ app.post('/windows/:windowId/astro-snapshot', async (req, res) => {
     });
   }
 
+  // Debug logging
+  console.log(`[POST /windows/${windowId}/astro-snapshot] Received request`);
+  console.log(`[POST /windows/${windowId}/astro-snapshot] chart_data keys: ${Object.keys(chart_data || {}).join(', ')}`);
+  if (chart_data.dasha) {
+    console.log(`[POST /windows/${windowId}/astro-snapshot] ✅ dasha data present`);
+    console.log(`[POST /windows/${windowId}/astro-snapshot] dasha keys: ${Object.keys(chart_data.dasha).join(', ')}`);
+    if (chart_data.dasha.mahadashaPeriods) {
+      console.log(`[POST /windows/${windowId}/astro-snapshot] mahadashaPeriods: ${chart_data.dasha.mahadashaPeriods.length} periods`);
+    }
+  } else {
+    console.log(`[POST /windows/${windowId}/astro-snapshot] ❌ No dasha data in chart_data`);
+  }
+
   try {
     // Check window exists
     const winRes = await query(
@@ -429,11 +963,14 @@ app.post('/windows/:windowId/astro-snapshot', async (req, res) => {
       chart_data
     );
 
+    console.log(`[POST /windows/${windowId}/astro-snapshot] ✅ Snapshot updated successfully`);
+
     return res.json({
       ok: true,
       message: 'Astro snapshot created/updated successfully',
     });
   } catch (err) {
+    console.error(`[POST /windows/${windowId}/astro-snapshot] ❌ Error:`, err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 });
@@ -903,6 +1440,23 @@ app.get('/predictions/:windowId', async (req, res) => {
       healthTimingWindows = { ok: false, error: String(e?.message || e), context: 'health' };
     }
 
+    // ---- Varshfal data (for yearly windows only) ----
+    let varshfal = null;
+    if (windowCtx && windowCtx.scope === 'yearly') {
+      try {
+        const { generateVarshfal } = await import('./services/varshfalGeneration.js');
+        varshfal = await generateVarshfal(windowId);
+        // Remove 'ok' field from varshfal as it's already in parent response
+        if (varshfal && varshfal.ok) {
+          delete varshfal.ok;
+        }
+      } catch (varshfalErr) {
+        // Non-blocking: do not fail the prediction response if varshfal cannot be generated
+        console.warn('Varshfal generation failed for yearly window:', varshfalErr.message);
+        varshfal = { error: String(varshfalErr?.message || varshfalErr) };
+      }
+    }
+
     return res.json({
       ok: true,
       prediction,
@@ -913,6 +1467,7 @@ app.get('/predictions/:windowId', async (req, res) => {
       businessTimingWindows,
       financeTimingWindows,
       healthTimingWindows,
+      varshfal, // Added for yearly windows
     });
   } catch (err) {
     return res.status(500).json({ ok: false, error: err.message });

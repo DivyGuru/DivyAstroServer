@@ -1,0 +1,1606 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "units": [
+    {
+      "unit_id": "lalkitab_u0008",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_3_chunk_2"
+        ],
+        "page_numbers": [
+          3
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "The text links strong malefic affliction of Cancer-related indicators (including the fourth-house domain and the Moon) with increased risk of significant lung or chest health sensitivity; partial benefic support is described as moderating this signal.",
+      "curation_status": "curated",
+      "flags": [
+        "not_engine_expressible",
+        "needs_operator:aspect_or_affliction"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0012",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_4_chunk_2"
+        ],
+        "page_numbers": [
+          4
+        ]
+      },
+      "knowledge_type": "definition",
+      "canonical_meaning": "This section explains that each planet has specific zodiac signs where it tends to express more strength (exaltation) and where it tends to express less strength (debilitation).",
+      "curation_status": "curated",
+      "flags": [
+        "reference_only"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0013",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_4_chunk_3"
+        ],
+        "page_numbers": [
+          4
+        ]
+      },
+      "knowledge_type": "definition",
+      "canonical_meaning": "This section introduces a basic classification of planets into benefic and malefic categories for interpretive use.",
+      "curation_status": "curated",
+      "flags": [
+        "reference_only"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0035",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_12_chunk_2"
+        ],
+        "page_numbers": [
+          12
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the first house is presented as a generally supportive indicator for personal vitality, learning orientation, and social respect; the text also notes that afflictions can reduce this support.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0037",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_13_chunk_1"
+        ],
+        "page_numbers": [
+          13
+        ]
+      },
+      "knowledge_type": "remedy",
+      "canonical_meaning": "When Jupiter-related indicators are described as weak, the text suggests strengthening practices such as charitable giving and devotional practice; gemstone recommendations appear but are treated as out-of-scope for the current remedies schema.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_supported_only",
+        "excludes_gemstone_recommendations"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0038",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_13_chunk_2"
+        ],
+        "page_numbers": [
+          13
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the second house is described as supporting resource stability, constructive speech, and family support, while noting that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0045",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_15_chunk_2"
+        ],
+        "page_numbers": [
+          15
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the third house is presented as supporting helpful sibling dynamics and practical initiative, with outcomes varying by overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0046",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_15_chunk_3"
+        ],
+        "page_numbers": [
+          15
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the fourth house is described as supporting home stability, education, and general comfort, while noting that afflictions can reduce this support.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0047",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_16_chunk_1"
+        ],
+        "page_numbers": [
+          16
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the fifth house is described as supporting learning, creativity, and positive connections with children, while noting that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0050",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_17_chunk_1"
+        ],
+        "page_numbers": [
+          17
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the sixth house is linked with greater involvement in competition, obligations, or disputes; the text also suggests that strengthening Jupiter is treated as a mitigating approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0051",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_17_chunk_2"
+        ],
+        "page_numbers": [
+          17
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the seventh house is described as shaping partnership dynamics and relationship quality, with outcomes depending on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0054",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_18_chunk_2"
+        ],
+        "page_numbers": [
+          18
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the eighth house is described as increasing volatility around stability and well-being; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0057",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_19_chunk_2"
+        ],
+        "page_numbers": [
+          19
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the ninth house is presented as a supportive indicator for guidance, learning, and values-driven momentum; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0059",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_20_chunk_1"
+        ],
+        "page_numbers": [
+          20
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the tenth house is described as supporting professional stability, reputation, and constructive authority, with outcomes depending on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0062",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_20_chunk_4"
+        ],
+        "page_numbers": [
+          20
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the eleventh house is presented as supporting gains through networks, commerce, and community support, with outcomes dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0064",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_21_chunk_2"
+        ],
+        "page_numbers": [
+          21
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Jupiter in the twelfth house is described as shifting focus toward expenses, withdrawal, and charitable or reflective tendencies; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0096",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_34_chunk_3"
+        ],
+        "page_numbers": [
+          34
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the first house is described as influencing personal communication, learning, and intellectual expression; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0100",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_36_chunk_1"
+        ],
+        "page_numbers": [
+          36
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the second house is presented as affecting resource management, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0104",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_37_chunk_2"
+        ],
+        "page_numbers": [
+          37
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0106",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_38_chunk_1"
+        ],
+        "page_numbers": [
+          38
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0109",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_39_chunk_1"
+        ],
+        "page_numbers": [
+          39
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0111",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_39_chunk_3"
+        ],
+        "page_numbers": [
+          39
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the sixth house is linked with greater involvement in service, obligations, and health management; the text suggests that strengthening Mercury is treated as a supportive approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0114",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_40_chunk_3"
+        ],
+        "page_numbers": [
+          40
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0117",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_41_chunk_3"
+        ],
+        "page_numbers": [
+          41
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the eighth house is described as increasing complexity around stability, transformation, and shared resources; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0118",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_42_chunk_1"
+        ],
+        "page_numbers": [
+          42
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0121",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_43_chunk_1"
+        ],
+        "page_numbers": [
+          43
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0124",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_44_chunk_1"
+        ],
+        "page_numbers": [
+          44
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0127",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_45_chunk_1"
+        ],
+        "page_numbers": [
+          45
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mercury in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0172",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_60_chunk_3"
+        ],
+        "page_numbers": [
+          60
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the first house is described as influencing personal vitality, resource management, and life direction; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0177",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_62_chunk_1"
+        ],
+        "page_numbers": [
+          62
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the second house is presented as affecting resource stability, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0180",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_63_chunk_1"
+        ],
+        "page_numbers": [
+          63
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0182",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_63_chunk_3"
+        ],
+        "page_numbers": [
+          63
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0184",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_64_chunk_2"
+        ],
+        "page_numbers": [
+          64
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0189",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_66_chunk_1"
+        ],
+        "page_numbers": [
+          66
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the sixth house creates sustained pressure in health management, where throat, respiratory, and digestive health require greater attention and care. Back pain may be a recurring concern, and childhood injuries may require careful management. The placement also indicates capability for significant work and handling of responsibilities.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0193",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_67_chunk_1"
+        ],
+        "page_numbers": [
+          67
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0198",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_68_chunk_3"
+        ],
+        "page_numbers": [
+          68
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the eighth house creates significant health risk requiring ongoing management, where respiratory, skin, heart, digestive, and blood-related health issues may require sustained attention. Relationship dynamics with siblings and relatives can create unnecessary tension, requiring greater effort to maintain harmony. If unmanaged, health challenges may lead to ongoing difficulties.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0201",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_69_chunk_3"
+        ],
+        "page_numbers": [
+          69
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0205",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_71_chunk_1"
+        ],
+        "page_numbers": [
+          71
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0208",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_72_chunk_1"
+        ],
+        "page_numbers": [
+          72
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0212",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_73_chunk_2"
+        ],
+        "page_numbers": [
+          73
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Saturn in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0590",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_211_chunk_1"
+        ],
+        "page_numbers": [
+          211
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the first house is described as influencing personal vitality, authority, and self-expression; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0592",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_211_chunk_3"
+        ],
+        "page_numbers": [
+          211
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the second house is presented as affecting resource management, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0593",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_212_chunk_1"
+        ],
+        "page_numbers": [
+          212
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0595",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_212_chunk_3"
+        ],
+        "page_numbers": [
+          212
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0596",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_213_chunk_1"
+        ],
+        "page_numbers": [
+          213
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0598",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_213_chunk_3"
+        ],
+        "page_numbers": [
+          213
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the sixth house is linked with greater involvement in service, obligations, and health management; the text suggests that strengthening Sun is treated as a supportive approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0599",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_214_chunk_1"
+        ],
+        "page_numbers": [
+          214
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0601",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_214_chunk_3"
+        ],
+        "page_numbers": [
+          214
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the eighth house is described as increasing complexity around stability, transformation, and shared resources; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0602",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_215_chunk_1"
+        ],
+        "page_numbers": [
+          215
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0603",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_215_chunk_2"
+        ],
+        "page_numbers": [
+          215
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0605",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_216_chunk_1"
+        ],
+        "page_numbers": [
+          216
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0607",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_216_chunk_3"
+        ],
+        "page_numbers": [
+          216
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Sun in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0665",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_239_chunk_1"
+        ],
+        "page_numbers": [
+          239
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the first house is described as influencing personal expression, emotional nature, and receptivity; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0666",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_239_chunk_2"
+        ],
+        "page_numbers": [
+          239
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the second house is presented as affecting resource management, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0668",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_240_chunk_1"
+        ],
+        "page_numbers": [
+          240
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0670",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_240_chunk_3"
+        ],
+        "page_numbers": [
+          240
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0672",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_241_chunk_2"
+        ],
+        "page_numbers": [
+          241
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0675",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_242_chunk_2"
+        ],
+        "page_numbers": [
+          242
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the sixth house is linked with greater involvement in service, obligations, and health management; the text suggests that strengthening Moon is treated as a supportive approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0677",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_243_chunk_1"
+        ],
+        "page_numbers": [
+          243
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0680",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_244_chunk_1"
+        ],
+        "page_numbers": [
+          244
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the eighth house is described as increasing complexity around stability, transformation, and shared resources; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0682",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_244_chunk_3"
+        ],
+        "page_numbers": [
+          244
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0684",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_245_chunk_2"
+        ],
+        "page_numbers": [
+          245
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0686",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_246_chunk_1"
+        ],
+        "page_numbers": [
+          246
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0688",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_246_chunk_3"
+        ],
+        "page_numbers": [
+          246
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Moon in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0721",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_259_chunk_2"
+        ],
+        "page_numbers": [
+          259
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the first house is described as influencing personal expression, relationships, and aesthetic sensibilities; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0723",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_260_chunk_1"
+        ],
+        "page_numbers": [
+          260
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the second house is presented as affecting resource management, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0726",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_261_chunk_1"
+        ],
+        "page_numbers": [
+          261
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0727",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_261_chunk_2"
+        ],
+        "page_numbers": [
+          261
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0729",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_262_chunk_1"
+        ],
+        "page_numbers": [
+          262
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0731",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_262_chunk_3"
+        ],
+        "page_numbers": [
+          262
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the sixth house is linked with greater involvement in service, obligations, and health management; the text suggests that strengthening Venus is treated as a supportive approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0732",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_263_chunk_1"
+        ],
+        "page_numbers": [
+          263
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0734",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_263_chunk_3"
+        ],
+        "page_numbers": [
+          263
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the eighth house is described as increasing complexity around stability, transformation, and shared resources; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0735",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_264_chunk_1"
+        ],
+        "page_numbers": [
+          264
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0736",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_264_chunk_2"
+        ],
+        "page_numbers": [
+          264
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0738",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_265_chunk_1"
+        ],
+        "page_numbers": [
+          265
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0739",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_265_chunk_2"
+        ],
+        "page_numbers": [
+          265
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Venus in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0758",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_273_chunk_2"
+        ],
+        "page_numbers": [
+          273
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the first house is described as influencing personal vitality, initiative, and physical energy; the text notes that strength and supporting factors can modify the expression significantly.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0761",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_274_chunk_2"
+        ],
+        "page_numbers": [
+          274
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the second house is presented as affecting resource management, speech patterns, and family dynamics; the text notes that strength and context can change how this manifests.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0763",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_275_chunk_1"
+        ],
+        "page_numbers": [
+          275
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the third house is described as influencing initiative, sibling relationships, and communication skills; outcomes vary based on overall condition and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0765",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_275_chunk_3"
+        ],
+        "page_numbers": [
+          275
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the fourth house is described as affecting home stability, family relationships, and emotional foundation; the text notes that strength and afflictions can modify the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0767",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_276_chunk_2"
+        ],
+        "page_numbers": [
+          276
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the fifth house is presented as influencing learning, creativity, and connections with children; the text notes that adverse factors can weaken this expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0769",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_277_chunk_1"
+        ],
+        "page_numbers": [
+          277
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the sixth house is linked with greater involvement in service, obligations, and health management; the text suggests that strengthening Mars is treated as a supportive approach.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0771",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_277_chunk_3"
+        ],
+        "page_numbers": [
+          277
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the seventh house is described as shaping partnership dynamics and relationship structure; outcomes depend on strength and supporting factors.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0772",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_278_chunk_1"
+        ],
+        "page_numbers": [
+          278
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the eighth house is described as increasing complexity around stability, transformation, and shared resources; the text emphasizes that strength or affliction changes the expression.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_affliction_specifics"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0775",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_279_chunk_1"
+        ],
+        "page_numbers": [
+          279
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the ninth house is presented as influencing guidance, learning, and values-driven structure; the text also notes that weaker conditions reduce the effect.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0776",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_279_chunk_2"
+        ],
+        "page_numbers": [
+          279
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the tenth house is described as supporting professional structure, reputation, and career development; outcomes depend on broader chart context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0778",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_280_chunk_1"
+        ],
+        "page_numbers": [
+          280
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the eleventh house is presented as supporting gains through structured networks, commerce, and community involvement; outcomes are dependent on broader context.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible"
+      ]
+    },
+    {
+      "unit_id": "lalkitab_u0781",
+      "source": {
+        "book_id": "lalkitab",
+        "chunk_ids": [
+          "page_281_chunk_1"
+        ],
+        "page_numbers": [
+          281
+        ]
+      },
+      "knowledge_type": "rule",
+      "canonical_meaning": "Mars in the twelfth house is described as shifting focus toward expenses, withdrawal, and structured reflection; strength and affliction are noted as modifiers.",
+      "curation_status": "curated",
+      "flags": [
+        "engine_expressible",
+        "excludes_moral_judgments"
+      ]
+    }
+  ]
+}

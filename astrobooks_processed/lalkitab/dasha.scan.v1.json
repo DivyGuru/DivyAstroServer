@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "scan_timestamp": "2025-12-21T17:10:22.820Z",
+  "summary": {
+    "explicit_candidates": 0,
+    "flagged_for_review": 9
+  },
+  "explicit_candidates": [],
+  "flagged_for_review": [
+    {
+      "chunk_id": "page_34_chunk_1",
+      "page": 34,
+      "unit_id": "lalkitab_u0094",
+      "planet": "MERCURY",
+      "house": null,
+      "dasha_planet": "MERCURY",
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_59_chunk_2",
+      "page": 59,
+      "unit_id": "lalkitab_u0168",
+      "planet": "SUN",
+      "house": null,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_59_chunk_3",
+      "page": 59,
+      "unit_id": "lalkitab_u0169",
+      "planet": "SATURN",
+      "house": null,
+      "dasha_planet": "SATURN",
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_77_chunk_1",
+      "page": 77,
+      "unit_id": "lalkitab_u0223",
+      "planet": "MARS",
+      "house": 2,
+      "dasha_planet": "RAHU",
+      "dasha_level": "mahadasha",
+      "base_rule_id": "lalkitab__lalkitab_u0761",
+      "reason": "pattern_not_explicit"
+    },
+    {
+      "chunk_id": "page_210_chunk_1",
+      "page": 210,
+      "unit_id": "lalkitab_u0587",
+      "planet": "SUN",
+      "house": 1,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_210_chunk_2",
+      "page": 210,
+      "unit_id": "lalkitab_u0588",
+      "planet": "SUN",
+      "house": 1,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_238_chunk_2",
+      "page": 238,
+      "unit_id": "lalkitab_u0663",
+      "planet": "MOON",
+      "house": 4,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_273_chunk_1",
+      "page": 273,
+      "unit_id": "lalkitab_u0757",
+      "planet": "SUN",
+      "house": 8,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    },
+    {
+      "chunk_id": "page_273_chunk_2",
+      "page": 273,
+      "unit_id": "lalkitab_u0758",
+      "planet": "MARS",
+      "house": 1,
+      "dasha_planet": null,
+      "dasha_level": "mahadasha",
+      "base_rule_id": null,
+      "reason": "generic_dasha_no_planet_house_link"
+    }
+  ]
+}

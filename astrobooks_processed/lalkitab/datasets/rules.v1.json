@@ -1,0 +1,3618 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "rules": [
+    {
+      "id": "lalkitab__lalkitab_u0035",
+      "source_unit_id": "lalkitab_u0035",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0035",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_1",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "Jupiter in the first house can be associated with a stronger learning orientation, constructive guidance from mentors, and generally supportive personal direction.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0035"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0038",
+      "source_unit_id": "lalkitab_u0038",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0038",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "jupiter_house_2",
+        "trend": "up",
+        "intensity": 0.55,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "resources_and_voice",
+        "outcome_text": "Jupiter in the second house can correlate with steadier resource-building and a more constructive communication style, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0038"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0045",
+      "source_unit_id": "lalkitab_u0045",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0045",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "jupiter_house_3",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "effort_and_support",
+        "outcome_text": "Jupiter in the third house can be associated with steadier initiative, learning-by-doing, and supportive sibling or peer connections, depending on context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0045"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0046",
+      "source_unit_id": "lalkitab_u0046",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0046",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "jupiter_house_4",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "home_support",
+        "outcome_text": "Jupiter in the fourth house can correlate with steadier home support and learning opportunities, though the strength of the signal depends on broader chart factors.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0046"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0047",
+      "source_unit_id": "lalkitab_u0047",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0047",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "jupiter_house_5",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Jupiter in the fifth house can be associated with stronger learning orientation and constructive creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0047"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0050",
+      "source_unit_id": "lalkitab_u0050",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0050",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "jupiter_house_6",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "service_and_challenges",
+        "outcome_text": "Jupiter in the sixth house can correlate with a stronger focus on service, responsibilities, or competitive situations, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed cautiously and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0050"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0051",
+      "source_unit_id": "lalkitab_u0051",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0051",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "jupiter_house_7",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_pattern",
+        "outcome_text": "Jupiter in the seventh house can be associated with stronger partnership focus and relationship-driven opportunities, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0051"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0054",
+      "source_unit_id": "lalkitab_u0054",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0054",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "deep_change",
+        "outcome_text": "Jupiter in the eighth house can correlate with more complex life transitions and greater variability in outcomes, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "cautionary",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0054"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0057",
+      "source_unit_id": "lalkitab_u0057",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0057",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "jupiter_house_9",
+        "trend": "up",
+        "intensity": 0.65,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "guidance_and_fortune",
+        "outcome_text": "Jupiter in the ninth house can be associated with stronger access to guidance, learning opportunities, and values-driven progress, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background supportive indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0057"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0059",
+      "source_unit_id": "lalkitab_u0059",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0059",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "jupiter_house_10",
+        "trend": "up",
+        "intensity": 0.6,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "career_growth",
+        "outcome_text": "Jupiter in the tenth house can correlate with steadier professional growth and a more constructive public role, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "stabilizing",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0059"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0062",
+      "source_unit_id": "lalkitab_u0062",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0062",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "jupiter_house_11",
+        "trend": "up",
+        "intensity": 0.65,
+        "tone": "positive",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Jupiter in the eleventh house can be associated with stronger gains via networks and longer-term goal support, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "opportunity",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background supportive indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0062"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0064",
+      "source_unit_id": "lalkitab_u0064",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0064",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "jupiter_house_12",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "cautious",
+        "trigger": "natal",
+        "scenario": "expenses_and_retreat",
+        "outcome_text": "Jupiter in the twelfth house can correlate with higher expenditure patterns and a stronger inward or reflective orientation, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0064"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0096",
+      "source_unit_id": "lalkitab_u0096",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0096",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_communication",
+        "outcome_text": "Mercury in the first house can correlate with stronger personal communication skills and learning orientation, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0096"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0100",
+      "source_unit_id": "lalkitab_u0100",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0100",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "mercury_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Mercury in the second house can be associated with a more analytical approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0100"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0104",
+      "source_unit_id": "lalkitab_u0104",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0104",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "mercury_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Mercury in the third house can correlate with stronger initiative and more versatile communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0104"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0106",
+      "source_unit_id": "lalkitab_u0106",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0106",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "mercury_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Mercury in the fourth house can be associated with a more analytical approach to home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0106"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0109",
+      "source_unit_id": "lalkitab_u0109",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0109",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "mercury_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Mercury in the fifth house can correlate with a more analytical approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0109"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0111",
+      "source_unit_id": "lalkitab_u0111",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0111",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "mercury_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Mercury in the sixth house can be associated with a stronger focus on service, responsibilities, and health management, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0111"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0114",
+      "source_unit_id": "lalkitab_u0114",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0114",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "mercury_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Mercury in the seventh house can be associated with a more analytical approach to partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0114"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0117",
+      "source_unit_id": "lalkitab_u0117",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0117",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "transformation_and_resources",
+        "outcome_text": "Mercury in the eighth house can correlate with more complex patterns around transformation and shared resources, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0117"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0118",
+      "source_unit_id": "lalkitab_u0118",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0118",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "mercury_house_9",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Mercury in the ninth house can be associated with a more analytical approach to guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0118"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0121",
+      "source_unit_id": "lalkitab_u0121",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0121",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "mercury_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Mercury in the tenth house can correlate with a more analytical approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0121"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0124",
+      "source_unit_id": "lalkitab_u0124",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0124",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "mercury_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Mercury in the eleventh house can be associated with a more analytical approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0124"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0127",
+      "source_unit_id": "lalkitab_u0127",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0127",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "mercury_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Mercury in the twelfth house can correlate with a more analytical approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0127"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0172",
+      "source_unit_id": "lalkitab_u0172",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0172",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_foundation",
+        "outcome_text": "Saturn in the first house can correlate with a more structured approach to personal development and resource management, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0172"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0177",
+      "source_unit_id": "lalkitab_u0177",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0177",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "saturn_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Saturn in the second house can be associated with a more measured approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0177"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0180",
+      "source_unit_id": "lalkitab_u0180",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0180",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "saturn_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Saturn in the third house can correlate with a more structured approach to initiative and communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0180"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0182",
+      "source_unit_id": "lalkitab_u0182",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0182",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "saturn_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Saturn in the fourth house can be associated with a more structured approach to home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0182"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0184",
+      "source_unit_id": "lalkitab_u0184",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0184",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "saturn_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Saturn in the fifth house can correlate with a more structured approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0184"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0189",
+      "source_unit_id": "lalkitab_u0189",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0189",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "saturn_house_6",
+        "trend": "mixed",
+        "intensity": 0.65,
+        "tone": "cautionary",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Saturn in the sixth house can create sustained pressure in health management, where throat, respiratory, and digestive health require greater attention and care. Back pain may be a recurring concern, and childhood injuries may require careful management. If unmanaged, these health areas may lead to ongoing challenges. The placement also indicates capability for significant work and handling of responsibilities.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0189"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0193",
+      "source_unit_id": "lalkitab_u0193",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0193",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "saturn_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Saturn in the seventh house can be associated with a more structured approach to partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0193"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0198",
+      "source_unit_id": "lalkitab_u0198",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0198",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "saturn_house_8",
+        "trend": "down",
+        "intensity": 0.7,
+        "tone": "cautionary",
+        "trigger": "natal",
+        "scenario": "health_risk_and_relationships",
+        "outcome_text": "Saturn in the eighth house can create significant health risk requiring ongoing management, where respiratory, skin, heart, digestive, and blood-related health issues may require sustained attention. Relationship dynamics with siblings and relatives can create unnecessary tension, requiring greater effort to maintain harmony. If unmanaged, health challenges may lead to ongoing difficulties.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0198"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0201",
+      "source_unit_id": "lalkitab_u0201",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0201",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "saturn_house_9",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Saturn in the ninth house can be associated with a more structured approach to guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0201"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0205",
+      "source_unit_id": "lalkitab_u0205",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0205",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "saturn_house_10",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Saturn in the tenth house can correlate with a more structured approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0205"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0208",
+      "source_unit_id": "lalkitab_u0208",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0208",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "saturn_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Saturn in the eleventh house can be associated with a more structured approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0208"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0212",
+      "source_unit_id": "lalkitab_u0212",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0212",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "saturn_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Saturn in the twelfth house can correlate with a more structured approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0212"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0590",
+      "source_unit_id": "lalkitab_u0590",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0590",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_vitality",
+        "outcome_text": "Sun in the first house can correlate with stronger personal vitality and authority expression, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0590"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0592",
+      "source_unit_id": "lalkitab_u0592",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0592",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "sun_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Sun in the second house can be associated with a more authoritative approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0592"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0593",
+      "source_unit_id": "lalkitab_u0593",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0593",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "sun_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Sun in the third house can correlate with stronger initiative and more confident communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0593"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0595",
+      "source_unit_id": "lalkitab_u0595",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0595",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "sun_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Sun in the fourth house can be associated with a more authoritative approach to home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0595"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0596",
+      "source_unit_id": "lalkitab_u0596",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0596",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "sun_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Sun in the fifth house can correlate with a more confident approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0596"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0598",
+      "source_unit_id": "lalkitab_u0598",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0598",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "sun_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Sun in the sixth house can be associated with a stronger focus on service, responsibilities, and health management, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0598"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0599",
+      "source_unit_id": "lalkitab_u0599",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0599",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "sun_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Sun in the seventh house can be associated with a more authoritative approach to partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0599"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0601",
+      "source_unit_id": "lalkitab_u0601",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0601",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "transformation_and_resources",
+        "outcome_text": "Sun in the eighth house can correlate with more complex patterns around transformation and shared resources, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0601"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0602",
+      "source_unit_id": "lalkitab_u0602",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0602",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "sun_house_9",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Sun in the ninth house can be associated with a more confident approach to guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0602"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0603",
+      "source_unit_id": "lalkitab_u0603",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0603",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "sun_house_10",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Sun in the tenth house can correlate with a more authoritative approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0603"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0605",
+      "source_unit_id": "lalkitab_u0605",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0605",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "sun_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Sun in the eleventh house can be associated with a more confident approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0605"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0607",
+      "source_unit_id": "lalkitab_u0607",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0607",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "sun_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Sun in the twelfth house can correlate with a more introspective approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0607"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0665",
+      "source_unit_id": "lalkitab_u0665",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0665",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_expression",
+        "outcome_text": "Moon in the first house can correlate with stronger emotional expression and receptivity, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0665"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0666",
+      "source_unit_id": "lalkitab_u0666",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0666",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "moon_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Moon in the second house can be associated with a more intuitive approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0666"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0668",
+      "source_unit_id": "lalkitab_u0668",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0668",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "moon_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Moon in the third house can correlate with a more intuitive approach to initiative and communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0668"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0670",
+      "source_unit_id": "lalkitab_u0670",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0670",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "moon_house_4",
+        "trend": "mixed",
+        "intensity": 0.6,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Moon in the fourth house can be associated with a stronger focus on home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0670"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0672",
+      "source_unit_id": "lalkitab_u0672",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0672",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "moon_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Moon in the fifth house can correlate with a more intuitive approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0672"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0675",
+      "source_unit_id": "lalkitab_u0675",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0675",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "moon_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Moon in the sixth house can be associated with a stronger focus on service, responsibilities, and health management, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0675"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0677",
+      "source_unit_id": "lalkitab_u0677",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0677",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "moon_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Moon in the seventh house can be associated with a more intuitive approach to partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0677"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0680",
+      "source_unit_id": "lalkitab_u0680",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0680",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "transformation_and_resources",
+        "outcome_text": "Moon in the eighth house can correlate with more complex patterns around transformation and shared resources, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0680"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0682",
+      "source_unit_id": "lalkitab_u0682",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0682",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "moon_house_9",
+        "trend": "mixed",
+        "intensity": 0.6,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Moon in the ninth house can be associated with a stronger focus on guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0682"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0684",
+      "source_unit_id": "lalkitab_u0684",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0684",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Moon in the tenth house can correlate with a more intuitive approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0684"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0686",
+      "source_unit_id": "lalkitab_u0686",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0686",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "moon_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Moon in the eleventh house can be associated with a more intuitive approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0686"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0688",
+      "source_unit_id": "lalkitab_u0688",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0688",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "moon_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Moon in the twelfth house can correlate with a more introspective approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0688"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0721",
+      "source_unit_id": "lalkitab_u0721",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0721",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_expression",
+        "outcome_text": "Venus in the first house can correlate with stronger personal expression and relationship focus, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0721"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0723",
+      "source_unit_id": "lalkitab_u0723",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0723",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "venus_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Venus in the second house can be associated with a more harmonious approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0723"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0726",
+      "source_unit_id": "lalkitab_u0726",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0726",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "venus_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Venus in the third house can correlate with a more harmonious approach to initiative and communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0726"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0727",
+      "source_unit_id": "lalkitab_u0727",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0727",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "venus_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Venus in the fourth house can be associated with a more harmonious approach to home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0727"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0729",
+      "source_unit_id": "lalkitab_u0729",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0729",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "venus_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Venus in the fifth house can correlate with a more harmonious approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0729"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0731",
+      "source_unit_id": "lalkitab_u0731",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0731",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "venus_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Venus in the sixth house can be associated with a stronger focus on service, responsibilities, and health management, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0731"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0732",
+      "source_unit_id": "lalkitab_u0732",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0732",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "venus_house_7",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Venus in the seventh house can be associated with a stronger focus on partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0732"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0734",
+      "source_unit_id": "lalkitab_u0734",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0734",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "transformation_and_resources",
+        "outcome_text": "Venus in the eighth house can correlate with more complex patterns around transformation and shared resources, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0734"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0735",
+      "source_unit_id": "lalkitab_u0735",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0735",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "venus_house_9",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Venus in the ninth house can be associated with a more harmonious approach to guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0735"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0736",
+      "source_unit_id": "lalkitab_u0736",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0736",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "venus_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Venus in the tenth house can correlate with a more harmonious approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0736"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0738",
+      "source_unit_id": "lalkitab_u0738",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0738",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "venus_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Venus in the eleventh house can be associated with a more harmonious approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0738"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0739",
+      "source_unit_id": "lalkitab_u0739",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0739",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "venus_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Venus in the twelfth house can correlate with a more harmonious approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0739"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0758",
+      "source_unit_id": "lalkitab_u0758",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0758",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "personal_energy",
+        "outcome_text": "Mars in the first house can correlate with stronger personal initiative and physical energy, with outcomes depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book statement; it is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0758"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0761",
+      "source_unit_id": "lalkitab_u0761",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0761",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "mars_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "resource_management",
+        "outcome_text": "Mars in the second house can be associated with a more dynamic approach to resource-building and communication, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized book association for a house placement and is treated as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0761"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0763",
+      "source_unit_id": "lalkitab_u0763",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0763",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "mars_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "effort_and_communication",
+        "outcome_text": "Mars in the third house can correlate with stronger initiative and more direct communication, with expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized association from the book; it should be reviewed and refined with supported context operators if needed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0763"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0765",
+      "source_unit_id": "lalkitab_u0765",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0765",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "mars_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "home_stability",
+        "outcome_text": "Mars in the fourth house can be associated with a more dynamic approach to home and family matters, with outcomes depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a curated normalization of a book claim; treated as a background signal until reviewed against your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0765"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0767",
+      "source_unit_id": "lalkitab_u0767",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0767",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "education",
+        "area": "mars_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "learning_and_creativity",
+        "outcome_text": "Mars in the fifth house can correlate with a more dynamic approach to learning and creative expression, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; this should be reviewed and refined as you add more supported operators for nuance."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0767"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0769",
+      "source_unit_id": "lalkitab_u0769",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0769",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "health",
+        "area": "mars_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "service_and_health",
+        "outcome_text": "Mars in the sixth house can be associated with a stronger focus on service, responsibilities, and health management, with outcomes varying based on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a normalized placement association; it is intentionally framed neutrally and requires review for your engine context."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0769"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0771",
+      "source_unit_id": "lalkitab_u0771",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0771",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationship",
+        "area": "mars_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "partnership_structure",
+        "outcome_text": "Mars in the seventh house can be associated with a more dynamic approach to partnerships and relationships, with the expression depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Derived from a book statement; kept as a low-confidence background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0771"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0772",
+      "source_unit_id": "lalkitab_u0772",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0772",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "transformation_and_resources",
+        "outcome_text": "Mars in the eighth house can correlate with more complex patterns around transformation and shared resources, depending on overall chart support and planetary condition.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is intentionally generalized to avoid unsupported affliction logic; treat as a low-confidence background signal."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0772"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0775",
+      "source_unit_id": "lalkitab_u0775",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0775",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            9
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "mars_house_9",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "guidance_and_values",
+        "outcome_text": "Mars in the ninth house can be associated with a more dynamic approach to guidance, learning, and values, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0775"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0776",
+      "source_unit_id": "lalkitab_u0776",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0776",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "mars_house_10",
+        "trend": "mixed",
+        "intensity": 0.55,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "career_structure",
+        "outcome_text": "Mars in the tenth house can correlate with a more dynamic approach to professional development and career building, depending on overall chart support.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "This is a generalized placement association from the book; treat as background until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0776"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0778",
+      "source_unit_id": "lalkitab_u0778",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0778",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "money",
+        "area": "mars_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "gains_and_networks",
+        "outcome_text": "Mars in the eleventh house can be associated with a more dynamic approach to gains via networks and longer-term goals, depending on overall chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Normalized from the book; treated as a background indicator until reviewed."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0778"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0781",
+      "source_unit_id": "lalkitab_u0781",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab_u0781",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "spirituality",
+        "area": "mars_house_12",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "expenses_and_reflection",
+        "outcome_text": "Mars in the twelfth house can correlate with a more dynamic approach to expenses and inward reflection, depending on broader chart context.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "low",
+          "dominance": "background",
+          "certainty_note": "Kept generalized and non-moralizing; treat as a background indicator until reviewed and refined."
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "unit_id": "lalkitab_u0781"
+        }
+      },
+      "base_weight": 1,
+      "is_active": true
+    }
+  ]
+}

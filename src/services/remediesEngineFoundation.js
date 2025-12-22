@@ -222,7 +222,7 @@ export async function recommendRemedies({
   actions = await enforceCompatibility(actions);
 
   // Runtime guard: ensure at least 1 inner + 1 outer remain after compatibility pruning.
-  const innerCount = actions.filter((a) => a.category === 'meditation' || a.category === 'jap').length;
+  const innerCount = actions.filter((a) => a.category === 'meditation' || a.category === 'mantra' || a.category === 'jap').length;
   const outerCount = actions.filter((a) => a.category === 'donation' || a.category === 'feeding_beings').length;
   if (innerCount < 1 || outerCount < 1) {
     throw new Error('Remedy plan violates inner+outer rule after compatibility pruning');

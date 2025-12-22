@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "remedies": [
+    {
+      "id": "lalkitab__lalkitab_u0037__R01",
+      "source_unit_id": "lalkitab_u0037",
+      "type": "donation",
+      "name": "Optional charitable giving for learning and guidance",
+      "description": "Offer a small, comfortable contribution to an education, mentorship, or learning-support cause on a regular basis, with a calm and respectful intention.",
+      "target_planets": [
+        5
+      ],
+      "target_themes": [
+        "general",
+        "education"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "weekly",
+      "safety_notes": "Give only within your financial comfort; avoid debt or pressure-based giving.",
+      "is_active": true
+    },
+    {
+      "id": "lalkitab__lalkitab_u0037__R02",
+      "source_unit_id": "lalkitab_u0037",
+      "type": "mantra",
+      "name": "Optional Jupiter-focused mantra repetition",
+      "description": "Spend a few minutes daily in quiet repetition of a short Jupiter-focused mantra or prayer from your own tradition, keeping the practice steady and non-compulsive.",
+      "target_planets": [
+        5
+      ],
+      "target_themes": [
+        "general",
+        "spirituality"
+      ],
+      "min_duration_days": 40,
+      "recommended_frequency": "daily",
+      "safety_notes": "Keep the practice emotionally safe and time-bounded; this is supportive and should not replace practical decision-making or medical care.",
+      "is_active": true
+    }
+  ]
+}

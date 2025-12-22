@@ -14,7 +14,10 @@
     "debug:window": "node scripts/debugEvaluateWindow.js",
     "mock:astro": "node scripts/createMockAstroSnapshot.js",
     "seed:test-window": "node scripts/seedTestWindow.js",
-    "generate:window": "node scripts/generatePredictionForWindow.js"
+    "generate:window": "node scripts/generatePredictionForWindow.js",
+    "book:scan": "node scripts/book/scanBook.js",
+    "book:build": "node scripts/book/buildDatasets.js",
+    "ingest": "node scripts/ingest/ingestBookRules.js"
   },
   "author": "",
   "license": "ISC",
