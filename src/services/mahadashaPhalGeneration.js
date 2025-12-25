@@ -29,6 +29,51 @@
  */
 
 import { query } from '../../config/db.js';
+import { resolveRemediesForPlanets } from './remedyResolver.js';
+
+function getMahadashaThemesByHouse(house) {
+  const h = Number(house);
+  if (!Number.isFinite(h)) return ['general'];
+
+  // DB enum themes: 'money','career','relationship','health','spirituality','general','travel','education','family'
+  const map = {
+    1: ['general'],
+    2: ['money'],
+    3: ['travel'],
+    4: ['family'],
+    5: ['education'],
+    6: ['health'],
+    7: ['relationship'],
+    8: ['general'],
+    9: ['spirituality'],
+    10: ['career'],
+    11: ['money'],
+    12: ['spirituality', 'general'],
+  };
+
+  return map[h] || ['general'];
+}
+
+function buildMahadashaRemedyHook(planetUpper) {
+  const planet = String(planetUpper || '').toUpperCase();
+  const planetName = planet.charAt(0) + planet.slice(1).toLowerCase();
+  return {
+    message: `During ${planetName} Mahadasha, supportive practices can help steady the mind and reduce the strain of this long-running phase.`,
+    cta: 'View supportive remedies',
+  };
+}
+
+const PLANET_NAME_TO_ID = {
+  SUN: 0,
+  MOON: 1,
+  MARS: 2,
+  MERCURY: 3,
+  JUPITER: 4,
+  VENUS: 5,
+  SATURN: 6,
+  RAHU: 7,
+  KETU: 8,
+};
 
 /**
  * Get sign name from sign number
@@ -99,6 +144,73 @@ function generateMahadashaNarrative(planet, house, signName) {
   }
   
   const planetName = planet.toUpperCase();
+  const ordinal = getOrdinal(house);
+  const signRef = signName ? ` (${signName})` : '';
+  
+  // House domain mapping for contextual, astrologer-style narrative
+  const houseDomains = {
+    1: 'self-identity, confidence, and how you carry yourself',
+    2: 'money, savings, speech, and family responsibilities',
+    3: 'effort, courage, communication, and siblings',
+    4: 'home, mother, emotional security, and property matters',
+    5: 'education, creativity, children, and decision-making',
+    6: 'health routines, service, debts, and daily pressure',
+    7: 'relationships, partnership dynamics, and agreements',
+    8: 'sudden changes, hidden pressure, trust, and deep transformation',
+    9: 'belief, guidance, learning, and inner purpose',
+    10: 'career direction, reputation, responsibilities, and visibility',
+    11: 'gains, networks, long-term hopes, and support from others',
+    12: 'expenses, isolation, sleep, inner burden, and letting go'
+  };
+  
+  const planetThemes = {
+    'SUN': {
+      essence: 'self-respect, authority, and visibility',
+      shadow: 'ego clashes, image pressure, and authority tension',
+      lived: 'you feel the need to prove yourself and be taken seriously'
+    },
+    'MOON': {
+      essence: 'emotional tides, intuition, and inner security',
+      shadow: 'mood swings, over-sensitivity, and mental restlessness',
+      lived: 'your feelings become louder and your peace becomes harder to maintain'
+    },
+    'MARS': {
+      essence: 'drive, courage, and decisive action',
+      shadow: 'impulsiveness, arguments, and burnout',
+      lived: 'you may act quickly, or feel irritated when things move slowly'
+    },
+    'MERCURY': {
+      essence: 'thinking, communication, and practical choices',
+      shadow: 'overthinking, mixed signals, and scattered focus',
+      lived: 'your mind stays busy and decisions require more mental effort'
+    },
+    'JUPITER': {
+      essence: 'guidance, growth, and faith in the long view',
+      shadow: 'over-confidence or careless spending',
+      lived: 'you look for meaning and try to grow through whatever life brings'
+    },
+    'VENUS': {
+      essence: 'love, comfort, harmony, and enjoyment',
+      shadow: 'attachment, indulgence, and blurred boundaries',
+      lived: 'relationships and comforts become a strong emotional focus'
+    },
+    'SATURN': {
+      essence: 'duty, delay, discipline, and karmic responsibility',
+      shadow: 'pressure, isolation, and long waiting periods',
+      lived: 'effort feels heavy and results can feel delayed, even when you are sincere'
+    },
+    'RAHU': {
+      essence: 'restlessness, ambition, and unconventional desire',
+      shadow: 'confusion, anxiety, and unstable choices',
+      lived: 'you may feel hungry for change, but unsure which direction is clean'
+    },
+    'KETU': {
+      essence: 'detachment, sharp inner perception, and withdrawal',
+      shadow: 'distance, dissatisfaction, and lack of interest in surface goals',
+      lived: 'you may feel disconnected from people or outcomes that used to matter'
+    }
+  };
+  
   const narratives = {
     'RAHU_4': "Volatility & some lack of direction in career will prevail as the period starts. You should avoid new projects or major changes in career during this time. You will not be able to cope well with your friends and relatives. Unwanted situations may arise, which can create fighting, troubles into your life. Don't adopt undesirable means for quick monetary gains. Working/service conditions shall not be satisfactory. There could be danger of accident/mishap. Try to build up your confidence to cope with awkward situations which will come in this period. You may have cough problems, asthmatic complaints or rheumatic pains.",
     'JUPITER_3': "There will be a strong influence from others to help you create more personal security in having your material needs met. Money will definitely be coming your way and will greatly influence your personal beliefs, dreams and philosophies. You will get recognition of your merits by the government and higher authorities. You have a friendly nature, and feel very comfortable enjoying the group dynamics of different social scenes; you may get disturb a bit due to health ailment. Personal transformation is far more appealing than outer changes.",
@@ -113,7 +225,20 @@ function generateMahadashaNarrative(planet, house, signName) {
   const specificNarrative = narratives[key];
   
   if (specificNarrative) {
-    return specificNarrative;
+    // Convert long paragraph to 7–8 readable lines for UI
+    const parts = String(specificNarrative)
+      .split('.')
+      .map(s => s.trim())
+      .filter(Boolean)
+      .map(s => (s.endsWith('.') ? s : `${s}.`));
+    
+    const header = `${planetName} Mahadasha in your ${ordinal} house${signRef}.`;
+    const domainLine = `Focus centers on ${houseDomains[house] || `themes of the ${ordinal} house`}.`;
+    const themed = planetThemes[planetName] || null;
+    const themeLine = themed ? `Core tone: ${themed.essence}.` : null;
+    
+    const lines = [header, domainLine, themeLine, ...parts].filter(Boolean);
+    return lines.slice(0, 8).join('\n');
   }
   
   // Fallback generic narrative
@@ -130,46 +255,39 @@ function generateMahadashaNarrative(planet, house, signName) {
   };
   
   const planetDisplayName = planetNames[planetName] || planet;
+
+  const domain = houseDomains[house] || `themes of the ${ordinal} house`;
+  const themed = planetThemes[planetName] || null;
   
-  // Fix ordinal grammar and improve narrative
-  const ordinal = getOrdinal(house);
-  const signRef = signName ? ` (${signName})` : '';
+  // 7–8 line astrologer-style narrative (no dates, no fear)
+  const lines = [];
+  lines.push(`${planetDisplayName} Mahadasha in your ${ordinal} house${signRef}.`);
+  lines.push(`This period brings ${themed ? themed.essence : 'a distinct life emphasis'} to the surface.`);
+  lines.push(`The focus naturally moves toward ${domain}.`);
+  lines.push(`In daily life, ${themed ? themed.lived : 'you may notice the same themes repeating until handled clearly'}.`);
+  if (themed?.shadow) {
+    lines.push(`The difficult side can be: ${themed.shadow}.`);
+  } else {
+    lines.push(`The difficult side can be: delays, mixed signals, or pressure that builds slowly.`);
+  }
+  lines.push(`This is a period where choices carry longer consequences, so steady decisions work better than rushed ones.`);
+  lines.push(`If stress rises, it usually shows first in ${domain}.`);
+  lines.push(`With time, this period becomes easier when your approach in this area becomes disciplined and consistent.`);
   
-  // House domain mapping for specific narratives
-  const houseDomains = {
-    1: 'self-identity, personality, and personal confidence',
-    2: 'wealth, family resources, and speech',
-    3: 'communication, siblings, and courage',
-    4: 'home, mother, and emotional foundations',
-    5: 'creativity, children, and education',
-    6: 'health, service, and daily routines',
-    7: 'partnerships, marriage, and business relationships',
-    8: 'transformation, longevity, and shared resources',
-    9: 'spirituality, father, and higher learning',
-    10: 'career, reputation, and public standing',
-    11: 'gains, income, and friendships',
-    12: 'losses, expenses, and spirituality'
-  };
-  
-  const domain = houseDomains[house] || `areas associated with the ${ordinal} house`;
-  
-  // Planet-specific themes for meaningful one-line descriptions
-  const planetThemes = {
-    'SUN': 'authority, leadership, and personal confidence',
-    'MOON': 'emotional patterns, intuition, and inner security',
-    'MARS': 'action, courage, and assertive energy',
-    'MERCURY': 'communication, learning, and intellectual pursuits',
-    'JUPITER': 'wisdom, expansion, and spiritual growth',
-    'VENUS': 'relationships, beauty, and material comforts',
-    'SATURN': 'responsibility, discipline, and long-term restructuring of life priorities',
-    'RAHU': 'material desires, unconventional paths, and sudden changes',
-    'KETU': 'detachment, spiritual focus, and karmic resolution'
-  };
-  
-  const theme = planetThemes[planetName] || 'significant life developments';
-  
-  // Return concise, meaningful one-line description
-  return `This phase emphasizes ${theme}.`;
+  return lines.slice(0, 8).join('\n');
+}
+
+function shouldUseGeneratedNarrative(existing) {
+  if (!existing || typeof existing !== 'string') return true;
+  const t = existing.trim();
+  if (!t) return true;
+  // If it already contains line breaks or is meaningfully long, keep it.
+  if (t.includes('\n')) return false;
+  if (t.length >= 160) return false;
+  // Common short labels like "Saturn Mahadasha (19y)" should be replaced.
+  if (/mahadasha\s*\(/i.test(t) && t.length < 60) return true;
+  // Otherwise, prefer generated for richer output.
+  return t.length < 120;
 }
 
 /**
@@ -337,11 +455,15 @@ export async function generateMahadashaPhal(windowId) {
       const planetPosition = getPlanetPosition(astroSnapshot, planet);
       
       // Generate narrative
-      const narrative = period.description || period.narrative || generateMahadashaNarrative(
+      const existingNarrative = period.description || period.narrative || null;
+      const generatedNarrative = generateMahadashaNarrative(
         planet,
         planetPosition?.house || null,
         planetPosition?.signName || null
       );
+      const narrative = shouldUseGeneratedNarrative(existingNarrative)
+        ? (generatedNarrative || existingNarrative || null)
+        : existingNarrative;
       
       // Check if current
       const isCurrent = currentDate >= fromDate && currentDate <= toDate;
@@ -366,6 +488,33 @@ export async function generateMahadashaPhal(windowId) {
         narrative: narrative || null,
         is_current: isCurrent
       });
+
+      // Attach remedies only for CURRENT Mahadasha (user intent: if Mahadasha is running, show remedies).
+      // Backward-compatible: adds optional fields only when we have remedies.
+      if (isCurrent) {
+        const planetId = PLANET_NAME_TO_ID[String(planet || '').toUpperCase()];
+        const remedies = await resolveRemediesForPlanets({
+          planetIds: Number.isFinite(planetId) ? [planetId] : [],
+          planetName: String(planet || '').toUpperCase(),
+          preferLongTerm: true,
+          preferShortTerm: false,
+          preferDisciplined: true,
+          limit: 2,
+        });
+
+        console.log(`[MahadashaPhal] Current ${planet} period: Found ${remedies?.length || 0} remedies`);
+        if (remedies && remedies.length > 0) {
+          console.log(`[MahadashaPhal] Attaching remedies to ${planet} period:`, remedies.map(r => r.type));
+        }
+
+        if (Array.isArray(remedies) && remedies.length > 0) {
+          const last = mahadashaPeriods[mahadashaPeriods.length - 1];
+          last.remedy_hook = buildMahadashaRemedyHook(last.planet);
+          last.remedies = remedies;
+        } else {
+          console.log(`[MahadashaPhal] No remedies attached to ${planet} period (empty array or invalid)`);
+        }
+      }
     }
   } else if (dashaData && dashaData.mahadasha) {
     // If only current mahadasha is provided, create a single period
@@ -403,6 +552,24 @@ export async function generateMahadashaPhal(windowId) {
         ),
         is_current: isCurrent
       });
+
+      if (isCurrent) {
+        const planetId = PLANET_NAME_TO_ID[String(planet || '').toUpperCase()];
+        const remedies = await resolveRemediesForPlanets({
+          planetIds: Number.isFinite(planetId) ? [planetId] : [],
+          planetName: String(planet || '').toUpperCase(),
+          preferLongTerm: true,
+          preferShortTerm: false,
+          preferDisciplined: true,
+          limit: 2,
+        });
+
+        if (Array.isArray(remedies) && remedies.length > 0) {
+          const last = mahadashaPeriods[mahadashaPeriods.length - 1];
+          last.remedy_hook = buildMahadashaRemedyHook(last.planet);
+          last.remedies = remedies;
+        }
+      }
     }
   }
   

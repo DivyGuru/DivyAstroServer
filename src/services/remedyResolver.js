@@ -101,6 +101,310 @@ function formatRemedyDescription(description, type, frequency, duration) {
   return formatted;
 }
 
+async function queryRemediesByThemes({
+  themes,
+  preferLongTerm = false,
+  preferShortTerm = false,
+  preferDisciplined = false,
+  limit = 3,
+}) {
+  if (!Array.isArray(themes) || themes.length === 0) return [];
+
+  const remediesQuery = `
+    SELECT 
+      id,
+      name,
+      type,
+      description,
+      min_duration_days,
+      recommended_frequency,
+      safety_notes
+    FROM remedies
+    WHERE is_active = TRUE
+      AND target_themes && $1::prediction_theme[]
+      AND type IN ('meditation', 'mantra', 'donation', 'feeding_beings', 'puja', 'fast')
+    ORDER BY
+      CASE 
+        WHEN $2::boolean = true AND type IN ('meditation', 'puja') THEN 1
+        WHEN $3::boolean = true AND type IN ('mantra', 'donation') THEN 2
+        WHEN $4::boolean = true AND type IN ('meditation', 'fast') THEN 3
+        WHEN type = 'meditation' THEN 4
+        WHEN type = 'mantra' THEN 5
+        WHEN type = 'donation' THEN 6
+        WHEN type = 'feeding_beings' THEN 7
+        WHEN type = 'puja' THEN 8
+        WHEN type = 'fast' THEN 9
+        ELSE 10
+      END,
+      id ASC
+    LIMIT ${Number.isFinite(Number(limit)) ? Number(limit) : 3}
+  `;
+
+  const result = await query(remediesQuery, [
+    themes,
+    preferLongTerm,
+    preferShortTerm,
+    preferDisciplined,
+  ]);
+
+  if (!result || !result.rows || result.rowCount === 0) return [];
+
+  return result.rows
+    .filter(row => row && typeof row.type === 'string' && typeof row.name === 'string')
+    .map((row) => {
+      const type = String(row.type || '');
+      const title = formatRemedyTitle(row.name, type);
+      const description = formatRemedyDescription(
+        row.description || '',
+        type,
+        row.recommended_frequency || null,
+        null
+      );
+
+      return {
+        type,
+        title: String(title || ''),
+        description: String(description || ''),
+        frequency: row.recommended_frequency || null,
+        duration: row.min_duration_days || null,
+        safety_notes: row.safety_notes || null,
+      };
+    });
+}
+
+/**
+ * Resolve remedies directly by DB prediction themes (no rule_trace required).
+ * Useful for “mode-based” guidance like current Mahadasha, when we still want DB-backed remedies.
+ *
+ * @param {Object} params
+ * @param {Array<string>} params.themes - DB enum themes like 'career', 'money', 'relationship', ...
+ * @param {boolean} params.preferLongTerm
+ * @param {boolean} params.preferShortTerm
+ * @param {boolean} params.preferDisciplined
+ * @param {number} params.limit
+ * @returns {Promise<Array>} remedies (can be empty)
+ */
+export async function resolveRemediesForThemes({
+  themes,
+  preferLongTerm = true,
+  preferShortTerm = false,
+  preferDisciplined = false,
+  limit = 2,
+} = {}) {
+  try {
+    const rows = await queryRemediesByThemes({
+      themes,
+      preferLongTerm,
+      preferShortTerm,
+      preferDisciplined,
+      limit,
+    });
+
+    // Hide safety_notes from response (internal only), keep formatting stable
+    return rows
+      .map(r => ({
+        type: r.type,
+        title: r.title,
+        description: r.description,
+        frequency: r.frequency,
+        duration: r.duration,
+      }))
+      .slice(0, Math.max(1, Number(limit) || 2));
+  } catch (err) {
+    // Graceful degradation
+    return [];
+  }
+}
+
+function isLikelyActionable(text) {
+  if (!text || typeof text !== 'string') return false;
+  const t = text.toLowerCase();
+  
+  // Reject generic/descriptive phrases that are clearly NOT remedies
+  // These are rule-like descriptions, not actionable remedies
+  const rejectPatterns = [
+    /^this planetary configuration/,
+    /^creates specific influences/,
+    /^shapes life experiences/,
+    /^tends to/,
+    /^this placement affects/,
+    /^configuration affects/,
+    /^astrological/,
+    /^planetary positions reflect/
+  ];
+  
+  // If text STARTS with a reject pattern, it's definitely not a remedy
+  for (const pattern of rejectPatterns) {
+    if (pattern.test(t)) return false;
+  }
+  
+  // Must contain action verbs (remedies must describe actions)
+  // Check if text contains actionable verbs anywhere
+  const hasAction = /(donate|feed|chant|recite|offer|serve|help|practice|avoid|give|visit|pray|meditate|fast|wear|install|place|keep|maintain|observe|adhere|attend)/i.test(t);
+  
+  // If it has action verbs AND doesn't start with reject patterns, it's likely actionable
+  return hasAction;
+}
+
+/**
+ * Resolve remedies by target_planets (planet IDs stored in remedies.target_planets).
+ * This is required for strict ingestions where target_themes may be null.
+ *
+ * @param {Object} params
+ * @param {Array<number>} params.planetIds - 0..8 planet IDs (SUN..KETU)
+ * @param {boolean} params.preferLongTerm
+ * @param {boolean} params.preferShortTerm
+ * @param {boolean} params.preferDisciplined
+ * @param {number} params.limit
+ * @returns {Promise<Array>} remedies (can be empty)
+ */
+export async function resolveRemediesForPlanets({
+  planetIds,
+  planetName = null,
+  preferLongTerm = true,
+  preferShortTerm = false,
+  preferDisciplined = false,
+  limit = 2,
+} = {}) {
+  if (!Array.isArray(planetIds) || planetIds.length === 0) return [];
+
+  const ids = planetIds
+    .map(n => Number(n))
+    .filter(n => Number.isFinite(n));
+  if (ids.length === 0) return [];
+
+  const planetText = planetName && typeof planetName === 'string' && planetName.trim()
+    ? `%${planetName.trim()}%`
+    : null;
+
+  // Use same pattern as Lal Kitab (which works correctly)
+  // For Mahadasha, we typically have one planet, so use first planet ID
+  const primaryPlanetId = ids[0];
+  
+  // Build query with correct parameter numbering
+  const hasPlanetText = planetText && planetText.trim().length > 0;
+  
+  const remediesQuery = `
+    SELECT 
+      id,
+      name,
+      type,
+      description,
+      min_duration_days,
+      recommended_frequency,
+      safety_notes
+    FROM remedies
+    WHERE is_active = TRUE
+      AND (
+        -- Primary: planet-targeted remedies (same pattern as Lal Kitab)
+        $1 = ANY(target_planets)
+        ${hasPlanetText ? `-- Fallback: text mentions the planet
+        OR (name ILIKE $5 OR description ILIKE $5)` : ''}
+      )
+      AND type IN ('meditation', 'mantra', 'donation', 'feeding_beings', 'puja', 'fast')
+    ORDER BY
+      CASE 
+        -- Prefer planet-targeted
+        WHEN $1 = ANY(target_planets) THEN 0
+        -- Then prefer by type based on preferences
+        WHEN $2::boolean = true AND type IN ('meditation', 'puja') THEN 1
+        WHEN $3::boolean = true AND type IN ('mantra', 'donation') THEN 2
+        WHEN $4::boolean = true AND type IN ('meditation', 'fast') THEN 3
+        WHEN type = 'meditation' THEN 4
+        WHEN type = 'mantra' THEN 5
+        WHEN type = 'donation' THEN 6
+        WHEN type = 'feeding_beings' THEN 7
+        WHEN type = 'puja' THEN 8
+        WHEN type = 'fast' THEN 9
+        ELSE 10
+      END,
+      id ASC
+    LIMIT 20
+  `;
+
+  try {
+    const queryParams = [primaryPlanetId, preferLongTerm, preferShortTerm, preferDisciplined];
+    if (hasPlanetText) queryParams.push(planetText);
+    
+    let result = await query(remediesQuery, queryParams);
+
+    // If no results with type filter, try broader search (like Lal Kitab does)
+    if (!result || !result.rows || result.rowCount === 0) {
+      const broaderQuery = `
+        SELECT 
+          id,
+          name,
+          type,
+          description,
+          min_duration_days,
+          recommended_frequency,
+          safety_notes
+        FROM remedies
+        WHERE is_active = TRUE
+          AND (
+            $1 = ANY(target_planets)
+            ${hasPlanetText ? `OR (name ILIKE $2 OR description ILIKE $2)` : ''}
+          )
+        ORDER BY
+          CASE 
+            WHEN $1 = ANY(target_planets) THEN 0
+            ELSE 1
+          END,
+          id ASC
+        LIMIT 20
+      `;
+      
+      const broaderParams = [primaryPlanetId];
+      if (hasPlanetText) broaderParams.push(planetText);
+      result = await query(broaderQuery, broaderParams);
+    }
+
+    if (!result || !result.rows || result.rowCount === 0) return [];
+
+    const formatted = result.rows
+      .filter(row => row && typeof row.type === 'string' && typeof row.name === 'string')
+      .map((row) => {
+        const type = String(row.type || '');
+        const title = formatRemedyTitle(row.name, type);
+        const description = formatRemedyDescription(
+          row.description || '',
+          type,
+          row.recommended_frequency || null,
+          null
+        );
+        return {
+          type,
+          title: String(title || ''),
+          description: String(description || ''),
+          frequency: row.recommended_frequency || null,
+          duration: row.min_duration_days || null,
+          _actionable: isLikelyActionable(description),
+        };
+      });
+
+    // ONLY return actionable remedies (no fallback to non-actionable)
+    const actionableOnly = formatted
+      .filter(r => r._actionable)
+      .map(({ _actionable, ...r }) => r);
+    
+    // Deduplicate by description (normalized)
+    const seen = new Set();
+    const unique = [];
+    for (const remedy of actionableOnly) {
+      const key = `${remedy.type}|${(remedy.description || '').trim().toLowerCase()}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(remedy);
+        if (unique.length >= Math.max(1, Number(limit) || 2)) break;
+      }
+    }
+
+    return unique;
+  } catch (err) {
+    return [];
+  }
+}
+
 /**
  * Resolves remedies for a domain section
  * 

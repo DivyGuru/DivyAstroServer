@@ -203,52 +203,119 @@ function generatePlanetHouseNarrative(planet, house, ruleMeaning = null) {
   const isDusthana = isDusthanaHouse(house);
   const struggle = isDusthana ? getDusthanaStruggle(house, planetName) : null;
   
-  // Build specific narrative combining planet nature + house domain - Human, personal, astrologer voice
-  const narratives = [];
-  
-  // Primary statement: Planet influence on house domain - More personal and insightful
+  // Build specific narrative combining planet nature + house domain
+  // IMPORTANT: User requested 7–8 lines minimum (multi-line, astrologer-style, blunt + explanatory)
+  const lines = [];
+
+  // Primary statement: Planet influence on house domain
   const areaPhrase = houseDomain.areas.length > 0 
     ? `such as ${houseDomain.areas[0]} or ${houseDomain.areas[1] || houseDomain.areas[0]}`
     : `${houseDomain.primary} and ${houseDomain.secondary}`;
   
-  // ASTROLOGICAL AUTHENTICITY: If dusthana, emphasize struggle
+  // Line 1: Felt experience (pain / manifestation)
   if (isDusthana && struggle) {
-    narratives.push(
-      `${planetName} in your ${getOrdinal(house)} house brings focus to ${struggle.primary}. ${struggle.experience}`
-    );
+    lines.push(`${struggle.experience}`);
+    lines.push(`In this placement, ${houseDomain.primary} can feel like ${struggle.feeling}.`);
   } else {
-    narratives.push(
-      `${planetName} in your ${getOrdinal(house)} house ${planetNature.influence} related to ${houseDomain.primary} and ${houseDomain.secondary}.`
-    );
-    // Secondary statement: Specific areas affected - More personal
-    narratives.push(
-      `You may notice this influence particularly in areas ${areaPhrase}.`
-    );
+    const painPhrase = getPainPhrase(planetNature, houseDomain);
+    lines.push(painPhrase);
+    lines.push(`The pressure tends to concentrate around ${houseDomain.primary} and ${houseDomain.secondary}.`);
   }
   
-  // If rule meaning exists and is specific (not generic), incorporate it
+  // Line 3–4: Situation + manifestation (house-specific)
+  lines.push(`This is ${planetName} working through your ${getOrdinal(house)} house, so the story plays out through ${areaPhrase}.`);
+  lines.push(`In daily life, it can show through decisions, timing, and repeated situations connected to ${houseDomain.primary}.`);
+
+  // Line 5: Planet tone (distinct)
+  lines.push(`${planetName} here ${planetNature.influence}, which shapes how you handle this area when things are smooth and when they are tense.`);
+
+  // Line 6: Caution (blunt, but neutral)
+  if (planetNature.caution) {
+    lines.push(`A caution in this placement: it ${planetNature.caution}.`);
+  } else {
+    lines.push(`A caution in this placement: the same theme can repeat until the lesson is handled cleanly.`);
+  }
+
+  // Line 7: Direction (from ruleMeaning if available; otherwise grounded guidance)
   if (ruleMeaning && 
       !ruleMeaning.includes('planetary configuration creates specific influences') &&
       !ruleMeaning.includes('Planetary positions reflect karmic patterns') &&
       !ruleMeaning.includes('This placement influences') &&
       ruleMeaning.length > 50) {
-    // Use rule meaning but make it more specific
     const cleaned = ruleMeaning
       .replace(/This placement influences?/gi, '')
       .replace(/This planetary/gi, '')
       .replace(/planetary configuration creates specific influences/gi, '')
       .replace(/Planetary positions reflect karmic patterns/gi, '')
       .trim();
-    if (cleaned && cleaned.length > 20 && !isSimilarSentence(cleaned, narratives[0])) {
-      narratives.push(cleaned);
+    if (cleaned && cleaned.length > 20 && !isSimilarSentence(cleaned, lines[0])) {
+      lines.push(cleaned);
+    } else {
+      lines.push(`When you keep actions simple and consistent in ${houseDomain.primary}, the pressure reduces naturally.`);
     }
+  } else {
+    lines.push(`When you keep actions simple and consistent in ${houseDomain.primary}, the pressure reduces naturally.`);
   }
   
-  // Quality guardrail: Limit to 2 sentences max
-  const finalNarrative = narratives.slice(0, 2).join(' ').trim();
+  // Line 8: Calm close (no promises, no fear)
+  lines.push(`Over time, this placement becomes easier to handle as your approach to ${houseDomain.primary} becomes more mature and steady.`);
+
+  // Ensure at least 7–8 lines; return multi-line narrative for UI readability
+  const finalLines = lines.filter(Boolean).slice(0, 8);
+  return finalLines.join('\n').trim();
+}
+
+/**
+ * Get pain phrase (felt experience) based on planet nature and house domain
+ * PAIN-FIRST UX: Start with what the user FEELS, not astrological rules
+ */
+function getPainPhrase(planetNature, houseDomain) {
+  // Safety checks
+  if (!planetNature || !houseDomain) {
+    return `This placement influences life experiences.`;
+  }
   
-  // Ensure it ends with period
-  return finalNarrative.endsWith('.') ? finalNarrative : finalNarrative + '.';
+  const planet = planetNature.name ? planetNature.name.toLowerCase() : '';
+  const domain = houseDomain.primary ? houseDomain.primary.toLowerCase() : '';
+  
+  // Pain phrases based on planet + domain combinations
+  if (planet === 'sun' && (domain.includes('career') || domain.includes('identity'))) {
+    return `Your sense of self feels uncertain. Recognition feels distant.`;
+  }
+  if (planet === 'moon' && (domain.includes('mind') || domain.includes('emotion'))) {
+    return `Your emotions feel unstable. Peace feels hard to find.`;
+  }
+  if (planet === 'mars' && (domain.includes('energy') || domain.includes('action'))) {
+    return `Your energy feels scattered. Action feels blocked.`;
+  }
+  if (planet === 'mercury' && (domain.includes('communication') || domain.includes('thought'))) {
+    return `Your thoughts feel unclear. Communication feels difficult.`;
+  }
+  if (planet === 'jupiter' && (domain.includes('growth') || domain.includes('wisdom'))) {
+    return `Growth feels slow. Wisdom feels out of reach.`;
+  }
+  if (planet === 'venus' && (domain.includes('love') || domain.includes('pleasure'))) {
+    return `Love feels complicated. Pleasure feels distant.`;
+  }
+  if (planet === 'saturn' && (domain.includes('responsibility') || domain.includes('delay'))) {
+    return `Responsibilities feel heavy. Progress feels delayed.`;
+  }
+  if (planet === 'rahu' && (domain.includes('desire') || domain.includes('restless'))) {
+    return `Desires feel unfulfilled. Restlessness increases.`;
+  }
+  if (planet === 'ketu' && (domain.includes('detachment') || domain.includes('isolation'))) {
+    return `Connection feels distant. Isolation feels stronger.`;
+  }
+  
+  // Generic pain phrase based on planet nature
+  if (planetNature.influence && (planetNature.influence.includes('challenges') || planetNature.influence.includes('difficulties'))) {
+    return `${houseDomain.primary || 'life'} feels difficult. ${houseDomain.secondary || 'experiences'} feels strained.`;
+  }
+  
+  // Default: felt experience
+  const primary = houseDomain.primary || 'life';
+  const influence = planetNature.influence || '';
+  return `${primary} feels ${influence.includes('supports') ? 'supported' : 'affected'}.`;
 }
 
 /**
@@ -370,17 +437,29 @@ function isActionableRemedy(text) {
 }
 
 /**
- * Format remedy description to be supportive, optional, and non-judgmental
- * UX: Remedies should feel optional and supportive, not prescriptive
+ * Format remedy description following PAIN-FIRST UX structure:
+ * Why issue exists → Why remedy helps → What to expect
+ * Remedies should feel optional, supportive, and non-judgmental
  */
 function formatRemedyForUX(description) {
   if (!description || typeof description !== 'string') return description;
   
   const trimmed = description.trim();
   
-  // If already starts with supportive language, return as-is
-  if (/^(simple|gentle|quiet|may|might|can|consider|you may|simple acts|optional)/i.test(trimmed)) {
+  // If already follows pain-first structure, return as-is
+  if (/^(this|these|when|because|since|as|due to|when you|if you)/i.test(trimmed)) {
     return trimmed;
+  }
+  
+  // Extract action from remedy
+  const actionMatch = trimmed.match(/^(donate|feed|chant|wear|install|perform|practice|avoid|give|offer|visit|go to|pray|meditate|serve|help|support|provide|share|contribute)/i);
+  if (actionMatch) {
+    const action = actionMatch[1].toLowerCase();
+    const rest = trimmed.substring(actionMatch[0].length).trim();
+    
+    // Build pain-first structure: Why issue exists → Why remedy helps → What to expect
+    // For now, keep it simple and supportive
+    return `When ${action}${rest ? ' ' + rest : ''}, this may help restore balance. Results may take time.`;
   }
   
   // If it's a list (comma-separated actions), format supportively
@@ -389,22 +468,13 @@ function formatRemedyForUX(description) {
     if (actions.length >= 2) {
       const lastAction = actions.pop();
       const actionList = actions.join(', ');
-      // Fix grammar: avoid "or or" patterns
       const connector = lastAction.toLowerCase().startsWith('or ') ? '' : 'or ';
-      return `Simple practices such as ${actionList}, ${connector}${lastAction} may help restore balance.`;
+      return `When practicing ${actionList}, ${connector}${lastAction}, this may help restore balance. Results may take time.`;
     }
   }
   
-  // If starts with imperative verb (Donate, Feed, Chant) and is short, make it supportive
-  if (/^(donate|feed|chant|wear|install|perform|practice|avoid|give|offer|visit|go to|pray|meditate)/i.test(trimmed) && trimmed.length < 80) {
-    // Make it feel optional and supportive
-    const firstWord = trimmed.split(/\s+/)[0].toLowerCase();
-    const rest = trimmed.substring(trimmed.indexOf(' ') + 1);
-    return `Simple acts like ${firstWord}${rest ? ' ' + rest : ''} may help bring balance during this time.`;
-  }
-  
-  // Default: return as-is (should already be actionable from filter)
-  return trimmed;
+  // Default: make it supportive and add expectation
+  return `${trimmed} This may help restore balance. Results may take time.`;
 }
 
 /**
@@ -896,3 +966,4 @@ export async function generateLalkitabPrediction(windowId) {
     predictions: uniquePredictions
   };
 }
+

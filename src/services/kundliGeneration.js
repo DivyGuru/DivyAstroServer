@@ -49,6 +49,24 @@ import { applyTimePatches, extractDashaTimeline, extractTransitWindows } from '.
 import { composeNarrative } from './narrativeComposer.js';
 import { generateRemedyHook } from './remedyHookGenerator.js';
 import { resolveRemedies } from './remedyResolver.js';
+import { composeKundliLifeStory } from './kundliStoryComposer.js';
+
+const DASHA_PLANET_ID_TO_NAME = {
+  1: 'SUN',
+  2: 'MOON',
+  3: 'MARS',
+  4: 'MERCURY',
+  5: 'JUPITER',
+  6: 'VENUS',
+  7: 'SATURN',
+  8: 'RAHU',
+  9: 'KETU',
+};
+
+function getRunningMahadashaNameFromSnapshot(astroSnapshot) {
+  const id = Number(astroSnapshot?.running_mahadasha_planet);
+  return Number.isFinite(id) ? (DASHA_PLANET_ID_TO_NAME[id] || null) : null;
+}
 
 /**
  * Generates complete kundli for a prediction window
@@ -93,6 +111,17 @@ export async function generateKundli(windowId) {
   // Safety: Ensure domainSignals is an array
   if (!Array.isArray(domainSignals)) {
     domainSignals = [];
+  }
+
+  // Attach Mahadasha context (internal only) so narrative composition can genuinely reflect lived experience.
+  // This does NOT change DB or rule logic; it only makes the narrative layer aware of the running Mahadasha
+  // already stored on the snapshot row.
+  const currentMahadasha = getRunningMahadashaNameFromSnapshot(astroSnapshot);
+  if (currentMahadasha) {
+    domainSignals = domainSignals.map(s => ({
+      ...s,
+      _mahadasha_context: { current_mahadasha: currentMahadasha },
+    }));
   }
 
   // Step 2: Extract timing data (safe defaults)
@@ -165,6 +194,22 @@ export async function generateKundli(windowId) {
   // Safety: Ensure narrativeBlocks is an array
   if (!Array.isArray(narrativeBlocks)) {
     narrativeBlocks = [];
+  }
+
+  // LONG-FORM KUNDLI STORY (Life Story)
+  // Adds additional sections to the same API structure (sections[]), without changing field names/types.
+  // These domains are new string values; clients can render them as additional sections.
+  try {
+    const storyBlocks = composeKundliLifeStory({
+      astroSnapshot,
+      signalsWithPatches,
+    });
+    if (Array.isArray(storyBlocks) && storyBlocks.length > 0) {
+      narrativeBlocks = [...storyBlocks, ...narrativeBlocks];
+    }
+  } catch (err) {
+    // Non-critical: if story composition fails, keep existing output
+    console.warn('Long-form kundli story composition failed:', err.message);
   }
 
   // Step 5: Compute overall confidence (safe calculation)

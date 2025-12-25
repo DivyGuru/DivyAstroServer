@@ -227,184 +227,202 @@ function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = 
     ? vocab.themeMap[primaryTheme] 
     : framing.focus[0];
   
-  // Domain-specific opening patterns - Human, personal, astrologer voice
-  // GLOBAL LIFE-PHASE COHERENCE: Use effective metrics to ensure unified gravity
+  // PAIN-FIRST UX: Start with FELT EXPERIENCE, not astrological rules
+  // Structure: Pain → Validation → Direction → Calm close
   if (domain === 'career_direction') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Professional responsibilities feel heavier now. This period invites patience as progress unfolds gradually.`;
+      return `Effort feels heavy and results feel delayed. Work demands more than it gives back right now.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Increased demands appear alongside new opportunities in your work life. Careful prioritization helps you navigate this balance.`;
+      return `Work pressure increases while opportunities appear. You're juggling demands and possibilities.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Career opportunities and recognition flow easily now. This period supports your professional visibility and growth.`;
+      return `Career momentum builds. Recognition and opportunities arrive more easily.`;
     }
     if (stability === 'low') {
-      return `Your professional path shifts direction. Staying open to new possibilities serves you well.`;
+      return `Your professional direction shifts. What worked before may not work now.`;
     }
-    return `Your work life moves steadily forward. Emerging opportunities invite your attention.`;
+    return `Work moves forward steadily. New opportunities emerge gradually.`;
   }
   
   if (domain === 'money_finance') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Money management and long-term security require careful attention. Thoughtful planning maintains stability.`;
+      return `Money feels tight. Expenses outpace income, and savings feel out of reach.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Financial constraints and opportunities appear together. Strategic decisions balance immediate needs with future growth.`;
+      return `Financial pressure exists alongside growth possibilities. You're managing constraints while building resources.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Financial stability and growth opportunities feel accessible. This period supports building resources and security.`;
+      return `Financial stability improves. Income flows more steadily and savings grow.`;
     }
     if (stability === 'low') {
-      return `Your approach to money benefits from flexibility. Building sustainable foundations matters more than quick gains.`;
+      return `Your financial situation changes. Old patterns no longer serve you.`;
     }
-    return `Your financial planning continues steadily. Opportunities strengthen your long-term security.`;
+    return `Money flows steadily. Long-term security builds gradually.`;
   }
   
   if (domain === 'relationships') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Your relationships feel more sensitive and require extra care now. Patient communication and deeper understanding restore harmony.`;
+      return `Relationships feel strained. Misunderstandings happen easily, and connection feels harder to maintain.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Connection and complexity appear together in your relationships. Thoughtful attention to both your needs and theirs creates balance.`;
+      return `Relationships bring both closeness and tension. You're navigating connection and conflict together.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Connection, understanding, and mutual support flow more easily now. This period supports deeper bonds and harmony in your relationships.`;
+      return `Relationships feel easier. Understanding flows naturally and bonds deepen.`;
     }
     if (stability === 'low') {
-      return `Your relationships evolve in new directions. Openness to different ways of connecting deepens understanding.`;
+      return `Your relationships change. Old ways of connecting no longer fit.`;
     }
-    return `Your relationships balance connection with individual needs. This period supports deeper understanding and mutual care.`;
+    return `Relationships move steadily. Connection and individual needs coexist.`;
   }
   
   if (domain === 'health_body') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Your physical routines need steadier discipline and awareness now. Energy levels benefit from careful management and supportive habits.`;
+      return `Energy feels low. Physical demands drain you, and recovery takes longer than expected.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Physical demands and healing support appear together. Balanced self-care and recovery practices help you maintain well-being.`;
+      return `Your body faces demands while healing continues. You're managing activity and rest.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Vitality, strength, and health stability feel more accessible. This period supports your physical well-being and energy.`;
+      return `Physical energy improves. Strength returns and vitality feels more accessible.`;
     }
     if (stability === 'low') {
-      return `Your lifestyle choices benefit from adaptability. Building sustainable wellness habits matters more than quick fixes.`;
+      return `Your health patterns shift. Old routines may not work as well.`;
     }
-    return `Your physical well-being continues steadily. Thoughtful self-care and awareness support your vitality.`;
+    return `Physical well-being continues steadily. Energy and strength maintain.`;
   }
   
   if (domain === 'family_home') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Family responsibilities or home matters require more attention now. Patience, understanding, and mutual support maintain harmony.`;
+      return `Family responsibilities feel heavier. Home life demands more energy than it provides.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Connection, support, and domestic stability feel more accessible. This period supports harmony and comfort in your family and home life.`;
+      return `Family connection strengthens. Home feels more supportive and stable.`;
     }
     if (stability === 'low') {
-      return `Your family dynamics transform. New ways of relating create a more supportive home environment.`;
+      return `Family dynamics change. Old patterns shift and new ways of relating emerge.`;
     }
-    return `Your family and home life balance individual needs with collective harmony. This period supports mutual care and emotional security.`;
+    return `Family life moves steadily. Individual needs and collective harmony coexist.`;
   }
   
   if (domain === 'mental_state') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Your mental and emotional well-being feels more strained now. Self-awareness, reflection, and practices that restore inner balance help.`;
+      return `Your mind feels tired. Thoughts race, emotions feel heavy, and peace feels distant.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Clarity, emotional stability, and inner peace feel more accessible. This period supports your mental and emotional well-being.`;
+      return `Mental clarity improves. Emotions settle and inner peace feels more accessible.`;
     }
     if (stability === 'low') {
-      return `Your emotional management benefits from adaptability. Practices that cultivate mental clarity serve you well.`;
+      return `Your emotional patterns shift. Old ways of managing feelings no longer work.`;
     }
-    return `Your mental and emotional well-being balance self-awareness with inner peace. This period supports clarity and emotional stability.`;
+    return `Mental well-being continues steadily. Clarity and emotional stability maintain.`;
   }
   
   if (domain === 'spiritual_growth') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Your spiritual practice encounters obstacles now. Deeper reflection and a renewed commitment to spiritual understanding help.`;
+      return `Spiritual practice feels blocked. Connection feels distant and meaning feels unclear.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Spiritual challenges and insights appear together. Patience and consistent practice support your growth.`;
+      return `Spiritual growth brings both obstacles and insights. You're navigating challenges while deepening understanding.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Inner wisdom, spiritual connection, and deeper understanding feel more accessible. This period supports your spiritual growth.`;
+      return `Spiritual connection deepens. Inner wisdom and understanding feel more accessible.`;
     }
     if (stability === 'low') {
-      return `Your spiritual understanding deepens. New perspectives and practices expand your awareness.`;
+      return `Your spiritual understanding shifts. Old perspectives give way to new insights.`;
     }
-    return `Your spiritual practice continues steadily. This period supports deepening awareness and spiritual growth.`;
+    return `Spiritual practice continues steadily. Awareness and connection deepen gradually.`;
   }
   
   if (domain === 'timing_luck') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Important decisions and opportunities require careful consideration, as favorable windows may be less accessible in the immediate term.`;
+      return `Timing feels off. Opportunities don't arrive when you need them, and decisions feel harder to make.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Significant actions face mixed timing, with some opportunities present while others require patience and better preparation.`;
+      return `Timing is mixed. Some opportunities arrive while others require waiting.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Favorable timing supports important decisions and actions, with opportunities and supportive conditions more readily available.`;
+      return `Timing feels favorable. Opportunities arrive when you need them.`;
     }
     if (stability === 'low') {
-      return `Timing requires flexibility in planning and readiness to act when favorable moments arise.`;
+      return `Timing patterns shift. What worked before may not work now.`;
     }
-    return `Timing for important matters is balanced, supporting steady progress while remaining attentive to emerging opportunities.`;
+    return `Timing remains steady. Opportunities emerge gradually.`;
   }
   
   if (domain === 'events_changes') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Significant changes require careful navigation, patience, and thoughtful adaptation to new circumstances.`;
+      return `Change feels difficult. Transitions bring uncertainty and adaptation feels forced.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Transitions present both challenges and opportunities, calling for balanced preparation and openness to change.`;
+      return `Change brings both challenges and possibilities. You're navigating transitions while finding new ground.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Positive change flows smoothly, with transitions and new opportunities more accessible.`;
+      return `Change flows smoothly. Transitions feel natural and new opportunities arrive.`;
     }
     if (stability === 'low') {
-      return `Flexibility and openness to new directions help navigate changing circumstances.`;
+      return `Change accelerates. Old patterns break and new ones form.`;
     }
-    return `Steady change supports gradual transitions and thoughtful adaptation.`;
+    return `Change continues steadily. Transitions unfold gradually.`;
   }
   
   if (domain === 'self_identity') {
     if (effectivePressure === 'high' && effectiveSupport === 'low') {
-      return `Your sense of who you are feels more uncertain now. Deeper self-reflection and authentic self-discovery clarify your path.`;
+      return `You feel uncertain about who you are. Self-doubt increases and clarity about your identity feels distant.`;
     }
     if (effectivePressure === 'high' && effectiveSupport === 'medium') {
-      return `Self-doubt and self-discovery appear together. Patience and honest self-reflection support your growth.`;
+      return `Self-questioning and self-discovery happen together. You're navigating doubt while finding clarity.`;
     }
     if (effectiveSupport === 'high' && effectivePressure === 'low') {
-      return `Self-awareness, authentic expression, and personal values feel more accessible. This period supports your true identity.`;
+      return `Self-awareness deepens. You feel clearer about who you are and what you value.`;
     }
     if (stability === 'low') {
-      return `Your sense of self transforms. New self-understandings and authentic expression clarify your identity.`;
+      return `Your sense of self changes. Old self-understandings shift and new ones form.`;
     }
-    return `Your self-discovery continues steadily. This period supports authentic personal growth and clarity about who you are.`;
+    return `Self-discovery continues steadily. Clarity about your identity builds gradually.`;
   }
   
-  // Generic fallback with theme context - Natural, varied openings
+  // Generic fallback with theme context - PAIN-FIRST UX
   // GLOBAL LIFE-PHASE COHERENCE: Use effective metrics
   if (effectivePressure === 'high' && effectiveSupport === 'low') {
-    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} may require focused attention and steady ${framing.action[0]} during this period.`;
+    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} feels difficult. Progress feels slow and effort feels heavy.`;
   }
   
   if (effectiveSupport === 'high' && effectivePressure === 'low') {
-    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} and positive developments are more accessible.`;
+    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} feels easier. Positive developments arrive more naturally.`;
   }
   
   if (stability === 'low') {
-    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} may shift, requiring flexibility and openness to new approaches.`;
+    return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} shifts. Old patterns change and new ones form.`;
   }
   
-  return `Steady ${framing.action[0]} and thoughtful attention to ${themeContext} continue to support progress.`;
+  return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} continues steadily. Progress unfolds gradually.`;
 }
 
 /**
  * Generates domain-specific explanation sentence using themes
  */
 /**
- * Generates domain-specific explanation sentence
+ * Generate brief validation (optional astrology context)
+ * PAIN-FIRST UX: Astrology comes AFTER validation, brief and optional
+ */
+function generateValidation(domain, metrics, vocab, hasDasha = false, hasTransit = false) {
+  // Very brief, optional - only if it adds context
+  // Most of the time, return null (skip validation)
+  if (hasDasha) {
+    return `This pattern reflects longer-term cycles.`;
+  }
+  if (hasTransit) {
+    return `Current planetary movements influence this.`;
+  }
+  return null; // Skip validation most of the time
+}
+
+/**
+ * Generates domain-specific direction (what to do)
+ * PAIN-FIRST UX: Direction comes after pain and validation
+ * Remove generic self-help language (flexibility, adaptability, openness, balance)
  * 
  * 5-LAYER COMPATIBILITY:
  * - Adapts tone based on active layers
@@ -423,159 +441,160 @@ function generateExplanation(domain, metrics, vocab, themes = [], hasStrengthYog
     ? vocab.themeMap[themes[0]]
     : framing.focus[0];
   
-  // Domain-specific explanations - Human, personal, astrologer voice
+  // PAIN-FIRST UX: Direction comes after validation
+  // Remove generic self-help language (flexibility, adaptability, openness, balance)
   if (domain === 'career_direction') {
     if (pressure === 'high' && stability === 'low') {
-      return `Focus on building skills and demonstrating reliability. These qualities matter more than seeking rapid advancement right now.`;
+      return `Build skills and show reliability. These matter more than quick advancement.`;
     }
     if (support === 'high' && stability === 'high') {
-      return `A solid foundation supports your career growth, professional recognition, and meaningful advancement.`;
+      return `A solid foundation supports career growth, recognition, and meaningful advancement.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balance your professional responsibilities with strategic career moves and skill development. This approach helps maintain steady progress.`;
+      return `Manage professional responsibilities while making strategic moves. Skill development helps maintain progress.`;
     }
     if (stability === 'low') {
-      return `Staying open to new professional directions and flexible in your career planning serves you well.`;
+      return `Your career direction shifts. New paths may serve you better than old ones.`;
     }
-    return `Your professional development continues steadily. At the same time, emerging career opportunities invite your attention.`;
+    return `Professional development continues steadily. New career opportunities emerge gradually.`;
   }
   
   if (domain === 'money_finance') {
     if (pressure === 'high' && stability === 'low') {
-      return `Prioritize careful budgeting and protecting your existing resources. Building financial security gradually matters more than quick gains.`;
+      return `Budget carefully and protect existing resources. Building security gradually matters more than quick gains.`;
     }
     if (support === 'high' && stability === 'high') {
-      return `Favorable conditions support your financial growth, savings accumulation, and sustainable wealth-building.`;
+      return `Favorable conditions support financial growth, savings accumulation, and sustainable wealth-building.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balance financial constraints with opportunities for growth. Strategic planning helps maintain stability while building resources.`;
+      return `Manage financial constraints while building resources. Strategic planning helps maintain stability.`;
     }
     if (stability === 'low') {
-      return `Adaptability in your financial planning and a focus on building stable foundations serve you well.`;
+      return `Your financial approach shifts. New strategies may serve you better.`;
     }
-    return `Your financial planning continues steadily. Thoughtful resource management supports your long-term security.`;
+    return `Financial planning continues steadily. Resource management supports long-term security.`;
   }
   
   if (domain === 'relationships') {
     if (pressure === 'high' && stability === 'low') {
-      return `Patient communication and understanding different perspectives matter most. Nurturing connection through challenges helps restore harmony.`;
+      return `Communicate patiently and understand different perspectives. Connection through challenges helps restore harmony.`;
     }
     if (support === 'high' && stability === 'high') {
-      return `Favorable conditions support deepening your relationships, building trust, and experiencing greater harmony.`;
+      return `Favorable conditions support deepening relationships, building trust, and experiencing greater harmony.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balance your individual needs with relationship harmony and mutual understanding. This approach helps maintain connection.`;
+      return `Honor your individual needs while maintaining relationship harmony. Mutual understanding helps maintain connection.`;
     }
     if (stability === 'low') {
-      return `Staying open to new ways of relating and flexible in your relationship dynamics serves you well.`;
+      return `Your relationship patterns shift. New ways of connecting may serve you better.`;
     }
-    return `Your relationship-building continues steadily. This period honors both connection and individual growth.`;
+    return `Relationship-building continues steadily. Connection and individual growth coexist.`;
   }
   
   if (domain === 'health_body') {
     if (pressure === 'high' && stability === 'low') {
-      return `Rest, recovery practices, and building sustainable health habits matter more than pushing physical limits.`;
+      return `Rest and recovery matter more than pushing limits. Build sustainable health habits gradually.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable conditions support physical strength, energy restoration, and overall vitality.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balancing physical demands with recovery needs and supportive health practices helps maintain well-being.`;
+      return `Manage physical demands while prioritizing recovery. Supportive health practices help maintain well-being.`;
     }
     if (stability === 'low') {
-      return `Adaptable health routines support sustainable wellness.`;
+      return `Your health routines shift. New patterns may serve you better.`;
     }
-    return `Steady health maintenance and thoughtful attention to physical well-being continue.`;
+    return `Health maintenance continues steadily. Physical well-being maintains.`;
   }
   
   if (domain === 'family_home') {
     if (pressure === 'high' && stability === 'low') {
-      return `Patience, mutual understanding, and creating a supportive home environment matter most despite challenges.`;
+      return `Practice patience and mutual understanding. Creating a supportive home environment matters despite challenges.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable conditions support family harmony, domestic stability, and deeper family connections.`;
     }
     if (stability === 'low') {
-      return `Openness to new family dynamics and flexibility in creating a harmonious home environment may benefit you.`;
+      return `Your family dynamics shift. New ways of relating may serve you better.`;
     }
-    return `Steady family-building continues while balancing individual needs with collective harmony.`;
+    return `Family-building continues steadily. Individual needs and collective harmony coexist.`;
   }
   
   if (domain === 'mental_state') {
     if (pressure === 'high' && stability === 'low') {
-      return `Self-awareness, emotional regulation practices, and cultivating inner peace through challenges take priority.`;
+      return `Practice self-awareness and emotional regulation. Inner peace through challenges takes priority.`;
     }
     if (support === 'high' && stability === 'high') {
-      return `Favorable conditions support mental clarity, emotional balance, and inner peace.`;
+      return `Favorable conditions support mental clarity, emotional stability, and inner peace.`;
     }
     if (stability === 'low') {
-      return `Adaptable emotional management supports mental clarity.`;
+      return `Your emotional patterns shift. New ways of managing feelings may serve you better.`;
     }
-    return `Steady mental well-being continues through practices that nurture clarity and emotional balance.`;
+    return `Mental well-being continues steadily. Clarity and emotional stability maintain.`;
   }
   
   if (domain === 'spiritual_growth') {
     if (pressure === 'high' && stability === 'low') {
-      return `Consistent spiritual practice, inner contemplation, and deepening your connection to spiritual wisdom take priority.`;
+      return `Practice consistently and contemplate deeply. Connecting to spiritual wisdom takes priority.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable conditions support spiritual insight, inner transformation, and deeper spiritual understanding.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balancing spiritual challenges with opportunities for growth and deeper practice helps maintain progress.`;
+      return `Navigate spiritual challenges while deepening practice. Growth opportunities help maintain progress.`;
     }
     if (stability === 'low') {
-      return `Openness to new spiritual perspectives and flexibility in your spiritual practices may benefit you.`;
+      return `Your spiritual understanding shifts. New perspectives may serve you better.`;
     }
-    return `Steady spiritual development and deepening awareness of your spiritual path continue.`;
+    return `Spiritual development continues steadily. Awareness of your spiritual path deepens gradually.`;
   }
   
   if (domain === 'timing_luck') {
     if (pressure === 'high' && stability === 'low') {
-      return `Patience, careful preparation, and waiting for more favorable conditions matter before making significant moves.`;
+      return `Wait and prepare carefully. More favorable conditions matter before making significant moves.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable timing supports important decisions and actions, with opportunities more readily available.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balancing patience with readiness to act when favorable moments present themselves helps maintain progress.`;
+      return `Practice patience while staying ready to act. Favorable moments help maintain progress.`;
     }
     if (stability === 'low') {
-      return `Flexibility in timing and readiness to adapt helps navigate changing conditions.`;
+      return `Your timing patterns shift. New approaches may serve you better.`;
     }
-    return `Steady progress continues while remaining attentive to favorable timing for important matters.`;
+    return `Timing remains steady. Favorable moments for important matters emerge gradually.`;
   }
   
   if (domain === 'events_changes') {
     if (pressure === 'high' && stability === 'low') {
-      return `Careful preparation, adaptability, and thoughtful navigation of significant life transitions take priority.`;
+      return `Prepare carefully and navigate transitions thoughtfully. Significant life changes take priority.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable conditions support positive change, smooth transitions, and meaningful life developments.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balancing the challenges of change with opportunities for growth and positive transformation helps maintain stability.`;
+      return `Navigate change challenges while recognizing growth opportunities. Positive transformation helps maintain stability.`;
     }
     if (stability === 'low') {
-      return `Flexibility and openness to new directions help navigate changing circumstances.`;
+      return `Your life patterns shift. New directions may serve you better.`;
     }
-    return `Steady adaptation to life changes continues while remaining open to positive developments.`;
+    return `Life changes continue steadily. Positive developments emerge gradually.`;
   }
   
   if (domain === 'self_identity') {
     if (pressure === 'high' && stability === 'low') {
-      return `Honest self-reflection, exploring your authentic values, and understanding who you truly are take priority.`;
+      return `Reflect honestly and explore your authentic values. Understanding who you truly are takes priority.`;
     }
     if (support === 'high' && stability === 'high') {
       return `Favorable conditions support self-clarity, authentic self-expression, and alignment with your true identity.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Balancing self-questioning with opportunities for self-discovery and authentic growth helps maintain progress.`;
+      return `Navigate self-questioning while recognizing self-discovery opportunities. Authentic growth helps maintain progress.`;
     }
     if (stability === 'low') {
-      return `Openness to new self-understandings and flexibility in how you express your authentic self may benefit you.`;
+      return `Your self-understanding shifts. New ways of expressing yourself may serve you better.`;
     }
-    return `Steady self-discovery and authentic personal development continue.`;
+    return `Self-discovery continues steadily. Authentic personal development unfolds gradually.`;
   }
   
   // Generic fallback with theme context - Natural, varied phrasing
@@ -656,181 +675,124 @@ function generateTimeAwareness(timeWindows, vocab, hasDasha = false, hasTransit 
 }
 
 /**
- * Generates domain-specific closing guidance sentence
+ * Generates calm closing (PAIN-FIRST UX)
+ * Calm, reassuring, grounding - not prescriptive
+ * Remove generic self-help language
  */
 function generateClosing(domain, metrics, vocab, themes = []) {
   const { pressure, support, stability } = metrics;
-  const framing = vocab.framing;
   
-  // Domain-specific closings
+  // Calm closes - reassuring, not prescriptive
   if (domain === 'career_direction') {
     if (pressure === 'high') {
-      return `Approaching this professional phase with discipline and strategic focus can transform challenges into long-term career stability and growth.`;
+      return `This phase will pass. Steady effort builds stability over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent professional effort and thoughtful engagement with career opportunities.`;
+      return `This period supports your professional growth.`;
     }
-    if (stability === 'low') {
-      return `Flexibility and openness help establish a more fulfilling professional direction.`;
-    }
-    return `This professional phase benefits from steady effort balanced with awareness of emerging career opportunities.`;
+    return `Your career path continues to unfold.`;
   }
   
   if (domain === 'money_finance') {
     if (pressure === 'high') {
-      return `Approaching this financial phase with careful planning and resourcefulness can build stronger financial foundations over time.`;
+      return `This phase will pass. Careful planning builds security over time.`;
     }
     if (support === 'high') {
-      return `This period rewards thoughtful financial decisions and consistent resource-building practices.`;
+      return `This period supports your financial growth.`;
     }
-    if (stability === 'low') {
-      return `Adaptability and planning help establish more stable financial patterns.`;
-    }
-    return `This financial phase benefits from steady resource management balanced with awareness of growth opportunities.`;
+    return `Your financial situation continues to stabilize.`;
   }
   
   if (domain === 'relationships') {
     if (pressure === 'high') {
-      return `Approaching this relationship phase with patience and understanding can deepen connection and build stronger bonds over time.`;
+      return `This phase will pass. Patience and understanding restore connection over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent attention to relationships and thoughtful engagement with those around you.`;
+      return `This period supports deeper bonds.`;
     }
-    if (stability === 'low') {
-      return `Openness and communication help establish more harmonious connections.`;
-    }
-    return `This relationship phase benefits from steady attention to connection balanced with respect for individual needs.`;
+    return `Your relationships continue to deepen.`;
   }
   
   if (domain === 'health_body') {
     if (pressure === 'high') {
-      return `Approaching this health phase with careful self-care and supportive habits can restore vitality and build long-term wellness.`;
+      return `This phase will pass. Rest and recovery restore energy over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent health practices and thoughtful attention to physical well-being.`;
+      return `This period supports your physical well-being.`;
     }
-    if (stability === 'low') {
-      return `Adaptability and self-awareness help establish more sustainable wellness patterns.`;
-    }
-    return `This health phase benefits from steady self-care balanced with awareness of your body's changing needs.`;
+    return `Your health continues to stabilize.`;
   }
   
   if (domain === 'family_home') {
     if (pressure === 'high') {
-      return `Approaching this family phase with patience and mutual support can strengthen bonds and create a more harmonious home environment.`;
+      return `This phase will pass. Patience and mutual support strengthen bonds over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent attention to family needs and thoughtful engagement with family life.`;
+      return `This period supports family harmony.`;
     }
-    if (stability === 'low') {
-      return `Openness and understanding help establish more supportive family dynamics.`;
-    }
-    return `This family phase benefits from steady attention to family harmony balanced with respect for individual needs.`;
+    return `Your family life continues to stabilize.`;
   }
   
   if (domain === 'mental_state') {
     if (pressure === 'high') {
-      return `Approaching this inner phase with self-awareness and emotional practices can restore mental clarity and build lasting inner peace.`;
+      return `This phase will pass. Self-awareness and emotional regulation restore peace over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent attention to mental well-being and practices that nurture inner clarity.`;
+      return `This period supports your mental well-being.`;
     }
-    if (stability === 'low') {
-      return `Adaptability and self-compassion help establish more stable emotional patterns.`;
-    }
-    return `This inner phase benefits from steady attention to mental well-being balanced with practices that support emotional balance.`;
+    return `Your mental clarity continues to stabilize.`;
   }
   
   if (domain === 'spiritual_growth') {
     if (pressure === 'high') {
-      return `Approaching this spiritual phase with consistent practice and inner reflection can deepen your spiritual understanding and connection.`;
+      return `This phase will pass. Consistent practice deepens understanding over time.`;
     }
     if (support === 'high') {
-      return `This period rewards dedicated spiritual practice and openness to deeper spiritual insights and transformation.`;
+      return `This period supports your spiritual growth.`;
     }
-    if (stability === 'low') {
-      return `Flexibility and openness help establish a more authentic spiritual path.`;
-    }
-    return `This spiritual phase benefits from steady practice balanced with openness to new spiritual perspectives and growth.`;
+    return `Your spiritual practice continues to deepen.`;
   }
   
   if (domain === 'timing_luck') {
     if (pressure === 'high') {
-      return `Approaching timing decisions with patience and careful preparation can help you recognize and act on favorable opportunities when they arise.`;
+      return `This phase will pass. Patience and preparation help recognize opportunities over time.`;
     }
     if (support === 'high') {
-      return `This period rewards readiness to act and thoughtful engagement with favorable timing for important decisions.`;
+      return `This period supports favorable timing.`;
     }
-    if (stability === 'low') {
-      return `Flexibility and awareness help you adapt to changing conditions and recognize favorable moments.`;
-    }
-    return `This timing phase benefits from steady preparation balanced with readiness to act when favorable conditions emerge.`;
+    return `Timing continues to stabilize.`;
   }
   
   if (domain === 'events_changes') {
     if (pressure === 'high') {
-      return `Approaching life changes with careful preparation and adaptability can help you navigate transitions smoothly and emerge stronger.`;
+      return `This phase will pass. Careful preparation helps navigate transitions over time.`;
     }
     if (support === 'high') {
-      return `This period rewards openness to change and thoughtful engagement with positive life developments and transitions.`;
+      return `This period supports positive change.`;
     }
-    if (stability === 'low') {
-      return `Flexibility and readiness help you adapt to new circumstances and embrace positive transformation.`;
-    }
-    return `This phase of change benefits from steady adaptation balanced with openness to positive developments and new directions.`;
+    return `Life changes continue to unfold.`;
   }
   
   if (domain === 'self_identity') {
     if (pressure === 'high') {
-      return `Approaching this phase of self-discovery with honest reflection and self-compassion can help you understand and express your authentic self more fully.`;
+      return `This phase will pass. Honest reflection clarifies your identity over time.`;
     }
     if (support === 'high') {
-      return `This period rewards consistent self-reflection and authentic self-expression aligned with your true values and identity.`;
+      return `This period supports self-clarity.`;
     }
-    if (stability === 'low') {
-      return `Navigating self-identity with openness and self-acceptance can help you establish a clearer and more authentic sense of self.`;
-    }
-    return `This phase of self-discovery benefits from steady self-reflection balanced with openness to new self-understandings and authentic growth.`;
+    return `Your self-understanding continues to deepen.`;
   }
   
-  // Generic fallback with varied openings per domain
+  // Generic fallback - calm, reassuring
   if (pressure === 'high') {
-    const openers = [
-      `Focusing on ${framing.action[0]} and steady effort`,
-      `Applying ${framing.action[0]} with consistent attention`,
-      `Engaging with ${framing.action[0]} and thoughtful focus`
-    ];
-    const opener = openers[Math.floor(Math.random() * openers.length)];
-    return `${opener} can transform challenges into long-term ${framing.focus[0]}.`;
+    return `This phase will pass. Steady effort builds stability over time.`;
   }
   
   if (support === 'high') {
-    const openers = [
-      `Consistent effort and thoughtful engagement`,
-      `Steady work and mindful attention`,
-      `Dedicated practice and careful planning`
-    ];
-    const opener = openers[Math.floor(Math.random() * openers.length)];
-    return `${opener} are rewarded with meaningful progress.`;
+    return `This period supports your growth.`;
   }
   
-  if (stability === 'low') {
-    const openers = [
-      `Patience and adaptability`,
-      `Flexibility and steady attention`,
-      `Openness to change and consistent effort`
-    ];
-    const opener = openers[Math.floor(Math.random() * openers.length)];
-    return `${opener} help establish steadier patterns over time.`;
-  }
-  
-  const openers = [
-    `A balanced approach`,
-    `Thoughtful attention to both`,
-    `Maintaining equilibrium between`
-  ];
-  const opener = openers[Math.floor(Math.random() * openers.length)];
-  return `${opener} honors both opportunities and responsibilities.`;
+  return `Your path continues to unfold.`;
 }
 
 /**
@@ -976,36 +938,35 @@ function composeDomainNarrative(domainSignal) {
   // GLOBAL LIFE-PHASE COHERENCE: Use core life phase to ensure unified tone
   // The core life phase is implicitly referenced - all domains share the same emotional gravity
   
+  // PAIN-FIRST UX: Structure = Pain → Validation → Direction → Calm close
   // Build paragraph components with themes
-  // ASTROLOGICAL AUTHENTICITY: If mahadasha is active, weight it heavily in tone
-  const opening = generateOpening(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
-  const explanation = generateExplanation(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
-  const timeAwareness = generateTimeAwareness(time_windows || {}, vocab, hasDasha, hasTransit);
-  const closing = generateClosing(domain, summary_metrics, vocab, themes);
+  const pain = generateOpening(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
+  const validation = generateValidation(domain, summary_metrics, vocab, hasDasha, hasTransit); // Brief, optional astrology
+  const direction = generateExplanation(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
+  const calmClose = generateClosing(domain, summary_metrics, vocab, themes);
   
-  // Combine into single paragraph with de-duplication
-  const sentences = [opening];
+  // PAIN-FIRST UX: Combine following structure
+  const sentences = [pain]; // Always start with pain
   
-  // Add explanation only if it's different from opening
-  if (explanation && explanation !== opening && !isSimilarSentence(explanation, opening)) {
-    sentences.push(explanation);
+  // Add validation only if brief and adds value (optional)
+  if (validation && validation.length < 80 && !isSimilarSentence(validation, pain)) {
+    sentences.push(validation);
   }
   
-  if (timeAwareness && !isSimilarSentence(timeAwareness, opening) && !isSimilarSentence(timeAwareness, explanation)) {
-    sentences.push(timeAwareness);
+  // Add direction if different from pain
+  if (direction && direction !== pain && !isSimilarSentence(direction, pain)) {
+    sentences.push(direction);
   }
   
-  // Add closing only if it adds value
-  if (closing && !isSimilarSentence(closing, opening) && !isSimilarSentence(closing, explanation)) {
-    sentences.push(closing);
+  // Add calm close only if it adds value and is different
+  if (calmClose && !isSimilarSentence(calmClose, pain) && !isSimilarSentence(calmClose, direction)) {
+    sentences.push(calmClose);
   }
   
-  // Quality guardrail: Limit to 1-2 concise sentences
-  // If we have more than 2, keep the most informative ones
-  if (sentences.length > 2) {
-    // Keep opening (most important) and the longest/most specific one
-    const sorted = sentences.slice(1).sort((a, b) => b.length - a.length);
-    return [opening, sorted[0]].join(' ').trim();
+  // Quality guardrail: Limit to 2-3 sentences max (Pain + Direction/Close)
+  if (sentences.length > 3) {
+    // Keep pain (most important), direction, and calm close
+    return [pain, direction, calmClose].filter(s => s).join(' ').trim();
   }
   
   return sentences.join(' ').trim();
