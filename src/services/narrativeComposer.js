@@ -182,9 +182,40 @@ const DOMAIN_VOCABULARY = {
  * - Strength/Yoga present → more confidence/stability language
  * - Never mentions planets, nakshatra, yoga names
  */
-function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = false) {
+function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = false, mahadashaTone = null, coreLifePhase = null) {
   const { pressure, support, stability } = metrics;
   const framing = vocab.framing;
+  
+  // GLOBAL LIFE-PHASE COHERENCE: Ensure all domains share emotional gravity
+  // If core life phase is heavy, all domains should reflect that weight
+  const effectivePressure = coreLifePhase?.emotionalGravity === 'heavy' && pressure === 'low' 
+    ? 'medium' 
+    : coreLifePhase?.emotionalGravity === 'light' && pressure === 'high'
+    ? 'medium'
+    : pressure;
+  
+  const effectiveSupport = coreLifePhase?.emotionalGravity === 'heavy' && support === 'high'
+    ? 'medium'
+    : coreLifePhase?.emotionalGravity === 'light' && support === 'low'
+    ? 'medium'
+    : support;
+  
+  // ASTROLOGICAL AUTHENTICITY: Mahadasha dominance - if active, it must color all predictions
+  if (mahadashaTone && mahadashaTone.weight >= 1.3) {
+    // Heavy mahadasha (Saturn, Rahu, Ketu, Mars) - must dominate tone
+    if (domain === 'career_direction' && mahadashaTone.planet === 'SATURN') {
+      return `Professional responsibilities feel heavier now. ${mahadashaTone.experience}`;
+    }
+    if (domain === 'mental_state' && mahadashaTone.planet === 'SATURN') {
+      return `Mental and emotional well-being feels more strained now. ${mahadashaTone.experience}`;
+    }
+    if (domain === 'money_finance' && mahadashaTone.planet === 'SATURN') {
+      return `Financial planning requires careful attention. ${mahadashaTone.experience}`;
+    }
+  }
+  
+  // Use effective metrics for coherence
+  const adjustedMetrics = { ...metrics, pressure: effectivePressure, support: effectiveSupport };
   
   // 5-LAYER COMPATIBILITY: Adapt tone if Strength/Yoga present
   const confidenceBoost = hasStrengthYoga ? 'more clearly' : '';
@@ -197,120 +228,121 @@ function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = 
     : framing.focus[0];
   
   // Domain-specific opening patterns - Human, personal, astrologer voice
+  // GLOBAL LIFE-PHASE COHERENCE: Use effective metrics to ensure unified gravity
   if (domain === 'career_direction') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your professional direction or responsibilities may feel heavier now. This period invites patience as progress unfolds more gradually than you might expect.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Professional responsibilities feel heavier now. This period invites patience as progress unfolds gradually.`;
     }
-    if (pressure === 'high' && support === 'medium') {
-      return `You may notice increased demands alongside new opportunities in your work life. Careful prioritization helps you navigate this balance.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
+      return `Increased demands appear alongside new opportunities in your work life. Careful prioritization helps you navigate this balance.`;
     }
-    if (support === 'high' && pressure === 'low') {
-      return `Career opportunities and recognition flow more easily now. This period supports your professional visibility and growth.`;
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
+      return `Career opportunities and recognition flow easily now. This period supports your professional visibility and growth.`;
     }
     if (stability === 'low') {
-      return `Your professional path may gently shift direction. Staying open to new possibilities serves you well.`;
+      return `Your professional path shifts direction. Staying open to new possibilities serves you well.`;
     }
-    return `Your work life moves steadily forward. At the same time, emerging opportunities invite your attention.`;
+    return `Your work life moves steadily forward. Emerging opportunities invite your attention.`;
   }
   
   if (domain === 'money_finance') {
-    if (pressure === 'high' && support === 'low') {
-      return `How you manage money or long-term security may require more careful attention now. Thoughtful planning helps maintain stability during this phase.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Money management and long-term security require careful attention. Thoughtful planning maintains stability.`;
     }
-    if (pressure === 'high' && support === 'medium') {
-      return `Financial constraints and opportunities appear together. Strategic decisions help you balance immediate needs with future growth.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
+      return `Financial constraints and opportunities appear together. Strategic decisions balance immediate needs with future growth.`;
     }
-    if (support === 'high' && pressure === 'low') {
-      return `Financial stability and growth opportunities feel more accessible. This period supports building your resources and security.`;
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
+      return `Financial stability and growth opportunities feel accessible. This period supports building resources and security.`;
     }
     if (stability === 'low') {
-      return `Your approach to money may benefit from flexibility. Building sustainable foundations matters more than quick gains.`;
+      return `Your approach to money benefits from flexibility. Building sustainable foundations matters more than quick gains.`;
     }
-    return `Your financial planning continues steadily. This period also brings opportunities to strengthen your long-term security.`;
+    return `Your financial planning continues steadily. Opportunities strengthen your long-term security.`;
   }
   
   if (domain === 'relationships') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your relationships may feel more sensitive or require extra care now. Patient communication and deeper understanding help restore harmony.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Your relationships feel more sensitive and require extra care now. Patient communication and deeper understanding restore harmony.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Connection and complexity appear together in your relationships. Thoughtful attention to both your needs and theirs creates balance.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Connection, understanding, and mutual support flow more easily now. This period supports deeper bonds and harmony in your relationships.`;
     }
     if (stability === 'low') {
-      return `Your relationships may gently evolve. Openness to new ways of connecting and understanding each other serves you well.`;
+      return `Your relationships evolve in new directions. Openness to different ways of connecting deepens understanding.`;
     }
     return `Your relationships balance connection with individual needs. This period supports deeper understanding and mutual care.`;
   }
   
   if (domain === 'health_body') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your physical routines may need steadier discipline and awareness now. Energy levels benefit from careful management and supportive habits.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Your physical routines need steadier discipline and awareness now. Energy levels benefit from careful management and supportive habits.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Physical demands and healing support appear together. Balanced self-care and recovery practices help you maintain well-being.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Vitality, strength, and health stability feel more accessible. This period supports your physical well-being and energy.`;
     }
     if (stability === 'low') {
-      return `Your lifestyle choices may benefit from adaptability. Building sustainable wellness habits matters more than quick fixes.`;
+      return `Your lifestyle choices benefit from adaptability. Building sustainable wellness habits matters more than quick fixes.`;
     }
     return `Your physical well-being continues steadily. Thoughtful self-care and awareness support your vitality.`;
   }
   
   if (domain === 'family_home') {
-    if (pressure === 'high' && support === 'low') {
-      return `Family responsibilities or home matters may require more attention now. Patience, understanding, and mutual support help maintain harmony.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Family responsibilities or home matters require more attention now. Patience, understanding, and mutual support maintain harmony.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Connection, support, and domestic stability feel more accessible. This period supports harmony and comfort in your family and home life.`;
     }
     if (stability === 'low') {
-      return `Your family dynamics may gently evolve. Openness to new ways of relating helps create a more supportive home environment.`;
+      return `Your family dynamics transform. New ways of relating create a more supportive home environment.`;
     }
     return `Your family and home life balance individual needs with collective harmony. This period supports mutual care and emotional security.`;
   }
   
   if (domain === 'mental_state') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your mental and emotional well-being may feel more strained now. Self-awareness, reflection, and practices that restore inner balance help.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Your mental and emotional well-being feels more strained now. Self-awareness, reflection, and practices that restore inner balance help.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Clarity, emotional stability, and inner peace feel more accessible. This period supports your mental and emotional well-being.`;
     }
     if (stability === 'low') {
-      return `Your emotional management may benefit from adaptability. Practices that cultivate mental clarity serve you well.`;
+      return `Your emotional management benefits from adaptability. Practices that cultivate mental clarity serve you well.`;
     }
     return `Your mental and emotional well-being balance self-awareness with inner peace. This period supports clarity and emotional stability.`;
   }
   
   if (domain === 'spiritual_growth') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your spiritual practice may encounter obstacles now. Deeper reflection and a renewed commitment to spiritual understanding help.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Your spiritual practice encounters obstacles now. Deeper reflection and a renewed commitment to spiritual understanding help.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Spiritual challenges and insights appear together. Patience and consistent practice support your growth.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Inner wisdom, spiritual connection, and deeper understanding feel more accessible. This period supports your spiritual growth.`;
     }
     if (stability === 'low') {
-      return `Your spiritual understanding may gently evolve. Openness to new perspectives and practices serves you well.`;
+      return `Your spiritual understanding deepens. New perspectives and practices expand your awareness.`;
     }
     return `Your spiritual practice continues steadily. This period supports deepening awareness and spiritual growth.`;
   }
   
   if (domain === 'timing_luck') {
-    if (pressure === 'high' && support === 'low') {
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
       return `Important decisions and opportunities require careful consideration, as favorable windows may be less accessible in the immediate term.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Significant actions face mixed timing, with some opportunities present while others require patience and better preparation.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Favorable timing supports important decisions and actions, with opportunities and supportive conditions more readily available.`;
     }
     if (stability === 'low') {
@@ -320,13 +352,13 @@ function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = 
   }
   
   if (domain === 'events_changes') {
-    if (pressure === 'high' && support === 'low') {
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
       return `Significant changes require careful navigation, patience, and thoughtful adaptation to new circumstances.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Transitions present both challenges and opportunities, calling for balanced preparation and openness to change.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Positive change flows smoothly, with transitions and new opportunities more accessible.`;
     }
     if (stability === 'low') {
@@ -336,27 +368,28 @@ function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = 
   }
   
   if (domain === 'self_identity') {
-    if (pressure === 'high' && support === 'low') {
-      return `Your sense of who you are may feel more uncertain now. Deeper self-reflection and authentic self-discovery help clarify your path.`;
+    if (effectivePressure === 'high' && effectiveSupport === 'low') {
+      return `Your sense of who you are feels more uncertain now. Deeper self-reflection and authentic self-discovery clarify your path.`;
     }
-    if (pressure === 'high' && support === 'medium') {
+    if (effectivePressure === 'high' && effectiveSupport === 'medium') {
       return `Self-doubt and self-discovery appear together. Patience and honest self-reflection support your growth.`;
     }
-    if (support === 'high' && pressure === 'low') {
+    if (effectiveSupport === 'high' && effectivePressure === 'low') {
       return `Self-awareness, authentic expression, and personal values feel more accessible. This period supports your true identity.`;
     }
     if (stability === 'low') {
-      return `Your sense of self may gently evolve. Openness to new self-understandings and flexibility in expression serve you well.`;
+      return `Your sense of self transforms. New self-understandings and authentic expression clarify your identity.`;
     }
     return `Your self-discovery continues steadily. This period supports authentic personal growth and clarity about who you are.`;
   }
   
   // Generic fallback with theme context - Natural, varied openings
-  if (pressure === 'high' && support === 'low') {
+  // GLOBAL LIFE-PHASE COHERENCE: Use effective metrics
+  if (effectivePressure === 'high' && effectiveSupport === 'low') {
     return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} may require focused attention and steady ${framing.action[0]} during this period.`;
   }
   
-  if (support === 'high' && pressure === 'low') {
+  if (effectiveSupport === 'high' && effectivePressure === 'low') {
     return `${themeContext.charAt(0).toUpperCase() + themeContext.slice(1)} and positive developments are more accessible.`;
   }
   
@@ -378,7 +411,7 @@ function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = 
  * - Strength/Yoga present → more confidence language
  * - Never mentions planets, nakshatra, yoga names
  */
-function generateExplanation(domain, metrics, vocab, themes = [], hasStrengthYoga = false) {
+function generateExplanation(domain, metrics, vocab, themes = [], hasStrengthYoga = false, mahadashaTone = null, coreLifePhase = null) {
   const { pressure, support, stability } = metrics;
   const framing = vocab.framing;
   
@@ -638,7 +671,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards consistent professional effort and thoughtful engagement with career opportunities.`;
     }
     if (stability === 'low') {
-      return `Navigating this career phase with flexibility and openness can help establish a more fulfilling professional direction.`;
+      return `Flexibility and openness help establish a more fulfilling professional direction.`;
     }
     return `This professional phase benefits from steady effort balanced with awareness of emerging career opportunities.`;
   }
@@ -651,7 +684,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards thoughtful financial decisions and consistent resource-building practices.`;
     }
     if (stability === 'low') {
-      return `Navigating this financial phase with adaptability and planning can help establish more stable financial patterns.`;
+      return `Adaptability and planning help establish more stable financial patterns.`;
     }
     return `This financial phase benefits from steady resource management balanced with awareness of growth opportunities.`;
   }
@@ -664,7 +697,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards consistent attention to relationships and thoughtful engagement with those around you.`;
     }
     if (stability === 'low') {
-      return `Navigating this relationship phase with openness and communication can help establish more harmonious connections.`;
+      return `Openness and communication help establish more harmonious connections.`;
     }
     return `This relationship phase benefits from steady attention to connection balanced with respect for individual needs.`;
   }
@@ -677,7 +710,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards consistent health practices and thoughtful attention to physical well-being.`;
     }
     if (stability === 'low') {
-      return `Navigating this health phase with adaptability and self-awareness can help establish more sustainable wellness patterns.`;
+      return `Adaptability and self-awareness help establish more sustainable wellness patterns.`;
     }
     return `This health phase benefits from steady self-care balanced with awareness of your body's changing needs.`;
   }
@@ -690,7 +723,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards consistent attention to family needs and thoughtful engagement with family life.`;
     }
     if (stability === 'low') {
-      return `Navigating this family phase with openness and understanding can help establish more supportive family dynamics.`;
+      return `Openness and understanding help establish more supportive family dynamics.`;
     }
     return `This family phase benefits from steady attention to family harmony balanced with respect for individual needs.`;
   }
@@ -703,7 +736,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards consistent attention to mental well-being and practices that nurture inner clarity.`;
     }
     if (stability === 'low') {
-      return `Navigating this inner phase with adaptability and self-compassion can help establish more stable emotional patterns.`;
+      return `Adaptability and self-compassion help establish more stable emotional patterns.`;
     }
     return `This inner phase benefits from steady attention to mental well-being balanced with practices that support emotional balance.`;
   }
@@ -716,7 +749,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards dedicated spiritual practice and openness to deeper spiritual insights and transformation.`;
     }
     if (stability === 'low') {
-      return `Navigating this spiritual phase with flexibility and openness can help establish a more authentic spiritual path.`;
+      return `Flexibility and openness help establish a more authentic spiritual path.`;
     }
     return `This spiritual phase benefits from steady practice balanced with openness to new spiritual perspectives and growth.`;
   }
@@ -729,7 +762,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards readiness to act and thoughtful engagement with favorable timing for important decisions.`;
     }
     if (stability === 'low') {
-      return `Navigating timing with flexibility and awareness can help you adapt to changing conditions and recognize favorable moments.`;
+      return `Flexibility and awareness help you adapt to changing conditions and recognize favorable moments.`;
     }
     return `This timing phase benefits from steady preparation balanced with readiness to act when favorable conditions emerge.`;
   }
@@ -742,7 +775,7 @@ function generateClosing(domain, metrics, vocab, themes = []) {
       return `This period rewards openness to change and thoughtful engagement with positive life developments and transitions.`;
     }
     if (stability === 'low') {
-      return `Navigating changes with flexibility and readiness can help you adapt to new circumstances and embrace positive transformation.`;
+      return `Flexibility and readiness help you adapt to new circumstances and embrace positive transformation.`;
     }
     return `This phase of change benefits from steady adaptation balanced with openness to positive developments and new directions.`;
   }
@@ -847,8 +880,77 @@ function isSimilarSentence(s1, s2) {
  * 
  * QUALITY: Reduces repetition, limits to 1-2 concise sentences
  */
+/**
+ * Extract current mahadasha planet from domain signal context
+ * ASTROLOGICAL AUTHENTICITY: Mahadasha must dominate tone
+ */
+function extractCurrentMahadasha(domainSignal) {
+  // Check if mahadasha info is in astro snapshot metadata
+  // This would be passed through from the prediction engine
+  const mahadasha = domainSignal._mahadasha_context?.current_mahadasha || null;
+  return mahadasha ? mahadasha.toUpperCase() : null;
+}
+
+/**
+ * Get mahadasha tone weight - how much it should dominate predictions
+ * ASTROLOGICAL AUTHENTICITY: Saturn Mahadasha = pressure, delay, isolation, karmic weight
+ */
+function getMahadashaToneWeight(mahadasha) {
+  if (!mahadasha) return null;
+  
+  const tones = {
+    'SATURN': {
+      weight: 1.5, // Heavy dominance
+      feeling: 'pressure, delay, isolation, karmic weight',
+      experience: 'This period emphasizes responsibility, discipline, and long-term restructuring. You may feel pressure, delays, or isolation as karmic lessons unfold.'
+    },
+    'RAHU': {
+      weight: 1.4,
+      feeling: 'material desires, restlessness, unconventional paths',
+      experience: 'This period brings strong material desires and restlessness. Unconventional paths and sudden changes may dominate your experience.'
+    },
+    'KETU': {
+      weight: 1.4,
+      feeling: 'detachment, spiritual focus, loss, karmic resolution',
+      experience: 'This period emphasizes detachment and spiritual focus. You may experience losses or karmic resolution as you move toward liberation.'
+    },
+    'MARS': {
+      weight: 1.3,
+      feeling: 'action, conflict, energy, courage',
+      experience: 'This period brings intense energy and action. Conflicts may arise, requiring courage and assertive energy.'
+    },
+    'SUN': {
+      weight: 1.2,
+      feeling: 'authority, leadership, confidence, visibility',
+      experience: 'This period emphasizes authority and leadership. Your confidence and visibility increase.'
+    },
+    'MOON': {
+      weight: 1.1,
+      feeling: 'emotional patterns, intuition, inner security',
+      experience: 'This period focuses on emotional patterns and inner security. Your intuition and emotional awareness deepen.'
+    },
+    'MERCURY': {
+      weight: 1.1,
+      feeling: 'communication, learning, intellectual pursuits',
+      experience: 'This period emphasizes communication and learning. Intellectual pursuits and mental activity increase.'
+    },
+    'JUPITER': {
+      weight: 1.0,
+      feeling: 'wisdom, expansion, growth, spirituality',
+      experience: 'This period brings wisdom and expansion. Growth opportunities and spiritual development are supported.'
+    },
+    'VENUS': {
+      weight: 1.0,
+      feeling: 'relationships, beauty, material comforts',
+      experience: 'This period emphasizes relationships and material comforts. Harmony and pleasure are more accessible.'
+    }
+  };
+  
+  return tones[mahadasha] || null;
+}
+
 function composeDomainNarrative(domainSignal) {
-  const { domain, summary_metrics, themes = [], time_windows, rule_trace, _layer_status } = domainSignal;
+  const { domain, summary_metrics, themes = [], time_windows, rule_trace, _layer_status, _core_life_phase } = domainSignal;
   
   const vocab = DOMAIN_VOCABULARY[domain] || {
     area: 'life',
@@ -867,9 +969,17 @@ function composeDomainNarrative(domainSignal) {
   const hasTransit = rule_trace?.transit_rules_applied?.length > 0;
   const hasNakshatra = rule_trace?.nakshatra_rules_applied?.length > 0;
   
+  // ASTROLOGICAL AUTHENTICITY: Extract and weight mahadasha dominance
+  const currentMahadasha = extractCurrentMahadasha(domainSignal) || (_core_life_phase?.mahadasha || null);
+  const mahadashaTone = currentMahadasha ? getMahadashaToneWeight(currentMahadasha) : null;
+  
+  // GLOBAL LIFE-PHASE COHERENCE: Use core life phase to ensure unified tone
+  // The core life phase is implicitly referenced - all domains share the same emotional gravity
+  
   // Build paragraph components with themes
-  const opening = generateOpening(domain, summary_metrics, vocab, themes, hasStrengthYoga);
-  const explanation = generateExplanation(domain, summary_metrics, vocab, themes, hasStrengthYoga);
+  // ASTROLOGICAL AUTHENTICITY: If mahadasha is active, weight it heavily in tone
+  const opening = generateOpening(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
+  const explanation = generateExplanation(domain, summary_metrics, vocab, themes, hasStrengthYoga, mahadashaTone, _core_life_phase);
   const timeAwareness = generateTimeAwareness(time_windows || {}, vocab, hasDasha, hasTransit);
   const closing = generateClosing(domain, summary_metrics, vocab, themes);
   
@@ -902,25 +1012,250 @@ function composeDomainNarrative(domainSignal) {
 }
 
 /**
+ * Determine core life phase from all domain signals
+ * GLOBAL LIFE-PHASE COHERENCE: Based on Mahadasha + dominant house + dosha
+ */
+function determineCoreLifePhase(allDomainSignals) {
+  // Extract mahadasha from first signal that has it
+  let mahadasha = null;
+  for (const signal of allDomainSignals) {
+    const m = extractCurrentMahadasha(signal);
+    if (m) {
+      mahadasha = m;
+      break;
+    }
+  }
+  
+  // Determine dominant emotional gravity from all domains
+  // Count pressure levels across all domains
+  const pressureCounts = { high: 0, medium: 0, low: 0 };
+  const supportCounts = { high: 0, medium: 0, low: 0 };
+  const stabilityCounts = { high: 0, medium: 0, low: 0 };
+  
+  for (const signal of allDomainSignals) {
+    const { pressure, support, stability } = signal.summary_metrics || {};
+    if (pressure) pressureCounts[pressure] = (pressureCounts[pressure] || 0) + 1;
+    if (support) supportCounts[support] = (supportCounts[support] || 0) + 1;
+    if (stability) stabilityCounts[stability] = (stabilityCounts[stability] || 0) + 1;
+  }
+  
+  // Determine dominant metrics
+  const dominantPressure = Object.keys(pressureCounts).reduce((a, b) => 
+    pressureCounts[a] > pressureCounts[b] ? a : b, 'medium'
+  );
+  const dominantSupport = Object.keys(supportCounts).reduce((a, b) => 
+    supportCounts[a] > supportCounts[b] ? a : b, 'medium'
+  );
+  const dominantStability = Object.keys(stabilityCounts).reduce((a, b) => 
+    stabilityCounts[a] > stabilityCounts[b] ? a : b, 'medium'
+  );
+  
+  // Determine dominant house based on most active domain
+  // Map domains to houses
+  const domainToHouse = {
+    'self_identity': 1,
+    'money_finance': 2,
+    'relationships': 7,
+    'career_direction': 10,
+    'health_body': 6,
+    'family_home': 4,
+    'spiritual_growth': 9,
+    'mental_state': 12
+  };
+  
+  // Find domain with highest pressure or lowest support (most active)
+  let dominantDomain = null;
+  let maxActivity = -1;
+  for (const signal of allDomainSignals) {
+    const { pressure, support, confidence } = signal.summary_metrics || {};
+    const activity = (pressure === 'high' ? 3 : pressure === 'medium' ? 2 : 1) + 
+                     (support === 'low' ? 3 : support === 'medium' ? 2 : 1) +
+                     (confidence || 0) * 2;
+    if (activity > maxActivity) {
+      maxActivity = activity;
+      dominantDomain = signal.domain;
+    }
+  }
+  
+  const dominantHouse = dominantDomain ? domainToHouse[dominantDomain] : null;
+  
+  // Build core life phase description
+  const mahadashaTone = mahadasha ? getMahadashaToneWeight(mahadasha) : null;
+  
+  let phaseDescription = '';
+  if (mahadashaTone) {
+    phaseDescription = mahadashaTone.feeling;
+  } else if (dominantPressure === 'high' && dominantSupport === 'low') {
+    phaseDescription = 'restructuring, challenges, and karmic lessons';
+  } else if (dominantPressure === 'high' && dominantSupport === 'medium') {
+    phaseDescription = 'growth through challenges and opportunities';
+  } else if (dominantSupport === 'high' && dominantPressure === 'low') {
+    phaseDescription = 'expansion, harmony, and positive developments';
+  } else {
+    phaseDescription = 'steady progress and gradual transformation';
+  }
+  
+  return {
+    mahadasha,
+    dominantHouse,
+    dominantPressure,
+    dominantSupport,
+    dominantStability,
+    phaseDescription,
+    emotionalGravity: dominantPressure === 'high' && dominantSupport === 'low' ? 'heavy' :
+                      dominantPressure === 'high' && dominantSupport === 'medium' ? 'moderate' :
+                      dominantSupport === 'high' && dominantPressure === 'low' ? 'light' : 'balanced'
+  };
+}
+
+/**
+ * Get relative intensity factor for domain
+ * RELATIVE INTENSITY BALANCE: Each domain has natural intensity variation
+ */
+function getDomainIntensityFactor(domain) {
+  // Career / duty-related domains → highest intensity
+  if (domain === 'career_direction' || domain === 'self_identity') {
+    return 1.0; // Full intensity
+  }
+  
+  // Money / stability → medium-high
+  if (domain === 'money_finance' || domain === 'family_home') {
+    return 0.85; // Slightly reduced
+  }
+  
+  // Relationships → medium
+  if (domain === 'relationships' || domain === 'spiritual_growth') {
+    return 0.7; // Moderate intensity
+  }
+  
+  // Health / mind → medium-low (unless explicitly afflicted)
+  if (domain === 'health_body' || domain === 'mental_state') {
+    return 0.6; // Lower intensity by default
+  }
+  
+  // Timing, events, changes → medium
+  if (domain === 'timing_luck' || domain === 'events_changes') {
+    return 0.75; // Moderate
+  }
+  
+  // Default
+  return 0.8;
+}
+
+/**
+ * Apply unified emotional gravity with relative intensity balance
+ * RELATIVE INTENSITY BALANCE: Core life phase dominant, but domains have natural variation
+ */
+function applyUnifiedGravity(domainSignal, coreLifePhase) {
+  const { domain, summary_metrics } = domainSignal;
+  const { pressure, support, stability } = summary_metrics;
+  
+  // Get domain's relative intensity factor
+  const intensityFactor = getDomainIntensityFactor(domain);
+  
+  // Core life phase remains dominant, but apply relative intensity
+  if (coreLifePhase.emotionalGravity === 'heavy') {
+    // Heavy core phase: All domains reflect weight, but with relative variation
+    const adjustedMetrics = { ...summary_metrics };
+    
+    // RELATIVE INTENSITY: High-intensity domains (career) feel more weight
+    // Low-intensity domains (health, mind) feel lighter unless explicitly afflicted
+    if (pressure === 'low') {
+      if (intensityFactor >= 0.85) {
+        // High-intensity domains (career, money) should feel the weight
+        adjustedMetrics.pressure = 'medium';
+      } else if (intensityFactor < 0.7) {
+        // Low-intensity domains (health, mind) can stay lighter
+        adjustedMetrics.pressure = 'low'; // Keep as is - natural variation
+      } else {
+        // Medium-intensity domains get slight adjustment
+        adjustedMetrics.pressure = 'medium';
+      }
+    }
+    
+    if (support === 'high') {
+      if (intensityFactor >= 0.85) {
+        // High-intensity domains should reflect the heavy phase
+        adjustedMetrics.support = 'medium';
+      } else if (intensityFactor < 0.7) {
+        // Low-intensity domains can keep higher support (natural variation)
+        adjustedMetrics.support = 'high'; // Keep as is
+      } else {
+        adjustedMetrics.support = 'medium';
+      }
+    }
+    
+    return adjustedMetrics;
+  } else if (coreLifePhase.emotionalGravity === 'light') {
+    // Light core phase: All domains reflect lightness, but with relative variation
+    const adjustedMetrics = { ...summary_metrics };
+    
+    if (pressure === 'high') {
+      if (intensityFactor >= 0.85) {
+        // High-intensity domains can still have some pressure (natural variation)
+        adjustedMetrics.pressure = 'medium';
+      } else if (intensityFactor < 0.7) {
+        // Low-intensity domains should be lighter
+        adjustedMetrics.pressure = 'medium';
+      } else {
+        adjustedMetrics.pressure = 'medium';
+      }
+    }
+    
+    if (support === 'low') {
+      if (intensityFactor >= 0.85) {
+        // High-intensity domains can have medium support
+        adjustedMetrics.support = 'medium';
+      } else if (intensityFactor < 0.7) {
+        // Low-intensity domains should have better support
+        adjustedMetrics.support = 'medium';
+      } else {
+        adjustedMetrics.support = 'medium';
+      }
+    }
+    
+    return adjustedMetrics;
+  }
+  
+  // Balanced or moderate - keep as is, allowing natural variation
+  return summary_metrics;
+}
+
+/**
  * Main function: Compose narratives for all domain signals
+ * GLOBAL LIFE-PHASE COHERENCE: All domains must feel like one continuous life phase
  * 
  * @param {Array} domainSignalsWithPatches - Array of domain signals with time patches
  * @returns {Array} Array of domain text blocks
  */
 export function composeNarrative(domainSignalsWithPatches) {
-  return domainSignalsWithPatches
-    .filter(signal => {
-      // Only compose for domains with meaningful metrics
-      const { confidence } = signal.summary_metrics;
-      return confidence >= 0.3; // Minimum confidence threshold
-    })
-    .map(signal => ({
+  // Filter to meaningful signals
+  const meaningfulSignals = domainSignalsWithPatches.filter(signal => {
+    const { confidence } = signal.summary_metrics || {};
+    return confidence >= 0.3; // Minimum confidence threshold
+  });
+  
+  // GLOBAL LIFE-PHASE COHERENCE: Determine core life phase from all domains
+  const coreLifePhase = determineCoreLifePhase(meaningfulSignals);
+  
+  // Compose narratives with unified gravity
+  return meaningfulSignals.map(signal => {
+    // Apply unified emotional gravity
+    const adjustedMetrics = applyUnifiedGravity(signal, coreLifePhase);
+    const adjustedSignal = {
+      ...signal,
+      summary_metrics: adjustedMetrics,
+      _core_life_phase: coreLifePhase // Pass core phase for narrative generation
+    };
+    
+    return {
       domain: signal.domain,
-      text: composeDomainNarrative(signal),
-      summary_metrics: signal.summary_metrics,
+      text: composeDomainNarrative(adjustedSignal),
+      summary_metrics: adjustedMetrics,
       themes: signal.themes,
       time_windows: signal.time_windows,
       rule_trace: signal.rule_trace // Preserved for transparency, not in text
-    }));
+    };
+  });
 }
 

@@ -153,7 +153,40 @@ const HOUSE_DOMAINS = {
 };
 
 /**
- * Generate planet+house specific narrative
+ * Check if house is dusthana (6/8/12) - struggle houses
+ */
+function isDusthanaHouse(house) {
+  return house === 6 || house === 8 || house === 12;
+}
+
+/**
+ * Get dusthana house struggle description
+ */
+function getDusthanaStruggle(house, planetName) {
+  const struggles = {
+    6: {
+      primary: 'daily struggles, health challenges, and workplace conflicts',
+      feeling: 'constant effort without peace, restlessness, dissatisfaction',
+      experience: 'You may feel drained by daily routines, health concerns, or workplace tensions.'
+    },
+    8: {
+      primary: 'transformation, obstacles, and sudden changes',
+      feeling: 'deep pressure, hidden challenges, karmic weight',
+      experience: 'This placement brings deep pressure and hidden challenges that require significant inner strength.'
+    },
+    12: {
+      primary: 'losses, isolation, and karmic resolution',
+      feeling: 'isolation, draining energy, effort without visible results',
+      experience: 'This placement can feel isolating and draining, with effort that doesn\'t always show visible results.'
+    }
+  };
+  
+  return struggles[house] || null;
+}
+
+/**
+ * Generate planet+house specific narrative with astrological authenticity
+ * ASTROLOGICAL AUTHENTICITY: Dusthana houses must feel like struggle, not neutral
  */
 function generatePlanetHouseNarrative(planet, house, ruleMeaning = null) {
   const planetName = getPlanetName(planet);
@@ -166,6 +199,10 @@ function generatePlanetHouseNarrative(planet, house, ruleMeaning = null) {
     return ruleMeaning || `This planetary placement influences life experiences in this area.`;
   }
   
+  // ASTROLOGICAL AUTHENTICITY: Dusthana house pain priority
+  const isDusthana = isDusthanaHouse(house);
+  const struggle = isDusthana ? getDusthanaStruggle(house, planetName) : null;
+  
   // Build specific narrative combining planet nature + house domain - Human, personal, astrologer voice
   const narratives = [];
   
@@ -174,14 +211,20 @@ function generatePlanetHouseNarrative(planet, house, ruleMeaning = null) {
     ? `such as ${houseDomain.areas[0]} or ${houseDomain.areas[1] || houseDomain.areas[0]}`
     : `${houseDomain.primary} and ${houseDomain.secondary}`;
   
-  narratives.push(
-    `${planetName} in your ${getOrdinal(house)} house ${planetNature.influence} related to ${houseDomain.primary} and ${houseDomain.secondary}.`
-  );
-  
-  // Secondary statement: Specific areas affected - More personal
-  narratives.push(
-    `You may notice this influence particularly in areas ${areaPhrase}.`
-  );
+  // ASTROLOGICAL AUTHENTICITY: If dusthana, emphasize struggle
+  if (isDusthana && struggle) {
+    narratives.push(
+      `${planetName} in your ${getOrdinal(house)} house brings focus to ${struggle.primary}. ${struggle.experience}`
+    );
+  } else {
+    narratives.push(
+      `${planetName} in your ${getOrdinal(house)} house ${planetNature.influence} related to ${houseDomain.primary} and ${houseDomain.secondary}.`
+    );
+    // Secondary statement: Specific areas affected - More personal
+    narratives.push(
+      `You may notice this influence particularly in areas ${areaPhrase}.`
+    );
+  }
   
   // If rule meaning exists and is specific (not generic), incorporate it
   if (ruleMeaning && 
@@ -346,7 +389,9 @@ function formatRemedyForUX(description) {
     if (actions.length >= 2) {
       const lastAction = actions.pop();
       const actionList = actions.join(', ');
-      return `Simple acts like ${actionList}, or ${lastAction} may help bring balance during this time.`;
+      // Fix grammar: avoid "or or" patterns
+      const connector = lastAction.toLowerCase().startsWith('or ') ? '' : 'or ';
+      return `Simple practices such as ${actionList}, ${connector}${lastAction} may help restore balance.`;
     }
   }
   

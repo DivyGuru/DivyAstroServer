@@ -153,7 +153,23 @@ function generateMahadashaNarrative(planet, house, signName) {
   
   const domain = houseDomains[house] || `areas associated with the ${ordinal} house`;
   
-  return `During ${planetDisplayName} Mahadasha, ${planetDisplayName} influences your ${ordinal} house${signRef}, bringing focus to ${domain}. This period may bring significant developments and changes in these areas. Focus on understanding the opportunities and challenges that arise, and act with wisdom and patience.`;
+  // Planet-specific themes for meaningful one-line descriptions
+  const planetThemes = {
+    'SUN': 'authority, leadership, and personal confidence',
+    'MOON': 'emotional patterns, intuition, and inner security',
+    'MARS': 'action, courage, and assertive energy',
+    'MERCURY': 'communication, learning, and intellectual pursuits',
+    'JUPITER': 'wisdom, expansion, and spiritual growth',
+    'VENUS': 'relationships, beauty, and material comforts',
+    'SATURN': 'responsibility, discipline, and long-term restructuring of life priorities',
+    'RAHU': 'material desires, unconventional paths, and sudden changes',
+    'KETU': 'detachment, spiritual focus, and karmic resolution'
+  };
+  
+  const theme = planetThemes[planetName] || 'significant life developments';
+  
+  // Return concise, meaningful one-line description
+  return `This phase emphasizes ${theme}.`;
 }
 
 /**
