@@ -166,18 +166,21 @@ function generatePlanetHouseNarrative(planet, house, ruleMeaning = null) {
     return ruleMeaning || `This planetary placement influences life experiences in this area.`;
   }
   
-  // Build specific narrative combining planet nature + house domain
+  // Build specific narrative combining planet nature + house domain - Human, personal, astrologer voice
   const narratives = [];
   
-  // Primary statement: Planet influence on house domain
+  // Primary statement: Planet influence on house domain - More personal and insightful
+  const areaPhrase = houseDomain.areas.length > 0 
+    ? `such as ${houseDomain.areas[0]} or ${houseDomain.areas[1] || houseDomain.areas[0]}`
+    : `${houseDomain.primary} and ${houseDomain.secondary}`;
+  
   narratives.push(
-    `${planetName} in the ${getOrdinal(house)} house ${planetNature.influence} related to ${houseDomain.primary} and ${houseDomain.secondary}.`
+    `${planetName} in your ${getOrdinal(house)} house ${planetNature.influence} related to ${houseDomain.primary} and ${houseDomain.secondary}.`
   );
   
-  // Secondary statement: Specific areas affected
-  const specificAreas = houseDomain.areas.slice(0, 2).join(' and ');
+  // Secondary statement: Specific areas affected - More personal
   narratives.push(
-    `This placement particularly influences ${specificAreas}.`
+    `You may notice this influence particularly in areas ${areaPhrase}.`
   );
   
   // If rule meaning exists and is specific (not generic), incorporate it
@@ -324,6 +327,42 @@ function isActionableRemedy(text) {
 }
 
 /**
+ * Format remedy description to be supportive, optional, and non-judgmental
+ * UX: Remedies should feel optional and supportive, not prescriptive
+ */
+function formatRemedyForUX(description) {
+  if (!description || typeof description !== 'string') return description;
+  
+  const trimmed = description.trim();
+  
+  // If already starts with supportive language, return as-is
+  if (/^(simple|gentle|quiet|may|might|can|consider|you may|simple acts|optional)/i.test(trimmed)) {
+    return trimmed;
+  }
+  
+  // If it's a list (comma-separated actions), format supportively
+  if (trimmed.includes(',') && trimmed.length > 30) {
+    const actions = trimmed.split(',').map(s => s.trim()).filter(s => s.length > 0);
+    if (actions.length >= 2) {
+      const lastAction = actions.pop();
+      const actionList = actions.join(', ');
+      return `Simple acts like ${actionList}, or ${lastAction} may help bring balance during this time.`;
+    }
+  }
+  
+  // If starts with imperative verb (Donate, Feed, Chant) and is short, make it supportive
+  if (/^(donate|feed|chant|wear|install|perform|practice|avoid|give|offer|visit|go to|pray|meditate)/i.test(trimmed) && trimmed.length < 80) {
+    // Make it feel optional and supportive
+    const firstWord = trimmed.split(/\s+/)[0].toLowerCase();
+    const rest = trimmed.substring(trimmed.indexOf(' ') + 1);
+    return `Simple acts like ${firstWord}${rest ? ' ' + rest : ''} may help bring balance during this time.`;
+  }
+  
+  // Default: return as-is (should already be actionable from filter)
+  return trimmed;
+}
+
+/**
  * Deduplicate remedies by normalized text (case-insensitive, whitespace normalized)
  */
 function deduplicateRemedies(remedies) {
@@ -364,7 +403,7 @@ function extractRemediesFromRule(rule) {
       if (description && isActionableRemedy(description)) {
         remedies.push({
           number: remedy.number || index + 1,
-          description: description.trim()
+          description: formatRemedyForUX(description.trim())
         });
       }
     });
@@ -379,7 +418,7 @@ function extractRemediesFromRule(rule) {
       if (isActionableRemedy(description)) {
         remedies.push({
           number: parseInt(match[1]),
-          description: description
+          description: formatRemedyForUX(description)
         });
       }
     }
@@ -487,7 +526,7 @@ async function queryRemediesForPlanetHouse(planet, house) {
       if (isActionableRemedy(r.description)) {
         actionable.push({
           number: actionable.length + 1,
-          description: r.description.trim()
+          description: formatRemedyForUX(r.description.trim())
         });
       } else {
         // Try to extract actionable part from descriptive text
@@ -495,7 +534,7 @@ async function queryRemediesForPlanetHouse(planet, house) {
         if (extracted && extracted.length > 10) {
           actionable.push({
             number: actionable.length + 1,
-            description: extracted
+            description: formatRemedyForUX(extracted)
           });
         }
       }
@@ -730,14 +769,14 @@ export async function generateLalkitabPrediction(windowId) {
             if (isActionableRemedy(r.description)) {
               actionable.push({
                 number: actionable.length + 1,
-                description: r.description.trim()
+                description: formatRemedyForUX(r.description.trim())
               });
             } else {
               const extracted = extractActionableFromDescriptive(r.description);
               if (extracted && extracted.length > 10) {
                 actionable.push({
                   number: actionable.length + 1,
-                  description: extracted
+                  description: formatRemedyForUX(extracted)
                 });
               }
             }
