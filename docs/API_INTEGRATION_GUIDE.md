@@ -325,7 +325,10 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 }
 ```
 
-**Note:** Requires `scope: "yearly"` window. Timeline periods always start from `window.start_at` and cover next 12 months.
+**Note:** 
+- Requires `scope: "yearly"` window. 
+- Timeline periods always start from `window.start_at` and cover next 12 months.
+- **Quality Update (Dec 2025)**: Varshfal narratives now use correct ordinal grammar (1st, 2nd, 3rd house) and include specific life-domain descriptions.
 
 ---
 
@@ -373,7 +376,10 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 }
 ```
 
-**Note:** Works with any window scope. Requires `dasha.mahadashaPeriods` or `dasha.mahadasha` in `chart_data` when creating window.
+**Note:** 
+- Works with any window scope. 
+- Requires `dasha.mahadashaPeriods` or `dasha.mahadasha` in `chart_data` when creating window.
+- **Quality Update (Dec 2025)**: Dasha narratives now use correct ordinal grammar and include specific life-domain descriptions for better clarity.
 
 ---
 
@@ -421,6 +427,7 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 - Works with any window scope.
 - Requires `transits` array in `chart_data` when creating/updating snapshot.
 - Transits should include: `planet`, `sign`, `house`, `longitude` for each planet.
+- **Quality Update (Dec 2025)**: Transit narratives now use correct ordinal grammar (1st, 2nd, 3rd house) and include specific life-domain descriptions instead of generic text.
 
 ---
 
@@ -473,6 +480,7 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 - Works with any window scope.
 - Requires Lal Kitab rules to be present in the `rules` table with `source_book = 'lalkitab'` and `rule_type = 'BASE'`.
 - Rules are automatically matched based on planet positions in the chart.
+- **Quality Update (Dec 2025)**: Lal Kitab prediction narratives now use improved, specific descriptions with correct grammar and reduced repetition.
 
 ---
 
@@ -1101,9 +1109,144 @@ For questions or issues:
 
 ---
 
-**Last Updated:** 2025-12-22
+---
+
+## Universal Knowledge-Aware System (December 2025)
+
+### Overview
+
+The prediction system now uses a **Universal Knowledge-Aware** architecture that preserves maximum astrology knowledge from source books (Lal Kitab, BParasharHoraShastra, etc.).
+
+### Rule Classification
+
+Rules are classified into three categories:
+
+1. **EXECUTABLE** (`rule_nature = 'EXECUTABLE'`)
+   - Clear planet + house mapping
+   - `execution_status = 'READY'`
+   - Used for actual prediction generation
+   - Example: "Jupiter in 1st house supports wisdom and leadership"
+
+2. **ADVISORY** (`rule_nature = 'ADVISORY'`)
+   - Situational, behavioral, or partial mapping
+   - `execution_status = 'PENDING'`
+   - May be included for context (future enhancement)
+   - Example: "During challenging periods, patience is advised"
+
+3. **OBSERVATIONAL** (`rule_nature = 'OBSERVATIONAL'`)
+   - Philosophical, symbolic, or observational
+   - `execution_status = 'RAW'`
+   - Knowledge preservation (not used in execution)
+   - Example: "Traditional texts note that certain combinations indicate..."
+
+### Rule Execution Status
+
+- **READY**: Rule can be executed immediately (EXECUTABLE rules)
+- **PENDING**: Rule needs setup or is advisory (ADVISORY rules)
+- **RAW**: Rule is knowledge-only (OBSERVATIONAL rules)
+
+### Prediction Generation
+
+The prediction engine:
+- **Uses**: Rules with `execution_status = 'READY'` (EXECUTABLE rules)
+- **Prioritizes**: EXECUTABLE rules over ADVISORY rules
+- **Preserves**: All rules in database (knowledge layer)
+
+### API Response Changes
+
+#### `/windows/:windowId/generate` Response
+
+Now includes `ruleExecutionInfo`:
+
+```json
+{
+  "ok": true,
+  "windowId": 789,
+  "predictionId": 123,
+  "prediction": { ... },
+  "summary": { ... },
+  "shortSummary": "...",
+  "appliedRuleCount": 45,
+  "remedies": [ ... ],
+  "ruleExecutionInfo": {
+    "totalRulesEvaluated": 45,
+    "executableRules": 42,
+    "advisoryRules": 3
+  }
+}
+```
+
+#### `/predictions/:windowId` Response
+
+Applied rules now include universal knowledge metadata:
+
+```json
+{
+  "ok": true,
+  "prediction": { ... },
+  "appliedRules": [
+    {
+      "id": 1,
+      "rule_id": 456,
+      "score": 0.75,
+      "weight": 1.0,
+      "rule_effect_json": { ... },
+      "rule_nature": "EXECUTABLE",
+      "execution_status": "READY",
+      "raw_rule_type": "direct",
+      "confidence_level": "HIGH",
+      "source_book": "lalkitab",
+      "rule_type": "BASE",
+      "canonical_meaning": "..."
+    }
+  ],
+  "remedies": [ ... ]
+}
+```
+
+### Source Books
+
+Current books in system:
+- **lalkitab**: 769 rules, 501 remedies
+- **BParasharHoraShastra**: 1979 rules, 1105 remedies
+
+### Knowledge Preservation
+
+- **All rules preserved**: Even if not executable
+- **No deduplication**: Each source entry = one DB row
+- **Confidence levels**: HIGH, MEDIUM, LOW (all preserved)
+- **Source tracking**: `source_book` field tracks origin
+
+### Quality Improvements (December 2025)
+
+**Post-Ingestion Quality Polish:**
+- **Specific Narratives**: Generic phrases like "This planetary configuration creates specific influences" have been replaced with specific life-domain descriptions (e.g., "This placement influences self-identity and personality, bringing emotions and related energies").
+- **Grammar Fixes**: Correct ordinal formatting (1st, 2nd, 3rd house instead of 1th, 2th, 3th).
+- **Placeholder Removal**: Removed placeholder text like "(house)" and "Unknown sign" from narratives.
+- **Repetition Reduction**: Adjacent repetitive sentences have been cleaned up for better readability.
+- **Transit/Dasha Quality**: Transit Today, Mahadasha Phal, and Varshfal narratives now include specific life-domain information instead of generic descriptions.
+
+**Impact:**
+- Predictions are more informative and meaningful
+- Text reads naturally, like a human astrologer explaining
+- No awkward grammar or placeholder text
+- Better user experience with clearer, more specific predictions
+
+---
+
+**Last Updated:** 2025-12-25
 
 **Recent Updates:**
+- **Quality Polish Pass (Dec 2025)**: Improved prediction narrative quality
+  - Generic narratives replaced with specific life-domain descriptions
+  - Ordinal grammar fixed (1st, 2nd, 3rd instead of 1th, 2th, 3th)
+  - Placeholder text removed
+  - Repetition reduced for better readability
+  - Transit, Dasha, and Varshfal narratives now more informative
+- **Universal Knowledge-Aware System**: Rules now classified as EXECUTABLE/ADVISORY/OBSERVATIONAL
+- **Execution Status**: Rules filtered by `execution_status = 'READY'` for predictions
+- **Rule Metadata**: API responses include `rule_nature`, `execution_status`, `raw_rule_type`, `confidence_level`
+- **Multiple Books**: System now supports multiple source books (Lal Kitab, BParasharHoraShastra)
 - Fixed remedy type enum (`'jap'` → `'mantra'`)
 - Fixed prediction theme enum mapping (domain names → database enum values)
 - Fixed Varshfal current bhav detection and inclusion

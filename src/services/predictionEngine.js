@@ -38,8 +38,21 @@ export async function generatePredictionForWindowCore(windowId, { language = 'en
   const astroRow = astroRes.rows[0];
 
   // Load active rules for this scope
+  // Universal Knowledge-Aware: Use EXECUTABLE rules (READY status) for execution
+  // ADVISORY and OBSERVATIONAL rules can be included for context if needed
   const rulesRes = await query(
-    'SELECT * FROM rules WHERE is_active = TRUE AND $1 = ANY(applicable_scopes)',
+    `SELECT * FROM rules 
+     WHERE is_active = TRUE 
+       AND $1 = ANY(applicable_scopes)
+       AND (execution_status = 'READY' OR execution_status IS NULL)
+     ORDER BY 
+       CASE rule_nature 
+         WHEN 'EXECUTABLE' THEN 1
+         WHEN 'ADVISORY' THEN 2
+         WHEN 'OBSERVATIONAL' THEN 3
+         ELSE 4
+       END,
+       confidence_level DESC NULLS LAST`,
     [scope]
   );
   const rules = rulesRes.rows;

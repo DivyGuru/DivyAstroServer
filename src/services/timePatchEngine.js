@@ -207,12 +207,18 @@ function createYearPatchesFromMetrics(domainSignal, currentYear) {
 /**
  * Main function: Apply time patches to domain signals
  * 
+ * 5-LAYER COMPATIBILITY:
+ * - Consumes DASHA-linked rules for year patches
+ * - Consumes TRANSIT-linked rules for month patches
+ * - If no explicit rules exist, leaves time_windows empty
+ * - Attaches internal reason codes for explainability
+ * 
  * @param {Array} domainSignals - Array of domain signals from signal aggregation
  * @param {Object} timingData - Timing data object
  * @param {Object} timingData.dashaTimeline - Dasha timeline with periods
  * @param {Object} timingData.transitWindows - Transit windows with periods
  * @param {Number} timingData.currentYear - Current year (for fallback patches)
- * @returns {Array} Domain signals with populated time_windows
+ * @returns {Array} Domain signals with populated time_windows and reason codes
  */
 export function applyTimePatches(domainSignals, timingData = {}) {
   const { dashaTimeline, transitWindows, currentYear } = timingData;
@@ -223,27 +229,72 @@ export function applyTimePatches(domainSignals, timingData = {}) {
   return domainSignals.map(signal => {
     const yearPatches = [];
     const monthPatches = [];
+    const reasonCodes = [];
     
-    // Create year patches from dasha timeline (preferred)
+    // 5-LAYER COMPATIBILITY: Check for DASHA rules in rule_trace
+    const hasDashaRules = signal.rule_trace?.dasha_rules_applied?.length > 0;
+    
+    // Create year patches from dasha timeline (preferred if DASHA rules exist)
     if (dashaTimeline && dashaTimeline.periods && dashaTimeline.periods.length > 0) {
-      yearPatches.push(...createYearPatches(signal, dashaTimeline));
+      const patches = createYearPatches(signal, dashaTimeline);
+      if (patches.length > 0) {
+        yearPatches.push(...patches);
+      } else if (hasDashaRules) {
+        // DASHA rules exist but no patches created (metrics not significant)
+        reasonCodes.push('dasha_rules_present_but_metrics_insufficient');
+      }
     } else {
-      // Fallback: create from metrics if significant
-      yearPatches.push(...createYearPatchesFromMetrics(signal, year));
+      // 5-LAYER COMPATIBILITY: No dasha timeline data
+      if (hasDashaRules) {
+        // DASHA rules exist but no timeline data
+        reasonCodes.push('dasha_rules_found_but_no_timeline_data');
+      } else {
+        // No DASHA rules at all
+        reasonCodes.push('no_dasha_rules_found');
+      }
+      
+      // Fallback: create from metrics if significant (only if no DASHA rules)
+      if (!hasDashaRules) {
+        const fallbackPatches = createYearPatchesFromMetrics(signal, year);
+        if (fallbackPatches.length > 0) {
+          yearPatches.push(...fallbackPatches);
+          reasonCodes.push('year_patches_from_metrics_fallback');
+        }
+      }
     }
+    
+    // 5-LAYER COMPATIBILITY: Check for TRANSIT rules in rule_trace
+    const hasTransitRules = signal.rule_trace?.transit_rules_applied?.length > 0;
     
     // Create month patches from transit windows
     if (transitWindows && transitWindows.periods && transitWindows.periods.length > 0) {
-      monthPatches.push(...createMonthPatches(signal, transitWindows));
+      const patches = createMonthPatches(signal, transitWindows);
+      if (patches.length > 0) {
+        monthPatches.push(...patches);
+      } else if (hasTransitRules) {
+        // TRANSIT rules exist but no patches created (metrics not significant)
+        reasonCodes.push('transit_rules_present_but_metrics_insufficient');
+      }
+    } else {
+      // 5-LAYER COMPATIBILITY: No transit windows data
+      if (hasTransitRules) {
+        // TRANSIT rules exist but no window data
+        reasonCodes.push('transit_rules_found_but_no_window_data');
+      } else {
+        // No TRANSIT rules at all
+        reasonCodes.push('no_transit_rules_found');
+      }
     }
     
-    // Return signal with populated time_windows
+    // Return signal with populated time_windows and reason codes (internal diagnostics)
     return {
       ...signal,
       time_windows: {
         years: yearPatches,
         months: monthPatches
-      }
+      },
+      // 5-LAYER COMPATIBILITY: Internal reason codes (not exposed to API)
+      _time_patch_reasons: reasonCodes.length > 0 ? reasonCodes : ['time_windows_empty_no_rules_or_data']
     };
   });
 }

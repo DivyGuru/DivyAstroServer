@@ -616,6 +616,19 @@ export function evalNode(node, astro) {
 
 // ---- Rule-level evaluation --------------------------------------------------
 
+/**
+ * Evaluates a single rule against astro state
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - Handles all rule types: BASE, NAKSHATRA, DASHA, TRANSIT, STRENGTH, YOGA
+ * - Safely handles PENDING_OPERATOR rules (returns null but doesn't break)
+ * - Tracks rule_type and engine_status for downstream layers
+ * 
+ * @param {Object} rule - Rule object with condition_tree, effect_json, rule_type, engine_status
+ * @param {Object} astro - Normalized astro state
+ * @param {String} windowScope - Window scope (yearly, monthly, daily, etc.)
+ * @returns {Object|null} Evaluation result or null if rule doesn't match
+ */
 export function evaluateRule(rule, astro, windowScope) {
   if (!rule || !astro) return null;
 
@@ -627,10 +640,28 @@ export function evaluateRule(rule, astro, windowScope) {
     return null;
   }
 
+  // 5-LAYER COMPATIBILITY: Handle PENDING_OPERATOR rules gracefully
+  // PENDING rules are tracked but not evaluated (they represent potential future influence)
+  if (rule.engine_status === 'PENDING_OPERATOR') {
+    // Return null for evaluation, but mark as potential influence
+    // Downstream layers can check rule_trace.pending_rules to see these
+    return null;
+  }
+
   const conditionTree = rule.condition_tree || rule.conditionTree || null;
   if (!conditionTree) return null;
 
-  const ok = evalNode(conditionTree, astro);
+  // Evaluate condition tree
+  let ok = false;
+  try {
+    ok = evalNode(conditionTree, astro);
+  } catch (err) {
+    // If evaluation fails (e.g., missing operator), skip this rule
+    // This is graceful degradation - system continues without this rule
+    console.warn(`Rule evaluation failed for rule ${rule.rule_id || rule.id}: ${err.message}`);
+    return null;
+  }
+  
   if (!ok) return null;
 
   const effect = rule.effect_json || rule.effectJson || {};
@@ -640,8 +671,12 @@ export function evaluateRule(rule, astro, windowScope) {
   const baseWeight = baseWeightRaw >= 0 ? baseWeightRaw : 0;
   const score = intensity * baseWeight;
 
+  // 5-LAYER COMPATIBILITY: Include rule_type and engine_status in result
   return {
     ruleId: rule.id,
+    rule_id: rule.rule_id || rule.id, // For traceability
+    rule_type: rule.rule_type || 'BASE', // Track layer
+    engine_status: rule.engine_status || 'READY', // Track status
     pointCode: rule.point_code || null,
     theme: effect.theme || null,
     area: effect.area || null,

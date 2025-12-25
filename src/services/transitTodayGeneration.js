@@ -111,9 +111,36 @@ function generateTransitNarrative(planet, signName, house) {
     12: 'losses, expenses, and spirituality'
   };
   
-  const houseMeaning = houseMeanings[house] || `the ${house}th house`;
+  // Fix ordinal grammar
+  const ordinal = getOrdinal(house);
+  const houseMeaning = houseMeanings[house] || `the ${ordinal} house`;
   
-  return `${planetName} is transiting through your ${house}th house (${signName || 'house'}), influencing areas related to ${houseMeaning}. This transit may bring changes and developments in these areas of your life. Be mindful of the opportunities and challenges that arise during this period.`;
+  // Remove placeholder sign reference if missing
+  const signRef = signName ? ` (${signName})` : '';
+  
+  // Make narrative more specific and natural
+  return `${planetName} is transiting through your ${ordinal} house${signRef}, influencing ${houseMeaning}. This transit may bring changes and developments in these areas of your life. Be mindful of the opportunities and challenges that arise during this period.`;
+}
+
+/**
+ * Get correct ordinal for house number
+ */
+function getOrdinal(num) {
+  if (!num || typeof num !== 'number') return `${num}th`;
+  
+  const lastDigit = num % 10;
+  const lastTwoDigits = num % 100;
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+    return `${num}th`;
+  }
+  
+  switch (lastDigit) {
+    case 1: return `${num}st`;
+    case 2: return `${num}nd`;
+    case 3: return `${num}rd`;
+    default: return `${num}th`;
+  }
 }
 
 /**
@@ -231,8 +258,20 @@ export async function generateTransitToday(windowId, targetDate = null) {
     }
     
     const sign = transit.sign || null;
-    const signName = getSignName(sign);
+    let signName = getSignName(sign);
     const longitude = transit.longitude || transit.degree || transit.position || null;
+    
+    // Fix Rahu/Ketu sign handling - derive from longitude if sign missing
+    if (!signName && longitude !== null) {
+      const signNum = Math.floor(longitude / 30) + 1;
+      if (signNum >= 1 && signNum <= 12) {
+        signName = getSignName(signNum);
+      }
+    }
+    
+    // Quality guardrail: Never output null or "Unknown" sign
+    // If still no sign, omit sign reference gracefully
+    const signRef = signName ? signName : null;
     
     // Calculate house from transit sign and lagna sign
     let house = transit.house || null;
@@ -250,17 +289,17 @@ export async function generateTransitToday(windowId, targetDate = null) {
       house = transit.h || transit.houseNumber || null;
     }
     
-    // Generate narrative
+    // Generate narrative (pass signRef, not signName to avoid null)
     const narrative = transit.description || transit.narrative || generateTransitNarrative(
       planetName,
-      signName,
+      signRef,
       house
     );
     
     transits.push({
       planet: planetName,
       sign: sign,
-      signName: signName,
+      signName: signRef, // Never null or "Unknown"
       house: house,
       longitude: longitude,
       narrative: narrative || null

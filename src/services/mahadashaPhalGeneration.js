@@ -131,7 +131,50 @@ function generateMahadashaNarrative(planet, house, signName) {
   
   const planetDisplayName = planetNames[planetName] || planet;
   
-  return `During ${planetDisplayName} Mahadasha, ${planetDisplayName} influences your ${house}th house (${signName || 'house'}), bringing its unique energies to areas of life associated with this house. This period may bring significant developments and changes. Focus on understanding the opportunities and challenges that arise, and act with wisdom and patience.`;
+  // Fix ordinal grammar and improve narrative
+  const ordinal = getOrdinal(house);
+  const signRef = signName ? ` (${signName})` : '';
+  
+  // House domain mapping for specific narratives
+  const houseDomains = {
+    1: 'self-identity, personality, and personal confidence',
+    2: 'wealth, family resources, and speech',
+    3: 'communication, siblings, and courage',
+    4: 'home, mother, and emotional foundations',
+    5: 'creativity, children, and education',
+    6: 'health, service, and daily routines',
+    7: 'partnerships, marriage, and business relationships',
+    8: 'transformation, longevity, and shared resources',
+    9: 'spirituality, father, and higher learning',
+    10: 'career, reputation, and public standing',
+    11: 'gains, income, and friendships',
+    12: 'losses, expenses, and spirituality'
+  };
+  
+  const domain = houseDomains[house] || `areas associated with the ${ordinal} house`;
+  
+  return `During ${planetDisplayName} Mahadasha, ${planetDisplayName} influences your ${ordinal} house${signRef}, bringing focus to ${domain}. This period may bring significant developments and changes in these areas. Focus on understanding the opportunities and challenges that arise, and act with wisdom and patience.`;
+}
+
+/**
+ * Get correct ordinal for house number
+ */
+function getOrdinal(num) {
+  if (!num || typeof num !== 'number') return `${num}th`;
+  
+  const lastDigit = num % 10;
+  const lastTwoDigits = num % 100;
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+    return `${num}th`;
+  }
+  
+  switch (lastDigit) {
+    case 1: return `${num}st`;
+    case 2: return `${num}nd`;
+    case 3: return `${num}rd`;
+    default: return `${num}th`;
+  }
 }
 
 /**
@@ -167,11 +210,33 @@ function getPlanetPosition(astroSnapshot, planetName) {
     return null;
   }
   
-  return {
-    sign: planet.sign || null,
-    signName: getSignName(planet.sign),
+  // Fix Rahu/Ketu sign handling - derive from longitude if sign missing
+  let sign = planet.sign || null;
+  let signName = getSignName(sign);
+  
+  if (!signName && planet.longitude !== null && planet.longitude !== undefined) {
+    const signNum = Math.floor(planet.longitude / 30) + 1;
+    if (signNum >= 1 && signNum <= 12) {
+      sign = signNum;
+      signName = getSignName(signNum);
+    }
+  }
+  
+  // Quality guardrail: Never return null or "Unknown" sign
+  // If still no sign, return null (will be handled gracefully in narrative)
+  
+  // UX Polish: Omit signName field if null or empty
+  const result = {
+    sign: sign,
     house: planet.house || null
   };
+  
+  // Only include signName if it has a value
+  if (signName && signName.trim().length > 0) {
+    result.signName = signName;
+  }
+  
+  return result;
 }
 
 /**
@@ -265,11 +330,23 @@ export async function generateMahadashaPhal(windowId) {
       // Check if current
       const isCurrent = currentDate >= fromDate && currentDate <= toDate;
       
+      // UX Polish: Clean planet_position - omit signName if null/empty
+      let cleanedPlanetPosition = null;
+      if (planetPosition) {
+        cleanedPlanetPosition = {
+          sign: planetPosition.sign,
+          house: planetPosition.house
+        };
+        if (planetPosition.signName && planetPosition.signName.trim().length > 0) {
+          cleanedPlanetPosition.signName = planetPosition.signName;
+        }
+      }
+      
       mahadashaPeriods.push({
         planet: planet.toUpperCase(),
         from: fromDate.toISOString().split('T')[0],
         to: toDate.toISOString().split('T')[0],
-        planet_position: planetPosition || null,
+        planet_position: cleanedPlanetPosition,
         narrative: narrative || null,
         is_current: isCurrent
       });
@@ -286,15 +363,27 @@ export async function generateMahadashaPhal(windowId) {
       const currentDate = new Date();
       const isCurrent = currentDate >= startDate && currentDate <= endDate;
       
+      // UX Polish: Clean planet_position - omit signName if null/empty
+      let cleanedPlanetPosition = null;
+      if (planetPosition) {
+        cleanedPlanetPosition = {
+          sign: planetPosition.sign,
+          house: planetPosition.house
+        };
+        if (planetPosition.signName && planetPosition.signName.trim().length > 0) {
+          cleanedPlanetPosition.signName = planetPosition.signName;
+        }
+      }
+      
       mahadashaPeriods.push({
         planet: planet.toUpperCase(),
         from: startDate.toISOString().split('T')[0],
         to: endDate.toISOString().split('T')[0],
-        planet_position: planetPosition || null,
+        planet_position: cleanedPlanetPosition,
         narrative: generateMahadashaNarrative(
           planet,
-          planetPosition?.house || null,
-          planetPosition?.signName || null
+          cleanedPlanetPosition?.house || null,
+          cleanedPlanetPosition?.signName || null
         ),
         is_current: isCurrent
       });

@@ -73,6 +73,12 @@ app.post('/windows/:windowId/generate', async (req, res) => {
       shortSummary: result.shortSummary,
       appliedRuleCount: result.applied.length,
       remedies: remediesRes.rows,
+      // Include rule execution metadata
+      ruleExecutionInfo: {
+        totalRulesEvaluated: result.applied.length,
+        executableRules: result.applied.filter(r => r.rule_nature === 'EXECUTABLE').length,
+        advisoryRules: result.applied.filter(r => r.rule_nature === 'ADVISORY').length,
+      },
     });
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });
@@ -1038,12 +1044,20 @@ app.get('/predictions/:windowId', async (req, res) => {
     }
 
     // Fetch applied rules with basic rule metadata
+    // Include universal knowledge-aware fields
     const appliedRes = await query(
       `
       SELECT
         par.*,
         r.point_code,
-        r.effect_json AS rule_effect_json
+        r.effect_json AS rule_effect_json,
+        r.rule_nature,
+        r.execution_status,
+        r.raw_rule_type,
+        r.confidence_level,
+        r.source_book,
+        r.rule_type,
+        r.canonical_meaning
       FROM prediction_applied_rules par
       JOIN rules r ON r.id = par.rule_id
       WHERE par.prediction_id = $1

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "layer": "TRANSIT",
+  "created_at": "2025-12-23T17:53:50.426Z",
+  "total_rules": 2,
+  "rules": [
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0263",
+      "source_unit_id": "lalkitab_u0263",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE4",
+      "rule_type": "TRANSIT",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0263",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "transit_planet_in_house": {
+          "planet_in": [
+            "RAHU"
+          ],
+          "house_in": [
+            7
+          ]
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "rahu_house_7",
+        "trend": "mixed",
+        "intensity": 0.3,
+        "tone": "informational",
+        "trigger": "transit",
+        "scenario": "placement_association",
+        "outcome_text": "RAHU in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "modifier",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0263"
+        },
+        "intensity_multiplier": 1.1
+      },
+      "base_weight": 0.8,
+      "base_rule_ids": [],
+      "canonical_meaning": "RAHU in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0738",
+      "source_unit_id": "lalkitab_u0738",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE4",
+      "rule_type": "TRANSIT",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0738",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "transit_planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            11
+          ]
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_11",
+        "trend": "mixed",
+        "intensity": 0.3,
+        "tone": "informational",
+        "trigger": "transit",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "modifier",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0738"
+        },
+        "intensity_multiplier": 1.1
+      },
+      "base_weight": 0.8,
+      "base_rule_ids": [],
+      "canonical_meaning": "VENUS in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    }
+  ]
+}

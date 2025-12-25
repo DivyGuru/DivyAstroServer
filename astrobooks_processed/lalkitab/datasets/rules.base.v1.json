@@ -1,0 +1,3460 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "layer": "BASE",
+  "created_at": "2025-12-23T17:53:50.425Z",
+  "total_rules": 65,
+  "rules": [
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0003",
+      "source_unit_id": "lalkitab_u0003",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0003",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "JUPITER"
+          ],
+          "house_in": [
+            1,
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity can occasionally suggest influence on public recognition and respect. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "low",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0003"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity can occasionally suggest influence on public recognition and respect. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0004",
+      "source_unit_id": "lalkitab_u0004",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0004",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MARS",
+            "MERCURY",
+            "JUPITER",
+            "VENUS",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "moon_house_2",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the second house, representing wealth, family, and speech tends to support public recognition and respect, family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0004"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the second house, representing wealth, family, and speech tends to support public recognition and respect, family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0005",
+      "source_unit_id": "lalkitab_u0005",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0005",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "MARS",
+            "MERCURY",
+            "JUPITER",
+            "VENUS",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "sun_house_1",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity tends to support professional development and career direction, public recognition and respect, partnerships and interpersonal connections, financial resources and material security. This influence tends to develop gradually over time as the person's character and circumstances evolve. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. long influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0005"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity tends to support professional development and career direction, public recognition and respect, partnerships and interpersonal connections, financial resources and material security. This influence tends to develop gradually over time as the person's character and circumstances evolve. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0009",
+      "source_unit_id": "lalkitab_u0009",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0009",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0009"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0018",
+      "source_unit_id": "lalkitab_u0018",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0018",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "MERCURY",
+            "JUPITER"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0018"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0026",
+      "source_unit_id": "lalkitab_u0026",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0026",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1,
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0026"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0038",
+      "source_unit_id": "lalkitab_u0038",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0038",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0038"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0042",
+      "source_unit_id": "lalkitab_u0042",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0042",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0042"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0068",
+      "source_unit_id": "lalkitab_u0068",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0068",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "relationships",
+        "area": "jupiter_house_3",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "guidance",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the third house, representing communication, siblings, and courage tends to support partnerships and interpersonal connections, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. Being aware of these tendencies can help in making conscious choices. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "guidance",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0068"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the third house, representing communication, siblings, and courage tends to support partnerships and interpersonal connections, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. Being aware of these tendencies can help in making conscious choices. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0080",
+      "source_unit_id": "lalkitab_u0080",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0080",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "KETU"
+          ],
+          "house_in": [
+            6,
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "career",
+        "area": "mars_house_6",
+        "trend": "up",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the sixth house, representing service, health, and daily routines tends to support public recognition and respect, partnerships and interpersonal connections, family dynamics and home life, physical well-being and vitality, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0080"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the sixth house, representing service, health, and daily routines tends to support public recognition and respect, partnerships and interpersonal connections, family dynamics and home life, physical well-being and vitality, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0112",
+      "source_unit_id": "lalkitab_u0112",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0112",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MERCURY"
+          ],
+          "house_in": [
+            2,
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0112"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0123",
+      "source_unit_id": "lalkitab_u0123",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0123",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY",
+            "SATURN"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MERCURY in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0123"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MERCURY in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0131",
+      "source_unit_id": "lalkitab_u0131",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0131",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MARS",
+            "MERCURY",
+            "VENUS",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0131"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0182",
+      "source_unit_id": "lalkitab_u0182",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0182",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SATURN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0182"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SATURN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0184",
+      "source_unit_id": "lalkitab_u0184",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0184",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "SATURN"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0184"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0187",
+      "source_unit_id": "lalkitab_u0187",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0187",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "JUPITER",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0187"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0193",
+      "source_unit_id": "lalkitab_u0193",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0193",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY",
+            "JUPITER",
+            "SATURN"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MERCURY in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0193"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MERCURY in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0198",
+      "source_unit_id": "lalkitab_u0198",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0198",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SATURN in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0198"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SATURN in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0207",
+      "source_unit_id": "lalkitab_u0207",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0207",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SATURN in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0207"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SATURN in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0208",
+      "source_unit_id": "lalkitab_u0208",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0208",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SATURN in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0208"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SATURN in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0236",
+      "source_unit_id": "lalkitab_u0236",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0236",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MERCURY in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0236"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MERCURY in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0237",
+      "source_unit_id": "lalkitab_u0237",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0237",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS",
+            "SATURN"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0237"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0254",
+      "source_unit_id": "lalkitab_u0254",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0254",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "MERCURY",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0254"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0257",
+      "source_unit_id": "lalkitab_u0257",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0257",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0257"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0269",
+      "source_unit_id": "lalkitab_u0269",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0269",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "RAHU"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "rahu_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "RAHU in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0269"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "RAHU in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0273",
+      "source_unit_id": "lalkitab_u0273",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0273",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "SATURN",
+            "RAHU"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0273"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0287",
+      "source_unit_id": "lalkitab_u0287",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0287",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "MERCURY",
+            "VENUS",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0287"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0311",
+      "source_unit_id": "lalkitab_u0311",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0311",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "ketu_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "KETU in the first house, representing self, personality, and physical identity can influence family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0311"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "KETU in the first house, representing self, personality, and physical identity can influence family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0312",
+      "source_unit_id": "lalkitab_u0312",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0312",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MARS",
+            "JUPITER",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0312"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0313",
+      "source_unit_id": "lalkitab_u0313",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0313",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "SATURN",
+            "KETU"
+          ],
+          "house_in": [
+            2
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0313"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0321",
+      "source_unit_id": "lalkitab_u0321",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0321",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "JUPITER",
+            "KETU"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0321"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0325",
+      "source_unit_id": "lalkitab_u0325",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0325",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MERCURY",
+            "VENUS",
+            "SATURN",
+            "KETU"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mercury_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MERCURY in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0325"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MERCURY in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0327",
+      "source_unit_id": "lalkitab_u0327",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0327",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "KETU"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "ketu_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "KETU in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0327"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "KETU in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0340",
+      "source_unit_id": "lalkitab_u0340",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0340",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "SATURN",
+            "KETU"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0340"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0403",
+      "source_unit_id": "lalkitab_u0403",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0403",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MARS"
+          ],
+          "house_in": [
+            3,
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0403"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0406",
+      "source_unit_id": "lalkitab_u0406",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0406",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SATURN"
+          ],
+          "house_in": [
+            1,
+            4,
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "saturn_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SATURN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0406"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SATURN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0477",
+      "source_unit_id": "lalkitab_u0477",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0477",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "MARS",
+            "MERCURY",
+            "VENUS",
+            "RAHU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0477"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0484",
+      "source_unit_id": "lalkitab_u0484",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0484",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "VENUS",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0484"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0527",
+      "source_unit_id": "lalkitab_u0527",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0527",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MARS",
+            "MERCURY",
+            "JUPITER",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0527"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0536",
+      "source_unit_id": "lalkitab_u0536",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0536",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MERCURY"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0536"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0595",
+      "source_unit_id": "lalkitab_u0595",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0595",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0595"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0599",
+      "source_unit_id": "lalkitab_u0599",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0599",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN"
+          ],
+          "house_in": [
+            7
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_7",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0599"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the seventh house, representing partnerships, marriage, and relationships can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0608",
+      "source_unit_id": "lalkitab_u0608",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0608",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "RAHU"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0608"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0616",
+      "source_unit_id": "lalkitab_u0616",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0616",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON"
+          ],
+          "house_in": [
+            2,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "family",
+        "area": "sun_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "neutral",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the second house, representing wealth, family, and speech can influence family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "neutral",
+          "confidence_level": "high",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0616"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the second house, representing wealth, family, and speech can influence family dynamics and home life, financial resources and material security. The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0637",
+      "source_unit_id": "lalkitab_u0637",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0637",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "MARS",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0637"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0672",
+      "source_unit_id": "lalkitab_u0672",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0672",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0672"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0684",
+      "source_unit_id": "lalkitab_u0684",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0684",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MARS",
+            "MERCURY"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0684"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0686",
+      "source_unit_id": "lalkitab_u0686",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0686",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "SATURN",
+            "RAHU"
+          ],
+          "house_in": [
+            11
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_11",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0686"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the eleventh house, representing gains, friendships, and aspirations can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0706",
+      "source_unit_id": "lalkitab_u0706",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0706",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MOON",
+            "SATURN",
+            "RAHU"
+          ],
+          "house_in": [
+            2,
+            4,
+            12
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0706"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0716",
+      "source_unit_id": "lalkitab_u0716",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0716",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "SUN",
+            "MARS",
+            "JUPITER"
+          ],
+          "house_in": [
+            1
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "sun_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0716"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "SUN in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0726",
+      "source_unit_id": "lalkitab_u0726",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0726",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            3
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_3",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0726"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the third house, representing communication, siblings, and courage can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0729",
+      "source_unit_id": "lalkitab_u0729",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0729",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            1,
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_1",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0729"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the first house, representing self, personality, and physical identity can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0730",
+      "source_unit_id": "lalkitab_u0730",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0730",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0730"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0731",
+      "source_unit_id": "lalkitab_u0731",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0731",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_6",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0731"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the sixth house, representing service, health, and daily routines can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0734",
+      "source_unit_id": "lalkitab_u0734",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0734",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0734"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0736",
+      "source_unit_id": "lalkitab_u0736",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0736",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "JUPITER",
+            "VENUS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "jupiter_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "JUPITER in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0736"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "JUPITER in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0751",
+      "source_unit_id": "lalkitab_u0751",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0751",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0751"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0752",
+      "source_unit_id": "lalkitab_u0752",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0752",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "VENUS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "venus_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "VENUS in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0752"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "VENUS in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0753",
+      "source_unit_id": "lalkitab_u0753",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0753",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MERCURY",
+            "VENUS",
+            "SATURN",
+            "RAHU",
+            "KETU"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0753"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0754",
+      "source_unit_id": "lalkitab_u0754",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0754",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MOON",
+            "MARS",
+            "MERCURY",
+            "VENUS"
+          ],
+          "house_in": [
+            10
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "moon_house_10",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0754"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MOON in the tenth house, representing career, reputation, and public standing can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0761",
+      "source_unit_id": "lalkitab_u0761",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0761",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS",
+            "VENUS"
+          ],
+          "house_in": [
+            2,
+            6
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0761"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0765",
+      "source_unit_id": "lalkitab_u0765",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0765",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            4
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_4",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0765"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the fourth house, representing home, mother, and emotional foundation can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0767",
+      "source_unit_id": "lalkitab_u0767",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0767",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            5
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_5",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0767"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the fifth house, representing creativity, children, and learning can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0772",
+      "source_unit_id": "lalkitab_u0772",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0772",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_8",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0772"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the eighth house, representing transformation, longevity, and shared resources can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    },
+    {
+      "rule_id": "lalkitab__lalkitab__meaning_lalkitab_u0789",
+      "source_unit_id": "lalkitab_u0789",
+      "source_book": "lalkitab",
+      "extraction_phase": "PHASE1",
+      "rule_type": "BASE",
+      "point_code": null,
+      "variant_code": "lalkitab__lalkitab__meaning_lalkitab_u0789",
+      "applicable_scopes": [
+        "life_theme"
+      ],
+      "condition_tree": {
+        "planet_in_house": {
+          "planet_in": [
+            "MARS"
+          ],
+          "house_in": [
+            2,
+            8
+          ],
+          "match_mode": "any",
+          "min_planets": 1
+        }
+      },
+      "effect_json": {
+        "theme": "general",
+        "area": "mars_house_2",
+        "trend": "mixed",
+        "intensity": 0.5,
+        "tone": "informational",
+        "trigger": "natal",
+        "scenario": "placement_association",
+        "outcome_text": "MARS in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+        "variant_meta": {
+          "tone": "informational",
+          "confidence_level": "medium",
+          "dominance": "primary",
+          "certainty_note": "Converted from understood meaning. conditional influence.",
+          "quality_status": "PDF_QUALITY",
+          "understanding_based": true
+        },
+        "source": {
+          "book_id": "lalkitab",
+          "meaning_id": "lalkitab__meaning_lalkitab_u0789"
+        }
+      },
+      "base_weight": 1,
+      "base_rule_ids": null,
+      "canonical_meaning": "MARS in the second house, representing wealth, family, and speech can sometimes influence The way this influence manifests depends on the overall chart context and other planetary placements. As with all astrological influences, individual circumstances and free tends to play important roles.",
+      "engine_status": "READY",
+      "is_active": true
+    }
+  ]
+}

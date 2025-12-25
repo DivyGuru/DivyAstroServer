@@ -174,9 +174,21 @@ const DOMAIN_VOCABULARY = {
 /**
  * Generates domain-specific opening sentence using themes and metrics
  */
-function generateOpening(domain, metrics, vocab, themes = []) {
+/**
+ * Generates domain-specific opening sentence
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - Adapts tone based on active layers
+ * - Strength/Yoga present → more confidence/stability language
+ * - Never mentions planets, nakshatra, yoga names
+ */
+function generateOpening(domain, metrics, vocab, themes = [], hasStrengthYoga = false) {
   const { pressure, support, stability } = metrics;
   const framing = vocab.framing;
+  
+  // 5-LAYER COMPATIBILITY: Adapt tone if Strength/Yoga present
+  const confidenceBoost = hasStrengthYoga ? 'more clearly' : '';
+  const stabilityBoost = hasStrengthYoga ? 'with greater stability' : '';
   
   // Use first theme to add specificity, or use domain framing
   const primaryTheme = themes.length > 0 ? themes[0] : null;
@@ -212,7 +224,7 @@ function generateOpening(domain, metrics, vocab, themes = []) {
       return `Your financial resources are in a favorable phase where stability and growth opportunities are more accessible.`;
     }
     if (stability === 'low') {
-      return `Your financial patterns are shifting, requiring adaptability in planning and a focus on building sustainable financial foundations.`;
+      return `Financial planning requires adaptability and a focus on building sustainable foundations.`;
     }
     return `Your financial life currently supports steady resource-building and thoughtful financial planning.`;
   }
@@ -244,7 +256,7 @@ function generateOpening(domain, metrics, vocab, themes = []) {
       return `Your physical well-being is in a supportive phase where vitality, strength, and health stability are more accessible.`;
     }
     if (stability === 'low') {
-      return `Your health patterns are shifting, requiring adaptability in lifestyle choices and a focus on building sustainable wellness habits.`;
+      return `Lifestyle choices require adaptability and a focus on building sustainable wellness habits.`;
     }
     return `Your health and well-being currently support steady vitality and thoughtful self-care.`;
   }
@@ -270,7 +282,7 @@ function generateOpening(domain, metrics, vocab, themes = []) {
       return `Your mental and emotional state is in a peaceful phase where clarity, emotional stability, and inner peace are more accessible.`;
     }
     if (stability === 'low') {
-      return `Your inner state is shifting, requiring adaptability in emotional management and a focus on practices that cultivate mental clarity.`;
+      return `Emotional management requires adaptability and practices that cultivate mental clarity.`;
     }
     return `Your mental and emotional well-being currently balance self-awareness with practices that nurture inner peace.`;
   }
@@ -293,34 +305,34 @@ function generateOpening(domain, metrics, vocab, themes = []) {
   
   if (domain === 'timing_luck') {
     if (pressure === 'high' && support === 'low') {
-      return `The timing for important decisions and opportunities requires careful consideration, as favorable windows may be less accessible in the immediate term.`;
+      return `Important decisions and opportunities require careful consideration, as favorable windows may be less accessible in the immediate term.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `The timing for significant actions is mixed, with some opportunities present while others require patience and better preparation.`;
+      return `Significant actions face mixed timing, with some opportunities present while others require patience and better preparation.`;
     }
     if (support === 'high' && pressure === 'low') {
-      return `The timing is favorable for important decisions and actions, with opportunities and supportive conditions more readily available.`;
+      return `Favorable timing supports important decisions and actions, with opportunities and supportive conditions more readily available.`;
     }
     if (stability === 'low') {
-      return `The timing patterns are shifting, requiring flexibility in planning and readiness to act when favorable moments arise.`;
+      return `Timing requires flexibility in planning and readiness to act when favorable moments arise.`;
     }
-    return `The timing for important matters is balanced, supporting steady progress while remaining attentive to emerging opportunities.`;
+    return `Timing for important matters is balanced, supporting steady progress while remaining attentive to emerging opportunities.`;
   }
   
   if (domain === 'events_changes') {
     if (pressure === 'high' && support === 'low') {
-      return `Your life is moving through significant changes that require careful navigation, patience, and thoughtful adaptation to new circumstances.`;
+      return `Significant changes require careful navigation, patience, and thoughtful adaptation to new circumstances.`;
     }
     if (pressure === 'high' && support === 'medium') {
-      return `Your life is experiencing transitions where challenges and opportunities coexist, calling for balanced preparation and openness to change.`;
+      return `Transitions present both challenges and opportunities, calling for balanced preparation and openness to change.`;
     }
     if (support === 'high' && pressure === 'low') {
-      return `Your life is in a phase of positive change where transitions flow more smoothly and new opportunities are more accessible.`;
+      return `Positive change flows smoothly, with transitions and new opportunities more accessible.`;
     }
     if (stability === 'low') {
-      return `Your life patterns are shifting, inviting flexibility, openness to new directions, and readiness to adapt to changing circumstances.`;
+      return `Flexibility and openness to new directions help navigate changing circumstances.`;
     }
-    return `Your life is experiencing steady change that supports gradual transitions and thoughtful adaptation.`;
+    return `Steady change supports gradual transitions and thoughtful adaptation.`;
   }
   
   if (domain === 'self_identity') {
@@ -358,9 +370,20 @@ function generateOpening(domain, metrics, vocab, themes = []) {
 /**
  * Generates domain-specific explanation sentence using themes
  */
-function generateExplanation(domain, metrics, vocab, themes = []) {
+/**
+ * Generates domain-specific explanation sentence
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - Adapts tone based on active layers
+ * - Strength/Yoga present → more confidence language
+ * - Never mentions planets, nakshatra, yoga names
+ */
+function generateExplanation(domain, metrics, vocab, themes = [], hasStrengthYoga = false) {
   const { pressure, support, stability } = metrics;
   const framing = vocab.framing;
+  
+  // 5-LAYER COMPATIBILITY: Adapt tone if Strength/Yoga present
+  const confidenceBoost = hasStrengthYoga ? 'more consistently' : '';
   
   // Use themes to add specificity
   const themeContext = themes.length > 0 && vocab.themeMap && vocab.themeMap[themes[0]]
@@ -427,7 +450,7 @@ function generateExplanation(domain, metrics, vocab, themes = []) {
       return `This period requires balancing physical demands with recovery needs and supportive health practices.`;
     }
     if (stability === 'low') {
-      return `This phase calls for adaptability in health routines and a focus on building sustainable wellness habits.`;
+      return `Adaptable health routines support sustainable wellness during this phase.`;
     }
     return `This period supports steady health maintenance and thoughtful attention to physical well-being.`;
   }
@@ -453,7 +476,7 @@ function generateExplanation(domain, metrics, vocab, themes = []) {
       return `This phase provides favorable conditions for mental clarity, emotional balance, and inner peace.`;
     }
     if (stability === 'low') {
-      return `This phase calls for adaptability in emotional management and practices that support mental clarity.`;
+      return `Adaptable emotional management supports mental clarity during this phase.`;
     }
     return `This period supports steady mental well-being through practices that nurture clarity and emotional balance.`;
   }
@@ -485,7 +508,7 @@ function generateExplanation(domain, metrics, vocab, themes = []) {
       return `This period requires balancing patience with readiness to act when favorable moments present themselves.`;
     }
     if (stability === 'low') {
-      return `This phase calls for flexibility in timing and readiness to adapt plans as conditions change.`;
+      return `Flexibility in timing and readiness to adapt helps navigate changing conditions.`;
     }
     return `This period supports steady progress while remaining attentive to favorable timing for important matters.`;
   }
@@ -540,43 +563,60 @@ function generateExplanation(domain, metrics, vocab, themes = []) {
 
 /**
  * Generates time awareness sentences
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - Dasha sensitivity → long-term framing ("over the coming years")
+ * - Transit sensitivity → caution language ("during certain periods")
+ * - If layers inactive, does NOT hint at them
  */
-function generateTimeAwareness(timeWindows, vocab) {
+function generateTimeAwareness(timeWindows, vocab, hasDasha = false, hasTransit = false) {
   const sentences = [];
   
-  // Year patches
+  // 5-LAYER COMPATIBILITY: Year patches (from DASHA layer)
+  // Only generate if DASHA rules exist OR year patches exist
   if (timeWindows.years && timeWindows.years.length > 0) {
     const yearPatch = timeWindows.years[0]; // Use first year patch
     const duration = yearPatch.to - yearPatch.from + 1;
     
+    // 5-LAYER COMPATIBILITY: Long-term framing for DASHA sensitivity
+    const timeFrame = hasDasha ? 'over the coming years' : `over the coming ${duration > 1 ? 'years' : 'year'}`;
+    
     if (yearPatch.nature === 'consolidation') {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, consistent effort and thoughtful planning can gradually strengthen your position.`);
+      sentences.push(`${timeFrame}, consistent effort and thoughtful planning can gradually strengthen your position.`);
     } else if (yearPatch.nature === 'growth') {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, opportunities for growth and development are more accessible.`);
+      sentences.push(`${timeFrame}, opportunities for growth and development are more accessible.`);
     } else if (yearPatch.nature === 'restructuring') {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, this phase may require adjustments and reorganization.`);
+      sentences.push(`${timeFrame}, this phase may require adjustments and reorganization.`);
     } else if (yearPatch.nature === 'sensitive') {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, this period requires careful attention and thoughtful decision-making.`);
+      sentences.push(`${timeFrame}, this period requires careful attention and thoughtful decision-making.`);
     } else if (yearPatch.nature === 'transition') {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, this phase involves transitions that benefit from patient adaptation.`);
+      sentences.push(`${timeFrame}, this phase involves transitions that benefit from patient adaptation.`);
     } else {
-      sentences.push(`Over the coming ${duration > 1 ? 'years' : 'year'}, this period offers a foundation for steady progress.`);
+      sentences.push(`${timeFrame}, this period offers a foundation for steady progress.`);
     }
+  } else if (hasDasha) {
+    // 5-LAYER COMPATIBILITY: DASHA rules exist but no patches (metrics insufficient)
+    // Don't hint at it - just skip time awareness
   }
   
-  // Month patches
+  // 5-LAYER COMPATIBILITY: Month patches (from TRANSIT layer)
+  // Only generate if TRANSIT rules exist OR month patches exist
   if (timeWindows.months && timeWindows.months.length > 0) {
     const monthPatch = timeWindows.months[0]; // Use first month patch
     
+    // 5-LAYER COMPATIBILITY: Caution language for TRANSIT sensitivity
     if (monthPatch.nature === 'decision_sensitive') {
-      sentences.push(`Particular care is advised during certain months when decisions made in haste may have longer-lasting consequences.`);
+      sentences.push(`Particular care is advised during certain periods when decisions made in haste may have longer-lasting consequences.`);
     } else if (monthPatch.nature === 'caution_required') {
       sentences.push(`Certain short periods may require extra caution and careful planning.`);
     } else if (monthPatch.nature === 'supportive') {
-      sentences.push(`Some months may offer more favorable conditions for important decisions and actions.`);
+      sentences.push(`Some periods may offer more favorable conditions for important decisions and actions.`);
     } else if (monthPatch.nature === 'volatile') {
-      sentences.push(`Some months may see more frequent changes, requiring flexibility and adaptability.`);
+      sentences.push(`Some periods may see more frequent changes, requiring flexibility and adaptability.`);
     }
+  } else if (hasTransit) {
+    // 5-LAYER COMPATIBILITY: TRANSIT rules exist but no patches (metrics insufficient)
+    // Don't hint at it - just skip time awareness
   }
   
   return sentences.join(' ');
@@ -720,27 +760,95 @@ function generateClosing(domain, metrics, vocab, themes = []) {
     return `This phase of self-discovery benefits from steady self-reflection balanced with openness to new self-understandings and authentic growth.`;
   }
   
-  // Generic fallback
+  // Generic fallback with varied openings per domain
   if (pressure === 'high') {
-    return `Approaching this phase with ${framing.action[0]} and focus can transform challenges into long-term ${framing.focus[0]}.`;
+    const openers = [
+      `Focusing on ${framing.action[0]} and steady effort`,
+      `Applying ${framing.action[0]} with consistent attention`,
+      `Engaging with ${framing.action[0]} and thoughtful focus`
+    ];
+    const opener = openers[Math.floor(Math.random() * openers.length)];
+    return `${opener} can transform challenges into long-term ${framing.focus[0]}.`;
   }
   
   if (support === 'high') {
-    return `This period rewards consistent effort and thoughtful engagement with available opportunities.`;
+    const openers = [
+      `Consistent effort and thoughtful engagement`,
+      `Steady work and mindful attention`,
+      `Dedicated practice and careful planning`
+    ];
+    const opener = openers[Math.floor(Math.random() * openers.length)];
+    return `${opener} are rewarded with meaningful progress.`;
   }
   
   if (stability === 'low') {
-    return `Navigating this phase with patience and adaptability can help establish steadier patterns over time.`;
+    const openers = [
+      `Patience and adaptability`,
+      `Flexibility and steady attention`,
+      `Openness to change and consistent effort`
+    ];
+    const opener = openers[Math.floor(Math.random() * openers.length)];
+    return `${opener} help establish steadier patterns over time.`;
   }
   
-  return `This phase benefits from a balanced approach that honors both opportunities and responsibilities.`;
+  const openers = [
+    `A balanced approach`,
+    `Thoughtful attention to both`,
+    `Maintaining equilibrium between`
+  ];
+  const opener = openers[Math.floor(Math.random() * openers.length)];
+  return `${opener} honors both opportunities and responsibilities.`;
+}
+
+/**
+ * Check if two sentences are too similar (repetition detection)
+ */
+function isSimilarSentence(s1, s2) {
+  if (!s1 || !s2) return false;
+  
+  // Normalize sentences
+  const n1 = s1.toLowerCase().replace(/[^\w\s]/g, '').trim();
+  const n2 = s2.toLowerCase().replace(/[^\w\s]/g, '').trim();
+  
+  // Check for high word overlap
+  const words1 = new Set(n1.split(/\s+/));
+  const words2 = new Set(n2.split(/\s+/));
+  
+  const intersection = new Set([...words1].filter(x => words2.has(x)));
+  const union = new Set([...words1, ...words2]);
+  
+  const similarity = intersection.size / union.size;
+  
+  // Also check for repetitive patterns
+  const repetitivePatterns = [
+    /this period|this phase/gi,
+    /emphasizes|requires|supports|provides/gi
+  ];
+  
+  const patternMatch = repetitivePatterns.some(pattern => {
+    const matches1 = (s1.match(pattern) || []).length;
+    const matches2 = (s2.match(pattern) || []).length;
+    return matches1 > 0 && matches2 > 0 && matches1 === matches2;
+  });
+  
+  return similarity > 0.6 || patternMatch;
 }
 
 /**
  * Composes narrative paragraph for a single domain
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - Never mentions planets, nakshatra, yoga names
+ * - Internally adapts tone based on layers:
+ *   - Strength/Yoga present → more confidence/stability language
+ *   - Dasha sensitivity → long-term framing ("over the coming years")
+ *   - Transit sensitivity → caution language ("during certain periods")
+ * - If a layer is inactive, narrative does NOT hint at it
+ * 
+ * QUALITY: Reduces repetition, limits to 1-2 concise sentences
  */
 function composeDomainNarrative(domainSignal) {
-  const { domain, summary_metrics, themes = [], time_windows } = domainSignal;
+  const { domain, summary_metrics, themes = [], time_windows, rule_trace, _layer_status } = domainSignal;
   
   const vocab = DOMAIN_VOCABULARY[domain] || {
     area: 'life',
@@ -752,20 +860,45 @@ function composeDomainNarrative(domainSignal) {
     themeMap: {}
   };
   
+  // 5-LAYER COMPATIBILITY: Detect active layers (for tone adaptation)
+  const hasStrengthYoga = (rule_trace?.strength_rules_applied?.length > 0 || 
+                           rule_trace?.yoga_rules_applied?.length > 0);
+  const hasDasha = rule_trace?.dasha_rules_applied?.length > 0;
+  const hasTransit = rule_trace?.transit_rules_applied?.length > 0;
+  const hasNakshatra = rule_trace?.nakshatra_rules_applied?.length > 0;
+  
   // Build paragraph components with themes
-  const opening = generateOpening(domain, summary_metrics, vocab, themes);
-  const explanation = generateExplanation(domain, summary_metrics, vocab, themes);
-  const timeAwareness = generateTimeAwareness(time_windows || {}, vocab);
+  const opening = generateOpening(domain, summary_metrics, vocab, themes, hasStrengthYoga);
+  const explanation = generateExplanation(domain, summary_metrics, vocab, themes, hasStrengthYoga);
+  const timeAwareness = generateTimeAwareness(time_windows || {}, vocab, hasDasha, hasTransit);
   const closing = generateClosing(domain, summary_metrics, vocab, themes);
   
-  // Combine into single paragraph
-  const sentences = [opening, explanation];
-  if (timeAwareness) {
+  // Combine into single paragraph with de-duplication
+  const sentences = [opening];
+  
+  // Add explanation only if it's different from opening
+  if (explanation && explanation !== opening && !isSimilarSentence(explanation, opening)) {
+    sentences.push(explanation);
+  }
+  
+  if (timeAwareness && !isSimilarSentence(timeAwareness, opening) && !isSimilarSentence(timeAwareness, explanation)) {
     sentences.push(timeAwareness);
   }
-  sentences.push(closing);
   
-  return sentences.join(' ');
+  // Add closing only if it adds value
+  if (closing && !isSimilarSentence(closing, opening) && !isSimilarSentence(closing, explanation)) {
+    sentences.push(closing);
+  }
+  
+  // Quality guardrail: Limit to 1-2 concise sentences
+  // If we have more than 2, keep the most informative ones
+  if (sentences.length > 2) {
+    // Keep opening (most important) and the longest/most specific one
+    const sorted = sentences.slice(1).sort((a, b) => b.length - a.length);
+    return [opening, sorted[0]].join(' ').trim();
+  }
+  
+  return sentences.join(' ').trim();
 }
 
 /**

@@ -62,6 +62,45 @@ const MARKERS = {
   ruleIfThen: ['यदि', 'अगर', 'मान लीजिए', 'तो '],
   remedy: ['उपाय', 'दान', 'जप', 'जाप', 'मंत्र', 'पूजा', 'व्रत', 'रत्न', 'यंत्र', 'शांति'],
   definition: ['तालिका', 'सूचक', 'उच्च', 'नीच', 'परिचायक', 'स्वामी', 'कारक'],
+  nakshatra: ['नक्षत्र', 'नक्षत्र में', 'नक्षत्र के', 'नक्षत्र का'],
+  dasha: ['दशा', 'महादशा', 'महा दशा', 'अंतरदशा', 'अन्तरदशा', 'अंतर दशा', 'दशा में', 'दशा के'],
+  transit: ['गोचर', 'गोचर में', 'गोचर के', 'गोचर का', 'ट्रांजिट', 'भ्रमण', 'भ्रमण में'],
+  strength: ['उच्च', 'नीच', 'मूल त्रिकोण', 'स्वराशि', 'मित्र', 'शत्रु', 'बल', 'दुर्बल', 'बली', 'अबली'],
+  yoga: ['योग', 'योग बनता है', 'योग बन रहा', 'संयोग', 'युति'],
+};
+
+// Nakshatra names (Hindi to English)
+const NAKSHATRA_MAP = {
+  'अश्विनी': 'ASHWINI',
+  'भरणी': 'BHARANI',
+  'कृतिका': 'KRITTIKA',
+  'रोहिणी': 'ROHINI',
+  'मृगशिर': 'MRIGASHIRA',
+  'आर्द्रा': 'ARDRA',
+  'पुनर्वसु': 'PUNARVASU',
+  'पुष्य': 'PUSHYA',
+  'पुष्या': 'PUSHYA',
+  'आश्लेषा': 'ASHLESHA',
+  'मघा': 'MAGHA',
+  'पूर्व फाल्गुनी': 'PURVA_PHALGUNI',
+  'पूर्व फाल्गिनी': 'PURVA_PHALGUNI',
+  'उत्तर फाल्गुनी': 'UTTARA_PHALGUNI',
+  'उत्तर फाल्गिनी': 'UTTARA_PHALGUNI',
+  'हस्त': 'HASTA',
+  'चित्रा': 'CHITRA',
+  'स्वाती': 'SWATI',
+  'विशाखा': 'VISHHAKHA',
+  'अनुराधा': 'ANURADHA',
+  'ज्येष्ठा': 'JYESHTHA',
+  'मूल': 'MULA',
+  'पूर्वाषाढ़ा': 'PURVA_ASHADHA',
+  'उत्तराषाढ़ा': 'UTTARA_ASHADHA',
+  'श्रवण': 'SHRAVANA',
+  'धनिष्ठा': 'DHANISHTHA',
+  'शतभिषा': 'SHATABHISHA',
+  'पूर्व भाद्रपद': 'PURVA_BHADRAPADA',
+  'उत्तर भाद्रपद': 'UTTARA_BHADRAPADA',
+  'रेवती': 'REVATI',
 };
 
 function includesAny(text, arr) {
@@ -93,6 +132,68 @@ function detectHouses(text) {
     nums.map(Number).filter((n) => n >= 1 && n <= 12).forEach((n) => houses.add(n));
   }
   return Array.from(houses).sort((a, b) => a - b);
+}
+
+function detectNakshatras(text) {
+  const nakshatras = new Set();
+  for (const [hindi, english] of Object.entries(NAKSHATRA_MAP)) {
+    if (text.includes(hindi)) {
+      nakshatras.add(english);
+    }
+  }
+  return Array.from(nakshatras);
+}
+
+function detectPossibleLayers(text, planets, houses) {
+  const layers = {
+    BASE: false,
+    NAKSHATRA: false,
+    DASHA: false,
+    TRANSIT: false,
+    STRENGTH: false,
+    YOGA: false,
+    REMEDY: false,
+  };
+
+  // BASE: Planet × House (if both present)
+  if (planets.length > 0 && houses.length > 0) {
+    layers.BASE = true;
+  }
+
+  // NAKSHATRA: Explicit nakshatra mention + planet + house
+  if (includesAny(text, MARKERS.nakshatra) && planets.length > 0 && houses.length > 0) {
+    const nakshatras = detectNakshatras(text);
+    if (nakshatras.length > 0) {
+      layers.NAKSHATRA = true;
+    }
+  }
+
+  // DASHA: Explicit dasha mention + planet + house
+  if (includesAny(text, MARKERS.dasha) && planets.length > 0 && houses.length > 0) {
+    layers.DASHA = true;
+  }
+
+  // TRANSIT: Explicit transit/gochar mention + planet + house
+  if (includesAny(text, MARKERS.transit) && planets.length > 0) {
+    layers.TRANSIT = true;
+  }
+
+  // STRENGTH: Explicit strength state mention + planet
+  if (includesAny(text, MARKERS.strength) && planets.length > 0) {
+    layers.STRENGTH = true;
+  }
+
+  // YOGA: Explicit yoga mention + multiple planets
+  if (includesAny(text, MARKERS.yoga) && planets.length >= 2) {
+    layers.YOGA = true;
+  }
+
+  // REMEDY: Explicit remedy markers
+  if (includesAny(text, MARKERS.remedy)) {
+    layers.REMEDY = true;
+  }
+
+  return layers;
 }
 
 function suggestType({ text }) {
@@ -138,7 +239,9 @@ async function main() {
 
     const planets = detectPlanets(text);
     const houses = detectHouses(text);
+    const nakshatras = detectNakshatras(text);
     const type = suggestType({ text });
+    const possibleLayers = detectPossibleLayers(text, planets, houses);
 
     units.push({
       unit_id: `${bookId}_u${String(i + 1).padStart(4, '0')}`,
@@ -153,8 +256,18 @@ async function main() {
           rule_like: includesAny(text, MARKERS.ruleIfThen),
           remedy_like: includesAny(text, MARKERS.remedy),
           definition_like: includesAny(text, MARKERS.definition),
+          nakshatra_like: includesAny(text, MARKERS.nakshatra),
+          dasha_like: includesAny(text, MARKERS.dasha),
+          transit_like: includesAny(text, MARKERS.transit),
+          strength_like: includesAny(text, MARKERS.strength),
+          yoga_like: includesAny(text, MARKERS.yoga),
         },
-        entities: { planets, houses },
+        entities: { 
+          planets, 
+          houses,
+          nakshatras,
+        },
+        possible_layers: possibleLayers,
       },
       suggested_knowledge_type: type,
       curation_status: 'pending',

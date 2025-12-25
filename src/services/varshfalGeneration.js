@@ -223,8 +223,48 @@ function generateDashaPeriodNarrative(planet, bhav, fromDate, toDate) {
     return specificNarrative;
   }
   
-  // Fallback generic narrative
-  return `During this period, ${planetName} influences your ${bhav}th house, bringing its unique energies to areas of life associated with this house. This is a time to be mindful of the opportunities and challenges that arise, and to act with wisdom and patience.`;
+  // Fallback generic narrative with ordinal fix and specific domains
+  const ordinal = getOrdinal(bhav);
+  
+  const houseDomains = {
+    1: 'self-identity, personality, and personal confidence',
+    2: 'wealth, family resources, and speech',
+    3: 'communication, siblings, and courage',
+    4: 'home, mother, and emotional foundations',
+    5: 'creativity, children, and education',
+    6: 'health, service, and daily routines',
+    7: 'partnerships, marriage, and business relationships',
+    8: 'transformation, longevity, and shared resources',
+    9: 'spirituality, father, and higher learning',
+    10: 'career, reputation, and public standing',
+    11: 'gains, income, and friendships',
+    12: 'losses, expenses, and spirituality'
+  };
+  
+  const domain = houseDomains[bhav] || `areas associated with the ${ordinal} house`;
+  
+  return `During this period, ${planetName} influences your ${ordinal} house, bringing focus to ${domain}. This is a time to be mindful of the opportunities and challenges that arise, and to act with wisdom and patience.`;
+}
+
+/**
+ * Get correct ordinal for house number
+ */
+function getOrdinal(num) {
+  if (!num || typeof num !== 'number') return `${num}th`;
+  
+  const lastDigit = num % 10;
+  const lastTwoDigits = num % 100;
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+    return `${num}th`;
+  }
+  
+  switch (lastDigit) {
+    case 1: return `${num}st`;
+    case 2: return `${num}nd`;
+    case 3: return `${num}rd`;
+    default: return `${num}th`;
+  }
 }
 
 /**
@@ -273,16 +313,20 @@ export async function generateVarshfal(windowId) {
   // Try to extract varshaphal data from chart_data (if stored)
   const varshaphalData = extractVarshaphalData(astroSnapshot);
   
-  // Build details object
+  // Build details object with quality guardrails
+  // Never output null or "Unknown" sign names
+  const lagnaSign = astroSnapshot.lagna_sign;
+  const moonSign = astroSnapshot.moon_sign;
+  
   const details = {
     year: year,
     lagna: {
-      sign: astroSnapshot.lagna_sign,
-      signName: getSignName(astroSnapshot.lagna_sign)
+      sign: lagnaSign,
+      signName: lagnaSign ? getSignName(lagnaSign) : null // null OK, not "Unknown"
     },
     moon: {
-      sign: astroSnapshot.moon_sign,
-      signName: getSignName(astroSnapshot.moon_sign),
+      sign: moonSign,
+      signName: moonSign ? getSignName(moonSign) : null, // null OK, not "Unknown"
       nakshatra: astroSnapshot.moon_nakshatra
     }
   };

@@ -109,28 +109,54 @@ function computeStability(effectJson) {
 
 /**
  * Aggregates signals for a single domain
+ * 
+ * 5-LAYER COMPATIBILITY:
+ * - BASE rules form the core signal
+ * - NAKSHATRA rules fine-tune themes & confidence
+ * - DASHA rules mark long-term sensitivity
+ * - TRANSIT rules mark short-term sensitivity
+ * - STRENGTH/YOGA rules modify intensity & stability
+ * - PENDING_OPERATOR rules tracked but not computed
+ * - Empty layers are handled gracefully (layer_status = inactive)
  */
 function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
+  // 5-LAYER COMPATIBILITY: Track all rule types
   const baseRules = [];
+  const nakshatraRules = [];
+  const dashaRules = [];
+  const transitRules = [];
   const strengthRules = [];
   const yogaRules = [];
   const pendingRules = [];
   
   const ruleIds = {
     base: [],
+    nakshatra: [],
+    dasha: [],
+    transit: [],
     strength: [],
     yoga: [],
     pending: []
   };
   
-  // First pass: Collect all matching rules
+  // Track layer status (for diagnostics)
+  const layerStatus = {
+    BASE: 'inactive',
+    NAKSHATRA: 'inactive',
+    DASHA: 'inactive',
+    TRANSIT: 'inactive',
+    STRENGTH: 'inactive',
+    YOGA: 'inactive'
+  };
+  
+  // First pass: Collect all matching rules by layer
   for (const rule of applicableRules) {
     // Evaluate condition_tree
     let matches = false;
     try {
       matches = evalNode(rule.condition_tree, astroNormalized);
     } catch (err) {
-      // If evaluation fails, skip this rule
+      // If evaluation fails, skip this rule (graceful degradation)
       continue;
     }
     
@@ -144,24 +170,46 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
     if (mappedDomain && mappedDomain !== domain) continue;
     if (!mappedDomain && ruleTheme !== 'general') continue;
     
-    // Track rule
+    // 5-LAYER COMPATIBILITY: Handle PENDING_OPERATOR rules
+    // These are tracked as "potential influence" but not computed
     if (rule.engine_status === 'PENDING_OPERATOR') {
       pendingRules.push(rule);
       ruleIds.pending.push(rule.rule_id || rule.id);
       continue;
     }
     
-    if (rule.rule_type === 'BASE') {
+    // 5-LAYER COMPATIBILITY: Route rules to appropriate layer
+    const ruleType = rule.rule_type || 'BASE';
+    
+    if (ruleType === 'BASE') {
       baseRules.push(rule);
       ruleIds.base.push(rule.rule_id || rule.id);
-    } else if (rule.rule_type === 'STRENGTH' && rule.engine_status === 'READY') {
+      layerStatus.BASE = 'active';
+    } else if (ruleType === 'NAKSHATRA' && rule.engine_status === 'READY') {
+      nakshatraRules.push(rule);
+      ruleIds.nakshatra.push(rule.rule_id || rule.id);
+      layerStatus.NAKSHATRA = 'active';
+    } else if (ruleType === 'DASHA' && rule.engine_status === 'READY') {
+      dashaRules.push(rule);
+      ruleIds.dasha.push(rule.rule_id || rule.id);
+      layerStatus.DASHA = 'active';
+    } else if (ruleType === 'TRANSIT' && rule.engine_status === 'READY') {
+      transitRules.push(rule);
+      ruleIds.transit.push(rule.rule_id || rule.id);
+      layerStatus.TRANSIT = 'active';
+    } else if (ruleType === 'STRENGTH' && rule.engine_status === 'READY') {
       strengthRules.push(rule);
       ruleIds.strength.push(rule.rule_id || rule.id);
-    } else if (rule.rule_type === 'YOGA' && rule.engine_status === 'READY') {
+      layerStatus.STRENGTH = 'active';
+    } else if (ruleType === 'YOGA' && rule.engine_status === 'READY') {
       yogaRules.push(rule);
       ruleIds.yoga.push(rule.rule_id || rule.id);
+      layerStatus.YOGA = 'active';
     }
   }
+  
+  // 5-LAYER COMPATIBILITY: BASE rules always form the core signal
+  // Other layers modify signals if present, else are skipped gracefully
   
   // Second pass: Apply modifiers and compute metrics
   let totalIntensity = 0;
@@ -169,13 +217,40 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
   const trends = [];
   const themes = new Set();
   
-  // Process base rules with modifiers
+  // Process BASE rules (core signal)
   for (const baseRule of baseRules) {
     const effectJson = baseRule.effect_json || {};
     let intensity = effectJson.intensity || 0.5;
     const weight = baseRule.base_weight || 1.0;
     
-    // Apply STRENGTH modifiers
+    // 5-LAYER COMPATIBILITY: Apply NAKSHATRA refinements (fine-tune themes & confidence)
+    // Nakshatra rules refine HOW base effects manifest, not WHAT they are
+    for (const nakshatraRule of nakshatraRules) {
+      let baseRuleIds = [];
+      if (nakshatraRule.base_rule_ids) {
+        if (Array.isArray(nakshatraRule.base_rule_ids)) {
+          baseRuleIds = nakshatraRule.base_rule_ids;
+        } else if (typeof nakshatraRule.base_rule_ids === 'string') {
+          try {
+            baseRuleIds = JSON.parse(nakshatraRule.base_rule_ids);
+          } catch (e) {
+            baseRuleIds = [];
+          }
+        }
+      }
+      const ruleId = baseRule.rule_id || String(baseRule.id);
+      
+      if (baseRuleIds.includes(ruleId)) {
+        // Nakshatra refines intensity slightly (subtle refinement)
+        const refinement = nakshatraRule.effect_json?.intensity_refinement || 1.0;
+        intensity = intensity * refinement;
+        // Add nakshatra-specific themes
+        const nakshatraTheme = nakshatraRule.effect_json?.theme;
+        if (nakshatraTheme) themes.add(nakshatraTheme);
+      }
+    }
+    
+    // 5-LAYER COMPATIBILITY: Apply STRENGTH modifiers (intensity modifiers)
     for (const strengthRule of strengthRules) {
       let baseRuleIds = [];
       if (strengthRule.base_rule_ids) {
@@ -197,7 +272,7 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
       }
     }
     
-    // Apply YOGA modifiers
+    // 5-LAYER COMPATIBILITY: Apply YOGA modifiers (combination effects)
     for (const yogaRule of yogaRules) {
       let baseRuleIds = [];
       if (yogaRule.base_rule_ids) {
@@ -227,6 +302,10 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
     if (ruleTheme) themes.add(ruleTheme);
   }
   
+  // 5-LAYER COMPATIBILITY: DASHA and TRANSIT rules mark sensitivity but don't modify BASE intensity
+  // They are handled by Time Patch Engine for time_windows
+  // Here we just track them for diagnostics
+  
   // Compute average intensity
   const avgIntensity = totalWeight > 0 ? totalIntensity / totalWeight : 0.5;
   
@@ -253,7 +332,9 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
     else if (lowCount > highCount) stability = 'low';
   }
   
-  // Compute confidence (based on number of applicable rules)
+  // 5-LAYER COMPATIBILITY: Compute confidence with layer awareness
+  // BASE rules form core confidence
+  // NAKSHATRA rules can slightly increase confidence (refinement)
   const ruleCount = baseRules.length;
   let confidence = 0.0;
   if (ruleCount === 0) confidence = 0.0;
@@ -262,9 +343,15 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
   else if (ruleCount <= 5) confidence = 0.7;
   else confidence = 0.9;
   
+  // Nakshatra refinement slightly increases confidence (fine-tuning)
+  if (nakshatraRules.length > 0 && confidence > 0) {
+    confidence = Math.min(0.95, confidence + 0.05);
+  }
+  
   // Extract themes/keywords
   const themeKeywords = Array.from(themes);
   
+  // 5-LAYER COMPATIBILITY: Return layer status for diagnostics
   return {
     domain,
     summary_metrics: {
@@ -275,14 +362,27 @@ function aggregateDomainSignals(domain, applicableRules, astroNormalized) {
     },
     themes: themeKeywords,
     time_windows: {
-      years: [], // TODO: Derive from dasha data if available
-      months: []  // TODO: Derive from transit data if available
+      years: [], // Populated by Time Patch Engine from DASHA rules
+      months: []  // Populated by Time Patch Engine from TRANSIT rules
     },
     rule_trace: {
       base_rules_applied: ruleIds.base,
+      nakshatra_rules_applied: ruleIds.nakshatra,
+      dasha_rules_applied: ruleIds.dasha,
+      transit_rules_applied: ruleIds.transit,
       strength_rules_applied: ruleIds.strength,
       yoga_rules_applied: ruleIds.yoga,
       pending_rules: ruleIds.pending
+    },
+    // 5-LAYER COMPATIBILITY: Internal diagnostics (not exposed to API)
+    _layer_status: layerStatus,
+    _layer_counts: {
+      BASE: baseRules.length,
+      NAKSHATRA: nakshatraRules.length,
+      DASHA: dashaRules.length,
+      TRANSIT: transitRules.length,
+      STRENGTH: strengthRules.length,
+      YOGA: yogaRules.length
     }
   };
 }

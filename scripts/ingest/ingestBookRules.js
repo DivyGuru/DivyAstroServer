@@ -520,19 +520,330 @@ async function ingestStrengthYogaRules(bookId, paths, client) {
 }
 
 /**
+ * Ingests remedies
+ */
+// Planet name to numeric ID mapping
+const PLANET_NAME_TO_ID = {
+  'SUN': 1,
+  'MOON': 2,
+  'MARS': 3,
+  'MERCURY': 4,
+  'JUPITER': 5,
+  'VENUS': 6,
+  'SATURN': 7,
+  'RAHU': 8,
+  'KETU': 9
+};
+
+function convertPlanetNamesToIds(planetNames) {
+  if (!planetNames || !Array.isArray(planetNames)) {
+    return null;
+  }
+  return planetNames.map(name => PLANET_NAME_TO_ID[name.toUpperCase()]).filter(id => id != null);
+}
+
+async function ingestRemedies(bookId, paths, client) {
+  const remediesPath = path.join(paths.datasetsDir, 'remedies.v1.json');
+  if (!fs.existsSync(remediesPath)) {
+    console.log(`   ⚠️  No remedies.v1.json found, skipping remedies`);
+    return { ingested: 0, skipped: 0 };
+  }
+  
+  const data = await readJson(remediesPath);
+  const remedies = data.remedies || [];
+  
+  let ingested = 0;
+  let skipped = 0;
+  
+  for (const remedy of remedies) {
+    try {
+      // Check if remedy already exists (by remedy ID from source)
+      // Use remedy.id which should be unique (e.g., "LalKitab__remedy_LalKitab_u0068_donation")
+      // First try to find by remedy_id in safety_notes
+      const existing = await client.query(
+        'SELECT id FROM remedies WHERE safety_notes LIKE $1',
+        [`%remedy_id=${remedy.id}%`]
+      );
+      
+      let existingId = null;
+      if (existing.rowCount > 0) {
+        existingId = existing.rows[0].id;
+      } else {
+        // If not found by remedy_id, check if this is a new unique remedy
+        // For Lal Kitab, we want to insert new remedies even if name+type match
+        // because each remedy has unique context (unit_id, meaning_id)
+        // So we'll insert as new if remedy_id not found
+        existingId = null;
+      }
+      
+      if (existingId) {
+        // Update existing remedy - preserve and update safety_notes with source info
+        let safetyNotes = remedy.safety_notes || "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.";
+        
+        // Add understanding metadata to safety_notes as structured info
+        if (remedy.understanding_metadata) {
+          const understandingInfo = `\n\n[Understanding Metadata: effect_type=${remedy.understanding_metadata.effect_type}, applicability=${remedy.understanding_metadata.applicability}, intensity=${remedy.understanding_metadata.intensity}, confidence=${remedy.understanding_metadata.confidence || 'medium'}, target_domains=${(remedy.understanding_metadata.target_domains || []).join(',')}]`;
+          safetyNotes += understandingInfo;
+        }
+        
+        // Store source info in safety_notes as well (for provenance)
+        if (remedy.source) {
+          const sourceInfo = `\n[Source: book_id=${remedy.source.book_id}, unit_id=${remedy.source.unit_id}, extraction_phase=${remedy.source.extraction_phase || 'PHASE1'}, remedy_id=${remedy.id}]`;
+          safetyNotes += sourceInfo;
+        } else if (remedy.id) {
+          // Fallback: use remedy.id to identify source
+          const sourceInfo = `\n[Source: remedy_id=${remedy.id}, book_id=${bookId}]`;
+          safetyNotes += sourceInfo;
+        }
+        
+        await client.query(`
+          UPDATE remedies
+          SET description = $1,
+              target_planets = $2,
+              target_themes = $3,
+              min_duration_days = $4,
+              recommended_frequency = $5,
+              safety_notes = $6,
+              is_active = $7
+          WHERE id = $8
+        `, [
+          remedy.description,
+          convertPlanetNamesToIds(remedy.target_planets),
+          remedy.target_themes || null,
+          remedy.min_duration_days || null,
+          remedy.recommended_frequency || null,
+          safetyNotes,
+          remedy.is_active !== false,
+          existingId
+        ]);
+        ingested++;
+      } else {
+        // Insert new remedy
+        // Store understanding_metadata in safety_notes as JSON if not already present
+        let safetyNotes = remedy.safety_notes || "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.";
+        
+        // Add understanding metadata to safety_notes as structured info
+        if (remedy.understanding_metadata) {
+          const understandingInfo = `\n\n[Understanding Metadata: effect_type=${remedy.understanding_metadata.effect_type}, applicability=${remedy.understanding_metadata.applicability}, intensity=${remedy.understanding_metadata.intensity}, target_domains=${(remedy.understanding_metadata.target_domains || []).join(',')}]`;
+          safetyNotes += understandingInfo;
+        }
+        
+        // Store source info in safety_notes as well (for provenance)
+        if (remedy.source) {
+          const sourceInfo = `\n[Source: book_id=${remedy.source.book_id}, unit_id=${remedy.source.unit_id}, extraction_phase=${remedy.source.extraction_phase || 'PHASE1'}]`;
+          safetyNotes += sourceInfo;
+        }
+        
+        await client.query(`
+          INSERT INTO remedies (
+            name, type, description, target_planets, target_themes,
+            min_duration_days, recommended_frequency, safety_notes, is_active
+          )
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          RETURNING id
+        `, [
+          remedy.name,
+          remedy.type,
+          remedy.description,
+          convertPlanetNamesToIds(remedy.target_planets),
+          remedy.target_themes || null,
+          remedy.min_duration_days || null,
+          remedy.recommended_frequency || null,
+          safetyNotes,
+          remedy.is_active !== false
+        ]);
+        ingested++;
+      }
+    } catch (err) {
+      console.error(`   ⚠️  Failed to ingest remedy ${remedy.id}: ${err.message}`);
+      skipped++;
+    }
+  }
+  
+  return { ingested, skipped };
+}
+
+/**
+ * Layer-aware unified ingestion (NEW)
+ * Ingests from unified rules.v1.json with layer classification
+ */
+async function ingestUnifiedRules(bookId, paths, client) {
+  const rulesPath = paths.rulesPath;
+  if (!fs.existsSync(rulesPath)) {
+    console.log(`   ⚠️  No rules.v1.json found, skipping rules ingestion`);
+    return { ingested: 0, skipped: 0, byLayer: {} };
+  }
+  
+  const data = await readJson(rulesPath);
+  const rules = data.rules || [];
+  
+  // Get or create rule group for this book
+  const ruleGroupId = await getOrCreateRuleGroup(bookId, client);
+  
+  let ingested = 0;
+  let skipped = 0;
+  const byLayer = {
+    BASE: 0,
+    NAKSHATRA: 0,
+    DASHA: 0,
+    TRANSIT: 0,
+    STRENGTH: 0,
+    YOGA: 0,
+  };
+  
+  for (const rule of rules) {
+    try {
+      // Use rule_type from dataset (already classified)
+      const ruleType = rule.rule_type || 'BASE';
+      
+      // Use engine_status from dataset (or determine if missing)
+      let engineStatus = rule.engine_status;
+      if (!engineStatus) {
+        engineStatus = determineEngineStatus(rule.condition_tree, ruleType);
+      }
+      
+      const missingOps = extractMissingOperators(rule.condition_tree);
+      
+      // Check if rule already exists (by rule_id)
+      const existing = await client.query(
+        'SELECT id FROM rules WHERE rule_id = $1',
+        [rule.rule_id]
+      );
+      
+      if (existing.rowCount > 0) {
+        const ruleDbId = existing.rows[0].id;
+        // Update existing rule
+        await client.query(`
+          UPDATE rules
+          SET condition_tree = $1,
+              effect_json = $2,
+              canonical_meaning = $3,
+              engine_status = $4,
+              source_unit_id = $5,
+              rule_type = $6,
+              base_rule_ids = $7,
+              extraction_phase = $8,
+              source_book = $9,
+              planet = $10,
+              strength_state = $11,
+              yoga_name = $12,
+              planets = $13
+          WHERE id = $14
+        `, [
+          JSON.stringify(rule.condition_tree),
+          JSON.stringify(rule.effect_json),
+          rule.canonical_meaning || rule.effect_json?.outcome_text || null,
+          engineStatus,
+          rule.source_unit_id || null,
+          ruleType,
+          JSON.stringify(rule.base_rule_ids || []),
+          rule.extraction_phase || 'PHASE1',
+          rule.source_book || bookId,
+          rule.planet || null,
+          rule.strength_state || null,
+          rule.yoga_name || null,
+          rule.planets || null,
+          ruleDbId
+        ]);
+        
+        // Update engine requirements
+        await client.query(
+          'DELETE FROM rule_engine_requirements WHERE rule_id = $1',
+          [ruleDbId]
+        );
+        for (const op of missingOps) {
+          await client.query(`
+            INSERT INTO rule_engine_requirements (rule_id, missing_operator, notes)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (rule_id, missing_operator) DO NOTHING
+          `, [ruleDbId, op, `Required for ${rule.rule_id}`]);
+        }
+        
+        ingested++;
+        byLayer[ruleType] = (byLayer[ruleType] || 0) + 1;
+      } else {
+        // Insert new rule
+        const result = await client.query(`
+          INSERT INTO rules (
+            rule_group_id, name, description, applicable_scopes, condition_tree, effect_json,
+            rule_id, rule_type, base_rule_ids, canonical_meaning, engine_status,
+            source_book, source_unit_id, extraction_phase, variant_code,
+            planet, strength_state, yoga_name, planets
+          )
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)
+          RETURNING id
+        `, [
+          ruleGroupId,
+          rule.rule_id,
+          rule.canonical_meaning || rule.effect_json?.outcome_text || null,
+          rule.applicable_scopes || ['life_theme'],
+          JSON.stringify(rule.condition_tree),
+          JSON.stringify(rule.effect_json),
+          rule.rule_id,
+          ruleType,
+          JSON.stringify(rule.base_rule_ids || []),
+          rule.canonical_meaning || rule.effect_json?.outcome_text || null,
+          engineStatus,
+          rule.source_book || bookId,
+          rule.source_unit_id || null,
+          rule.extraction_phase || 'PHASE1',
+          rule.variant_code || rule.rule_id,
+          rule.planet || null,
+          rule.strength_state || null,
+          rule.yoga_name || null,
+          rule.planets || null
+        ]);
+        
+        const ruleDbId = result.rows[0].id;
+        
+        // Insert provenance
+        await client.query(`
+          INSERT INTO rule_provenance (rule_id, book_name, extraction_phase, confidence_level)
+          VALUES ($1, $2, $3, $4)
+          ON CONFLICT (rule_id, book_name, extraction_phase) DO NOTHING
+        `, [
+          ruleDbId,
+          rule.source_book || bookId,
+          rule.extraction_phase || 'PHASE1',
+          rule.effect_json?.variant_meta?.confidence_level || 'medium'
+        ]);
+        
+        // Insert engine requirements
+        for (const op of missingOps) {
+          await client.query(`
+            INSERT INTO rule_engine_requirements (rule_id, missing_operator, notes)
+            VALUES ($1, $2, $3)
+            ON CONFLICT (rule_id, missing_operator) DO NOTHING
+          `, [ruleDbId, op, `Required for ${rule.rule_id}`]);
+        }
+        
+        ingested++;
+        byLayer[ruleType] = (byLayer[ruleType] || 0) + 1;
+      }
+    } catch (err) {
+      console.error(`   ❌ Error ingesting rule ${rule.rule_id}:`, err.message);
+      skipped++;
+    }
+  }
+  
+  return { ingested, skipped, byLayer };
+}
+
+/**
  * Main ingestion function
  */
 async function main() {
   const bookId = mustGetBookId(process.argv);
   
-  console.log(`\n📥 Ingesting curated rules for book: ${bookId}\n`);
+  console.log(`\n📥 Ingesting curated rules and remedies for book: ${bookId}\n`);
   
   const paths = getPathsForBook(bookId);
   
   // Validate datasets exist
   const requiredFiles = [
     paths.rulesPath,
-    path.join(paths.processedDir, 'strength_yoga.rules.v1.json')
+    path.join(paths.processedDir, 'strength_yoga.rules.v1.json'),
+    path.join(paths.datasetsDir, 'remedies.v1.json')
   ];
   
   const missingFiles = requiredFiles.filter(f => !fs.existsSync(f));
@@ -548,25 +859,61 @@ async function main() {
   try {
     await client.query('BEGIN');
     
-    const results = {
-      base: { ingested: 0, skipped: 0 },
-      strengthYoga: { ingested: 0, skipped: 0 }
-    };
+    // Check if unified rules.v1.json exists (new format)
+    const unifiedRulesPath = paths.rulesPath;
+    const hasUnifiedRules = fs.existsSync(unifiedRulesPath);
     
-    // Ingest BASE rules (Phase 1)
-    console.log('📋 Ingesting BASE rules (Phase 1)...');
-    results.base = await ingestBaseRules(bookId, paths, client);
-    console.log(`   ✅ Ingested: ${results.base.ingested}, Skipped: ${results.base.skipped}`);
+    let results;
     
-    // Ingest STRENGTH/YOGA rules (Phase 5)
-    console.log('\n📋 Ingesting STRENGTH/YOGA rules (Phase 5)...');
-    results.strengthYoga = await ingestStrengthYogaRules(bookId, paths, client);
-    console.log(`   ✅ Ingested: ${results.strengthYoga.ingested}, Skipped: ${results.strengthYoga.skipped}`);
+    if (hasUnifiedRules) {
+      // NEW: Layer-aware unified ingestion
+      console.log('📋 Ingesting unified layer-aware rules...');
+      results = await ingestUnifiedRules(bookId, paths, client);
+      console.log(`   ✅ Ingested: ${results.ingested}, Skipped: ${results.skipped}`);
+      console.log(`   📊 Layer distribution:`);
+      Object.entries(results.byLayer).forEach(([layer, count]) => {
+        if (count > 0) {
+          console.log(`      ${layer}: ${count}`);
+        }
+      });
+      
+      // Check for empty layers
+      const emptyLayers = Object.entries(results.byLayer)
+        .filter(([layer, count]) => count === 0)
+        .map(([layer]) => layer);
+      if (emptyLayers.length > 0) {
+        console.log(`   ⚪ Empty layers (VALID): ${emptyLayers.join(', ')}`);
+      }
+    } else {
+      // OLD: Separate BASE and STRENGTH/YOGA ingestion (backward compatibility)
+      results = {
+        base: { ingested: 0, skipped: 0 },
+        strengthYoga: { ingested: 0, skipped: 0 },
+        byLayer: {}
+      };
+      
+      console.log('📋 Ingesting BASE rules (Phase 1)...');
+      results.base = await ingestBaseRules(bookId, paths, client);
+      console.log(`   ✅ Ingested: ${results.base.ingested}, Skipped: ${results.base.skipped}`);
+      
+      console.log('\n📋 Ingesting STRENGTH/YOGA rules (Phase 5)...');
+      results.strengthYoga = await ingestStrengthYogaRules(bookId, paths, client);
+      console.log(`   ✅ Ingested: ${results.strengthYoga.ingested}, Skipped: ${results.strengthYoga.skipped}`);
+    }
+    
+    // Ingest remedies
+    console.log('\n📋 Ingesting remedies...');
+    const remedyResults = await ingestRemedies(bookId, paths, client);
+    console.log(`   ✅ Ingested: ${remedyResults.ingested}, Skipped: ${remedyResults.skipped}`);
     
     // Log ingestion
-    const totalIngested = results.base.ingested + results.strengthYoga.ingested;
-    const totalSkipped = results.base.skipped + results.strengthYoga.skipped;
+    const totalIngested = hasUnifiedRules ? results.ingested : (results.base.ingested + results.strengthYoga.ingested);
+    const totalSkipped = hasUnifiedRules ? results.skipped : (results.base.skipped + results.strengthYoga.skipped);
     const status = totalSkipped === 0 ? 'success' : (totalIngested > 0 ? 'partial' : 'failed');
+    
+    const notes = hasUnifiedRules 
+      ? `Layer-aware ingestion. ${Object.entries(results.byLayer).filter(([_, c]) => c > 0).map(([l, c]) => `${l}:${c}`).join(', ')}`
+      : `BASE: ${results.base.ingested}/${results.base.ingested + results.base.skipped}, STRENGTH/YOGA: ${results.strengthYoga.ingested}/${results.strengthYoga.ingested + results.strengthYoga.skipped}`;
     
     await client.query(`
       INSERT INTO rule_ingestion_log (
@@ -578,14 +925,24 @@ async function main() {
       totalIngested,
       totalSkipped,
       status,
-      `BASE: ${results.base.ingested}/${results.base.ingested + results.base.skipped}, STRENGTH/YOGA: ${results.strengthYoga.ingested}/${results.strengthYoga.ingested + results.strengthYoga.skipped}`
+      notes
     ]);
     
     await client.query('COMMIT');
     
     console.log(`\n✅ Ingestion complete:`);
-    console.log(`   - Total ingested: ${totalIngested}`);
-    console.log(`   - Total skipped: ${totalSkipped}`);
+    console.log(`   - Rules ingested: ${totalIngested}`);
+    console.log(`   - Rules skipped: ${totalSkipped}`);
+    if (hasUnifiedRules && results.byLayer) {
+      console.log(`   - Layer breakdown:`);
+      Object.entries(results.byLayer).forEach(([layer, count]) => {
+        if (count > 0) {
+          console.log(`     ${layer}: ${count}`);
+        }
+      });
+    }
+    console.log(`   - Remedies ingested: ${remedyResults.ingested}`);
+    console.log(`   - Remedies skipped: ${remedyResults.skipped}`);
     console.log(`   - Status: ${status}\n`);
     
   } catch (err) {

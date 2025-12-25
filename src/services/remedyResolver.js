@@ -104,6 +104,15 @@ function formatRemedyDescription(description, type, frequency, duration) {
 /**
  * Resolves remedies for a domain section
  * 
+ * 5-LAYER COMPATIBILITY:
+ * - Can associate remedies with BASE issues (core signal)
+ * - Can associate with STRENGTH/YOGA intensity (modifiers)
+ * - Can associate with DASHA periods (long-term sensitivity)
+ * - Can associate with TRANSIT sensitivity (short-term sensitivity)
+ * - Can associate with NAKSHATRA tendencies (future)
+ * - If layer data missing, gracefully falls back to BASE only
+ * - Never forces remedies
+ * 
  * SAFETY & EDGE CASES:
  * - Returns empty array if confidence < 0.6
  * - Returns empty array if domain not found
@@ -116,7 +125,7 @@ function formatRemedyDescription(description, type, frequency, duration) {
  * - Same input → same output
  * - Remedy ordering is stable (by type priority, then id)
  * 
- * @param {Object} section - Domain section with domain, summary_metrics, time_windows
+ * @param {Object} section - Domain section with domain, summary_metrics, time_windows, rule_trace
  * @returns {Promise<Array>} Array of resolved remedies (max 3, can be empty)
  */
 export async function resolveRemedies(section) {
@@ -125,7 +134,21 @@ export async function resolveRemedies(section) {
     return [];
   }
   
-  const { domain, summary_metrics, time_windows } = section;
+  const { domain, summary_metrics, time_windows, rule_trace } = section;
+  
+  // 5-LAYER COMPATIBILITY: Check active layers for remedy association
+  const hasBaseRules = rule_trace?.base_rules_applied?.length > 0;
+  const hasStrengthYoga = (rule_trace?.strength_rules_applied?.length > 0 || 
+                           rule_trace?.yoga_rules_applied?.length > 0);
+  const hasDasha = rule_trace?.dasha_rules_applied?.length > 0;
+  const hasTransit = rule_trace?.transit_rules_applied?.length > 0;
+  const hasNakshatra = rule_trace?.nakshatra_rules_applied?.length > 0;
+  
+  // 5-LAYER COMPATIBILITY: If no BASE rules, gracefully fall back (no remedies)
+  // BASE rules form the foundation - remedies are associated with BASE issues
+  if (!hasBaseRules) {
+    return []; // No BASE rules = no remedies (graceful fallback)
+  }
   
   // Validate domain
   if (!domain || typeof domain !== 'string') {
@@ -147,19 +170,21 @@ export async function resolveRemedies(section) {
   // Extract metrics from summary_metrics
   const pressure = summary_metrics?.pressure;
   const support = summary_metrics?.support;
+  const stability = summary_metrics?.stability;
   
-  // Determine intensity based on metrics (currently not used in query, but kept for future use)
-  // let intensityFilter = '';
-  // if (pressure === 'high' || support === 'high') {
-  //   // High intensity - prefer more impactful remedies
-  //   intensityFilter = '';
-  // } else {
-  //   // Medium/low intensity - prefer gentler remedies
-  //   intensityFilter = '';
-  // }
+  // 5-LAYER COMPATIBILITY: Adjust remedy selection based on active layers
+  // STRENGTH/YOGA intensity → may prefer more disciplined remedies
+  // DASHA periods → may prefer longer-term remedies
+  // TRANSIT sensitivity → may prefer shorter-term remedies
+  // NAKSHATRA tendencies → future enhancement (not used yet)
   
-  // Build query to find matching remedies
-  // Match by target_themes (array overlap) and prefer meditation, mantra, donation, feeding_beings
+  // Determine remedy intensity preference based on layers
+  let preferLongTerm = hasDasha; // DASHA → prefer longer-term remedies
+  let preferShortTerm = hasTransit; // TRANSIT → prefer shorter-term remedies
+  let preferDisciplined = hasStrengthYoga; // STRENGTH/YOGA → prefer disciplined practice
+  
+  // 5-LAYER COMPATIBILITY: Build query with layer-aware preferences
+  // Match by target_themes (array overlap) and prefer remedies based on active layers
   // Use ANY to check if any theme in target_themes matches our themes
   const remediesQuery = `
     SELECT 
@@ -175,22 +200,36 @@ export async function resolveRemedies(section) {
       AND target_themes && $1::prediction_theme[]
       AND type IN ('meditation', 'mantra', 'donation', 'feeding_beings', 'puja', 'fast')
     ORDER BY
-      CASE type
-        WHEN 'meditation' THEN 1
-        WHEN 'mantra' THEN 2
-        WHEN 'donation' THEN 3
-        WHEN 'feeding_beings' THEN 4
-        WHEN 'puja' THEN 5
-        WHEN 'fast' THEN 6
-        ELSE 7
+      -- 5-LAYER COMPATIBILITY: Prefer remedies based on active layers
+      CASE 
+        -- DASHA (long-term) → prefer meditation, puja (sustained practices)
+        WHEN $2::boolean = true AND type IN ('meditation', 'puja') THEN 1
+        -- TRANSIT (short-term) → prefer mantra, donation (quick practices)
+        WHEN $3::boolean = true AND type IN ('mantra', 'donation') THEN 2
+        -- STRENGTH/YOGA (disciplined) → prefer meditation, fast (disciplined practices)
+        WHEN $4::boolean = true AND type IN ('meditation', 'fast') THEN 3
+        -- Default priority by type
+        WHEN type = 'meditation' THEN 4
+        WHEN type = 'mantra' THEN 5
+        WHEN type = 'donation' THEN 6
+        WHEN type = 'feeding_beings' THEN 7
+        WHEN type = 'puja' THEN 8
+        WHEN type = 'fast' THEN 9
+        ELSE 10
       END,
       id ASC
     LIMIT 3
   `;
   
   try {
-    // Pass themes as array for array overlap operator
-    const result = await query(remediesQuery, [themes]);
+    // 5-LAYER COMPATIBILITY: Pass layer preferences to query
+    // Pass themes as array + layer flags for preference ordering
+    const result = await query(remediesQuery, [
+      themes, // $1: themes array
+      preferLongTerm, // $2: hasDasha (prefer long-term remedies)
+      preferShortTerm, // $3: hasTransit (prefer short-term remedies)
+      preferDisciplined // $4: hasStrengthYoga (prefer disciplined remedies)
+    ]);
     
     if (!result || !result.rows || result.rowCount === 0) {
       return [];

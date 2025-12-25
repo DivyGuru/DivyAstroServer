@@ -1,42 +1,603 @@
 {
   "schema_version": 1,
   "book_id": "lalkitab",
+  "created_at": "2025-12-23T17:53:17.535Z",
+  "source_remedies_file": "astrobooks_processed/lalkitab/remedies.v1.json",
+  "total_remedies": 16,
+  "total_converted": 16,
+  "total_skipped": 0,
   "remedies": [
     {
-      "id": "lalkitab__lalkitab_u0037__R01",
-      "source_unit_id": "lalkitab_u0037",
+      "id": "lalkitab__remedy_lalkitab_u0068_donation",
+      "name": "Donation Practice",
       "type": "donation",
-      "name": "Optional charitable giving for learning and guidance",
-      "description": "Offer a small, comfortable contribution to an education, mentorship, or learning-support cause on a regular basis, with a calm and respectful intention.",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
       "target_planets": [
-        5
+        "JUPITER"
       ],
       "target_themes": [
-        "general",
-        "education"
+        "relationship"
       ],
-      "min_duration_days": 40,
-      "recommended_frequency": "weekly",
-      "safety_notes": "Give only within your financial comfort; avoid debt or pressure-based giving.",
-      "is_active": true
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "relationship"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0068",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0068",
+        "extraction_phase": "PHASE1"
+      }
     },
     {
-      "id": "lalkitab__lalkitab_u0037__R02",
-      "source_unit_id": "lalkitab_u0037",
-      "type": "mantra",
-      "name": "Optional Jupiter-focused mantra repetition",
-      "description": "Spend a few minutes daily in quiet repetition of a short Jupiter-focused mantra or prayer from your own tradition, keeping the practice steady and non-compulsive.",
+      "id": "lalkitab__remedy_lalkitab_u0068_puja",
+      "name": "Puja Practice",
+      "type": "puja",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
       "target_planets": [
-        5
+        "JUPITER"
       ],
       "target_themes": [
-        "general",
-        "spirituality"
+        "relationship"
       ],
-      "min_duration_days": 40,
-      "recommended_frequency": "daily",
-      "safety_notes": "Keep the practice emotionally safe and time-bounded; this is supportive and should not replace practical decision-making or medical care.",
-      "is_active": true
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "relationship"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0068",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0068",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0073_mantra",
+      "name": "Mantra Practice",
+      "type": "mantra",
+      "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "SATURN",
+        "KETU"
+      ],
+      "target_themes": [
+        "money",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial",
+          "spiritual"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0073_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "SATURN",
+        "KETU"
+      ],
+      "target_themes": [
+        "money",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial",
+          "spiritual"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0073_fast",
+      "name": "Fast Practice",
+      "type": "fast",
+      "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "SATURN",
+        "KETU"
+      ],
+      "target_themes": [
+        "money",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial",
+          "spiritual"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0074_mantra",
+      "name": "Mantra Practice",
+      "type": "mantra",
+      "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "money"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "low",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0074_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "money"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "low",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0074_fast",
+      "name": "Fast Practice",
+      "type": "fast",
+      "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "money"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "low",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0080_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to support areas related to health and relationship. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MARS",
+        "KETU"
+      ],
+      "target_themes": [
+        "health",
+        "relationship"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "health",
+          "relationship"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0080",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0080",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0080_puja",
+      "name": "Puja Practice",
+      "type": "puja",
+      "description": "This traditional practice is traditionally used to support areas related to health and relationship. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MARS",
+        "KETU"
+      ],
+      "target_themes": [
+        "health",
+        "relationship"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "health",
+          "relationship"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0080",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0080",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0566_mantra",
+      "name": "Mantra Practice",
+      "type": "mantra",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "relationship",
+          "spiritual"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0566_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "relationship",
+          "spiritual"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0566_puja",
+      "name": "Puja Practice",
+      "type": "puja",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "SUN",
+        "MOON",
+        "MARS",
+        "JUPITER",
+        "SATURN"
+      ],
+      "target_themes": [
+        "relationship",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "relationship",
+          "spiritual"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0624_puja",
+      "name": "Puja Practice",
+      "type": "puja",
+      "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to money and health and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context. Regular and disciplined practice is traditionally recommended.",
+      "target_planets": [
+        "SUN",
+        "JUPITER",
+        "SATURN",
+        "RAHU"
+      ],
+      "target_themes": [
+        "money",
+        "health",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "financial",
+          "health",
+          "spiritual"
+        ],
+        "effect_type": "corrective",
+        "applicability": "conditional",
+        "intensity": "disciplined",
+        "confidence": "high",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0624",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0624",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0743_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to help stabilize and bring balance to areas related to general. It may help create a sense of harmony and stability. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MOON",
+        "VENUS"
+      ],
+      "target_themes": [
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "spiritual"
+        ],
+        "effect_type": "stabilizing",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "medium",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0743",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0743",
+        "extraction_phase": "PHASE1"
+      }
+    },
+    {
+      "id": "lalkitab__remedy_lalkitab_u0747_donation",
+      "name": "Donation Practice",
+      "type": "donation",
+      "description": "This traditional practice is traditionally used to support areas related to career and relationship and family and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+      "target_planets": [
+        "MOON",
+        "VENUS",
+        "SATURN"
+      ],
+      "target_themes": [
+        "career",
+        "relationship",
+        "family",
+        "general"
+      ],
+      "min_duration_days": null,
+      "recommended_frequency": null,
+      "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+      "is_active": true,
+      "understanding_metadata": {
+        "target_domains": [
+          "reputation",
+          "relationships",
+          "family",
+          "spirituality"
+        ],
+        "effect_type": "supportive",
+        "applicability": "conditional",
+        "intensity": "light",
+        "confidence": "low",
+        "purpose_clear": true,
+        "context_present": true
+      },
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0747",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0747",
+        "extraction_phase": "PHASE1"
+      }
     }
   ]
 }

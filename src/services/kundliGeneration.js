@@ -169,6 +169,27 @@ export async function generateKundli(windowId) {
 
   // Step 5: Compute overall confidence (safe calculation)
   const overallConfidence = computeOverallConfidence(signalsWithPatches);
+  
+  // 5-LAYER COMPATIBILITY: Generate system status diagnostics (internal only, not exposed to API)
+  const systemDiagnostics = generateSystemDiagnostics(signalsWithPatches);
+  
+  // Log diagnostics for developer visibility (not in API response)
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_LAYERS === 'true') {
+    console.log('\n📊 5-LAYER SYSTEM DIAGNOSTICS:');
+    console.log('  Active layers:', Object.entries(systemDiagnostics.layers_active)
+      .filter(([_, status]) => status === 'active')
+      .map(([layer, _]) => layer)
+      .join(', ') || 'BASE only');
+    console.log('  Inactive layers:', systemDiagnostics.layers_inactive.join(', ') || 'none');
+    console.log('  Layer counts:', systemDiagnostics.layer_counts);
+    if (systemDiagnostics.rules_skipped.length > 0) {
+      console.log('  Skipped rules (PENDING_OPERATOR):', systemDiagnostics.rules_skipped.length);
+    }
+    if (systemDiagnostics.engine_limitations.length > 0) {
+      console.log('  Engine limitations:', systemDiagnostics.engine_limitations.join(', '));
+    }
+    console.log('');
+  }
 
   // Step 6: Build final response (normalize to ensure consistent format)
   // Process sections with error handling for each
@@ -307,13 +328,95 @@ export async function generateKundli(windowId) {
 }
 
 /**
- * Computes overall confidence from domain signals
+ * Generates system diagnostics for 5-layer compatibility
  * 
- * SAFETY: Handles edge cases gracefully
- * - Empty signals → 0.0
- * - Invalid confidence values → filtered out
- * - Always returns number between 0.0 and 1.0
+ * 5-LAYER COMPATIBILITY: Internal diagnostics (not exposed to API)
+ * - Which layers are active for this window
+ * - Which layers had zero rules
+ * - Which rules were skipped due to engine limitations
+ * 
+ * This is developer visibility only, not user-facing.
  */
+function generateSystemDiagnostics(signals) {
+  if (!Array.isArray(signals) || signals.length === 0) {
+    return {
+      layers_active: {},
+      layers_inactive: [],
+      rules_skipped: [],
+      engine_limitations: []
+    };
+  }
+  
+  // Aggregate layer status across all domains
+  const layerCounts = {
+    BASE: 0,
+    NAKSHATRA: 0,
+    DASHA: 0,
+    TRANSIT: 0,
+    STRENGTH: 0,
+    YOGA: 0
+  };
+  
+  const layerStatus = {
+    BASE: 'inactive',
+    NAKSHATRA: 'inactive',
+    DASHA: 'inactive',
+    TRANSIT: 'inactive',
+    STRENGTH: 'inactive',
+    YOGA: 'inactive'
+  };
+  
+  const skippedRules = [];
+  const engineLimitations = [];
+  
+  for (const signal of signals) {
+    // Check layer counts from _layer_counts (internal diagnostics)
+    if (signal._layer_counts) {
+      for (const [layer, count] of Object.entries(signal._layer_counts)) {
+        if (layerCounts.hasOwnProperty(layer)) {
+          layerCounts[layer] += count;
+          if (count > 0) {
+            layerStatus[layer] = 'active';
+          }
+        }
+      }
+    }
+    
+    // Check layer status from _layer_status
+    if (signal._layer_status) {
+      for (const [layer, status] of Object.entries(signal._layer_status)) {
+        if (layerStatus.hasOwnProperty(layer) && status === 'active') {
+          layerStatus[layer] = 'active';
+        }
+      }
+    }
+    
+    // Track pending rules (engine limitations)
+    if (signal.rule_trace?.pending_rules?.length > 0) {
+      skippedRules.push(...signal.rule_trace.pending_rules);
+    }
+    
+    // Track time patch reasons (engine limitations)
+    if (signal._time_patch_reasons) {
+      engineLimitations.push(...signal._time_patch_reasons);
+    }
+  }
+  
+  // Determine inactive layers
+  const inactiveLayers = Object.entries(layerStatus)
+    .filter(([_, status]) => status === 'inactive')
+    .map(([layer, _]) => layer);
+  
+  return {
+    layers_active: layerStatus,
+    layers_inactive: inactiveLayers,
+    layer_counts: layerCounts,
+    rules_skipped: [...new Set(skippedRules)], // Unique rule IDs
+    engine_limitations: [...new Set(engineLimitations)], // Unique reason codes
+    total_domains: signals.length
+  };
+}
+
 function computeOverallConfidence(signals) {
   if (!signals || !Array.isArray(signals) || signals.length === 0) {
     return 0.0;

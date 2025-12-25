@@ -1,0 +1,745 @@
+{
+  "schema_version": 1,
+  "book_id": "lalkitab",
+  "created_at": "2025-12-23T17:53:07.320Z",
+  "total_remedies": 16,
+  "remedies": [
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0068_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0068",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0068",
+        "chunk_ids": [
+          "page_22_chunk_3"
+        ],
+        "page_numbers": [
+          22
+        ],
+        "original_text": "-मंदिर में देने से अनिष्ट दूर होता है । बृहस्पति को प्रसन्न करने के लिए जहां मंदिर में दान देना लाभप्रद है, वहां पीपल के वृक्ष को पालना भी लाभप्रद है । बृहस्पति को दान में दी जाने वाली वस्तुओं में केसर, हल्दी, दाल, चना और सोना भी है। नोट - वैसे तो बृहस्पति ग्रह से संबंधित देवता ब्रह्माजी हैं, पर यदि बृहस्पति की अनिष्ट स्थिति के कारण पुत्र की प्राप्ति न हो रही हो तो श्रीहरि का पूजन करना चाहिए । टोटके २८ १. प्रतिकूल या अनिष्ट ग्रह बृहस्पति को अनुकूल बनाने के लिए केले की जड़  3"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "relationship"
+        ],
+        "target_planets": [
+          "JUPITER"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "relationship"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0068_puja",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0068",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0068",
+        "chunk_ids": [
+          "page_22_chunk_3"
+        ],
+        "page_numbers": [
+          22
+        ],
+        "original_text": "-मंदिर में देने से अनिष्ट दूर होता है । बृहस्पति को प्रसन्न करने के लिए जहां मंदिर में दान देना लाभप्रद है, वहां पीपल के वृक्ष को पालना भी लाभप्रद है । बृहस्पति को दान में दी जाने वाली वस्तुओं में केसर, हल्दी, दाल, चना और सोना भी है। नोट - वैसे तो बृहस्पति ग्रह से संबंधित देवता ब्रह्माजी हैं, पर यदि बृहस्पति की अनिष्ट स्थिति के कारण पुत्र की प्राप्ति न हो रही हो तो श्रीहरि का पूजन करना चाहिए । टोटके २८ १. प्रतिकूल या अनिष्ट ग्रह बृहस्पति को अनुकूल बनाने के लिए केले की जड़  3"
+      },
+      "remedy_data": {
+        "remedy_type": "puja",
+        "title": "Puja Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "relationship"
+        ],
+        "target_planets": [
+          "JUPITER"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "relationship"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0073_mantra",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "chunk_ids": [
+          "page_24_chunk_2"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "रहों पर शनि की पूर्ण तृतीय दृष्टि पड़ रही है और फिर शनि चूंकि सूर्य और केतु अधिष्ठित राशि का स्वामी है, इसमें केतु तथा सूर्य का पाप प्रभाव भी शामिल है। मं. १२ के. सू. १० शु. सू. ९ बु. ११ बृ. V ७ श. ३ च. ४ रा. ६ इस प्रकार जहां पीड़ित होने वाले ग्रह लग्न, चंद्र लग्न और सूर्य लग्न से पंचमेश होने के कारण पेट के द्योतक हैं, वहां पीड़ित करने वाला ग्रह भी बहुत क्रूर है। फल बहुत देर तक पेट में कंष्ट गैस इसलिए कि शनि का प्रभाव मुख्य है, वो वायु ग्रह है। इसके उपाय स्वरूप अनिष्ट ग्रहों को पीला पुखराज धारण करके बलवान् बनाना चाहिए। तथा पीड़ा देने वाले ग्रहों को शांत करने के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है"
+      },
+      "remedy_data": {
+        "remedy_type": "mantra",
+        "title": "Mantra Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "SATURN",
+          "KETU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial",
+            "spiritual"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0073_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "chunk_ids": [
+          "page_24_chunk_2"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "रहों पर शनि की पूर्ण तृतीय दृष्टि पड़ रही है और फिर शनि चूंकि सूर्य और केतु अधिष्ठित राशि का स्वामी है, इसमें केतु तथा सूर्य का पाप प्रभाव भी शामिल है। मं. १२ के. सू. १० शु. सू. ९ बु. ११ बृ. V ७ श. ३ च. ४ रा. ६ इस प्रकार जहां पीड़ित होने वाले ग्रह लग्न, चंद्र लग्न और सूर्य लग्न से पंचमेश होने के कारण पेट के द्योतक हैं, वहां पीड़ित करने वाला ग्रह भी बहुत क्रूर है। फल बहुत देर तक पेट में कंष्ट गैस इसलिए कि शनि का प्रभाव मुख्य है, वो वायु ग्रह है। इसके उपाय स्वरूप अनिष्ट ग्रहों को पीला पुखराज धारण करके बलवान् बनाना चाहिए। तथा पीड़ा देने वाले ग्रहों को शांत करने के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "SATURN",
+          "KETU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial",
+            "spiritual"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0073_fast",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0073",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0073",
+        "chunk_ids": [
+          "page_24_chunk_2"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "रहों पर शनि की पूर्ण तृतीय दृष्टि पड़ रही है और फिर शनि चूंकि सूर्य और केतु अधिष्ठित राशि का स्वामी है, इसमें केतु तथा सूर्य का पाप प्रभाव भी शामिल है। मं. १२ के. सू. १० शु. सू. ९ बु. ११ बृ. V ७ श. ३ च. ४ रा. ६ इस प्रकार जहां पीड़ित होने वाले ग्रह लग्न, चंद्र लग्न और सूर्य लग्न से पंचमेश होने के कारण पेट के द्योतक हैं, वहां पीड़ित करने वाला ग्रह भी बहुत क्रूर है। फल बहुत देर तक पेट में कंष्ट गैस इसलिए कि शनि का प्रभाव मुख्य है, वो वायु ग्रह है। इसके उपाय स्वरूप अनिष्ट ग्रहों को पीला पुखराज धारण करके बलवान् बनाना चाहिए। तथा पीड़ा देने वाले ग्रहों को शांत करने के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है"
+      },
+      "remedy_data": {
+        "remedy_type": "fast",
+        "title": "Fast Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "SATURN",
+          "KETU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial",
+            "spiritual"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0074_mantra",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "chunk_ids": [
+          "page_24_chunk_3"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "े के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है। ऐसी हालत में पंचमेश, पंचम, नवमेश और बृहस्पति भी पीड़ित हो तो फिर ऐसे व्यक्ति को पुत्र की क्या, संतानप्राप्ति ही असंभव हो जाती है। अग्र कुंडली में शनि और मंगल की दृष्टि ने पंचम और पंचमेश नौवें घर का स्वामी दोनों का नाश कर डाला। साथ ही उन्होंने नौवें घर को भी ३० "
+      },
+      "remedy_data": {
+        "remedy_type": "mantra",
+        "title": "Mantra Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money"
+        ],
+        "target_planets": [
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "low",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "low",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0074_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "chunk_ids": [
+          "page_24_chunk_3"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "े के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है। ऐसी हालत में पंचमेश, पंचम, नवमेश और बृहस्पति भी पीड़ित हो तो फिर ऐसे व्यक्ति को पुत्र की क्या, संतानप्राप्ति ही असंभव हो जाती है। अग्र कुंडली में शनि और मंगल की दृष्टि ने पंचम और पंचमेश नौवें घर का स्वामी दोनों का नाश कर डाला। साथ ही उन्होंने नौवें घर को भी ३० "
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money"
+        ],
+        "target_planets": [
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "low",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "low",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0074_fast",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0074",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0074",
+        "chunk_ids": [
+          "page_24_chunk_3"
+        ],
+        "page_numbers": [
+          24
+        ],
+        "original_text": "े के लिए व्रत, दान और जाप आदि की प्रक्रिया करनी चाहिए । ३. जिस कुंडली में मंगल दूसरे घर में हो और शनि तीसरे घर में हो तो यह योग पुत्रहानि करने वाला है। ऐसी हालत में पंचमेश, पंचम, नवमेश और बृहस्पति भी पीड़ित हो तो फिर ऐसे व्यक्ति को पुत्र की क्या, संतानप्राप्ति ही असंभव हो जाती है। अग्र कुंडली में शनि और मंगल की दृष्टि ने पंचम और पंचमेश नौवें घर का स्वामी दोनों का नाश कर डाला। साथ ही उन्होंने नौवें घर को भी ३० "
+      },
+      "remedy_data": {
+        "remedy_type": "fast",
+        "title": "Fast Practice",
+        "description": "This traditional practice is traditionally used to support areas related to money. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "money"
+        ],
+        "target_planets": [
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "low",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "low",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0080_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0080",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0080",
+        "chunk_ids": [
+          "page_27_chunk_2"
+        ],
+        "page_numbers": [
+          27
+        ],
+        "original_text": "साप्रिय क्रूर ग्रह है। यह जिस घर पर भी प्रभाव डालता है, उस पर चोट लगती है। केतु भी मंगल की तरह से चोट करता है। जन्मकुंडली में छठा घर चोट से संबंधित है। ग्यारहवां घर भी छठे ही की भाँति चोट देने वाला है, अतः जब मंगल केतुः इनके द्वारा अधिष्ठित राशियों के स्वामी, षष्ठेश छठे घर का स्वामी और एकादशेश ग्यारहवें घर का स्वामी किसी भाव तथा भावाधिपति पर अपना पूरा प्रभाव डाल रहे हों तो वो भाव जिस अंग का प्रतिनिधि हो, शरीर के उस अंग पर चोट लगती है। श्री हनुमान जी की पूजा आदि इसमें लाभ करती है। कुछ खास जानकारियाँ मंगल में अन्य ग्रहों की अपेक्षा एक बहुत ही खास बात है। यह अपना अच्छा असर दिखाते-दिखाते जब कभी बुरा असर करता है, तो उसकी चाल में अचानक बहुत तेजी आ जाती है। फिर तेज चाल से यह बुरा असर डालना शुरू कर देता है"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to support areas related to health and relationship. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "health",
+          "relationship"
+        ],
+        "target_planets": [
+          "MARS",
+          "KETU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "health",
+            "relationship"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0080_puja",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0080",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0080",
+        "chunk_ids": [
+          "page_27_chunk_2"
+        ],
+        "page_numbers": [
+          27
+        ],
+        "original_text": "साप्रिय क्रूर ग्रह है। यह जिस घर पर भी प्रभाव डालता है, उस पर चोट लगती है। केतु भी मंगल की तरह से चोट करता है। जन्मकुंडली में छठा घर चोट से संबंधित है। ग्यारहवां घर भी छठे ही की भाँति चोट देने वाला है, अतः जब मंगल केतुः इनके द्वारा अधिष्ठित राशियों के स्वामी, षष्ठेश छठे घर का स्वामी और एकादशेश ग्यारहवें घर का स्वामी किसी भाव तथा भावाधिपति पर अपना पूरा प्रभाव डाल रहे हों तो वो भाव जिस अंग का प्रतिनिधि हो, शरीर के उस अंग पर चोट लगती है। श्री हनुमान जी की पूजा आदि इसमें लाभ करती है। कुछ खास जानकारियाँ मंगल में अन्य ग्रहों की अपेक्षा एक बहुत ही खास बात है। यह अपना अच्छा असर दिखाते-दिखाते जब कभी बुरा असर करता है, तो उसकी चाल में अचानक बहुत तेजी आ जाती है। फिर तेज चाल से यह बुरा असर डालना शुरू कर देता है"
+      },
+      "remedy_data": {
+        "remedy_type": "puja",
+        "title": "Puja Practice",
+        "description": "This traditional practice is traditionally used to support areas related to health and relationship. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "health",
+          "relationship"
+        ],
+        "target_planets": [
+          "MARS",
+          "KETU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "health",
+            "relationship"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0566_mantra",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "chunk_ids": [
+          "page_201_chunk_1"
+        ],
+        "page_numbers": [
+          201
+        ],
+        "original_text": "विवाह - स्थान में उपस्थिति कुंडली स्वामी का शीघ्र विवाह न करा पायी । इसका कारण यह है कि बृहस्पति की यह स्थिति सूर्य तथा मंगल से मिलकर चंद्र लग्न से सप्तम भाव पर पाप मध्यत्व बनाती है । विवाह में विलंब का एक कारण तो यह बना, दूसरा अष्टमेश और सप्तमेश का व्यत्पय भी विलंब का कारण बना, जबकि एक पूर्णबली शुभ चंद्र की चंद्रलग्न से सातवें घर पर दृष्टि के कारण विवाह की संभावना बनी रही । विवाह की विलंबता को दूर करने के लिए ग्रहों को बलवान् किया जाना चाहिए । जहां तक उपाय का प्रश्न है, वो चंद्र के और अधिक बलवान् किए जाने और सूर्य आदि की शांति में है, चंद्र को तो चांदी की अंगूठी में मोती लगवाकर पहनने से बलवान् किया जाए तथा सूर्य, मंगल और शनि का पूजन, सभी के मंत्रों का जाप और सभी से संबंधित वस्तुओं का दान दिया जाना चाहिए। ५. बृहस्पति श्रवणशक्ति का कारक भी है"
+      },
+      "remedy_data": {
+        "remedy_type": "mantra",
+        "title": "Mantra Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "relationship",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "relationship",
+            "spiritual"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0566_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "chunk_ids": [
+          "page_201_chunk_1"
+        ],
+        "page_numbers": [
+          201
+        ],
+        "original_text": "विवाह - स्थान में उपस्थिति कुंडली स्वामी का शीघ्र विवाह न करा पायी । इसका कारण यह है कि बृहस्पति की यह स्थिति सूर्य तथा मंगल से मिलकर चंद्र लग्न से सप्तम भाव पर पाप मध्यत्व बनाती है । विवाह में विलंब का एक कारण तो यह बना, दूसरा अष्टमेश और सप्तमेश का व्यत्पय भी विलंब का कारण बना, जबकि एक पूर्णबली शुभ चंद्र की चंद्रलग्न से सातवें घर पर दृष्टि के कारण विवाह की संभावना बनी रही । विवाह की विलंबता को दूर करने के लिए ग्रहों को बलवान् किया जाना चाहिए । जहां तक उपाय का प्रश्न है, वो चंद्र के और अधिक बलवान् किए जाने और सूर्य आदि की शांति में है, चंद्र को तो चांदी की अंगूठी में मोती लगवाकर पहनने से बलवान् किया जाए तथा सूर्य, मंगल और शनि का पूजन, सभी के मंत्रों का जाप और सभी से संबंधित वस्तुओं का दान दिया जाना चाहिए। ५. बृहस्पति श्रवणशक्ति का कारक भी है"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "relationship",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "relationship",
+            "spiritual"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0566_puja",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0566",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0566",
+        "chunk_ids": [
+          "page_201_chunk_1"
+        ],
+        "page_numbers": [
+          201
+        ],
+        "original_text": "विवाह - स्थान में उपस्थिति कुंडली स्वामी का शीघ्र विवाह न करा पायी । इसका कारण यह है कि बृहस्पति की यह स्थिति सूर्य तथा मंगल से मिलकर चंद्र लग्न से सप्तम भाव पर पाप मध्यत्व बनाती है । विवाह में विलंब का एक कारण तो यह बना, दूसरा अष्टमेश और सप्तमेश का व्यत्पय भी विलंब का कारण बना, जबकि एक पूर्णबली शुभ चंद्र की चंद्रलग्न से सातवें घर पर दृष्टि के कारण विवाह की संभावना बनी रही । विवाह की विलंबता को दूर करने के लिए ग्रहों को बलवान् किया जाना चाहिए । जहां तक उपाय का प्रश्न है, वो चंद्र के और अधिक बलवान् किए जाने और सूर्य आदि की शांति में है, चंद्र को तो चांदी की अंगूठी में मोती लगवाकर पहनने से बलवान् किया जाए तथा सूर्य, मंगल और शनि का पूजन, सभी के मंत्रों का जाप और सभी से संबंधित वस्तुओं का दान दिया जाना चाहिए। ५. बृहस्पति श्रवणशक्ति का कारक भी है"
+      },
+      "remedy_data": {
+        "remedy_type": "puja",
+        "title": "Puja Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to relationship and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "relationship",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "MOON",
+          "MARS",
+          "JUPITER",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "relationship",
+            "spiritual"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0624_puja",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0624",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0624",
+        "chunk_ids": [
+          "page_222_chunk_2"
+        ],
+        "page_numbers": [
+          222
+        ],
+        "original_text": "मी पांचवीं राशि और पांचवीं राशि का स्वामी चारों पाप प्रभाव में हैं और यही चारों पेट का प्रतिनिधित्व करते हैं। अत पेट में अल्सर आदि का होना अनिवार्य है। इस तरह के कष्ट के निवारण के लिए बृहस्पति को बलवान् तथा शनि की पूजा की जाती है । । सूर्य अपने आप में ही शनि तथा राहु की भांति पृथक्ता लाता है। यदि यह राहु अथवा शनि अधिष्ठित राशि का स्वामी बन जाए तो इसमें पृथक्ता द्वारा हानि पहुंचाने की शक्ति अत्यधिक उत्पन्न होती है और फिर इसका प्रभाव शरीर के जिस अंग पर भी पड़े, उस अंग की हानि हो जाती है । राहु जब अपना पूर्ण प्रभाव डालता है तो अचानक ही डालता है, इसलिए हृदय द्योतक अंगों अर्थात् कुंडली का पांचवां घर, उस घर का मालिक, सिंह राशि तथा सूर्य सभी पर जब राहु का प्रभाव हो यह हृदय - गतिरोध का योग बनता है"
+      },
+      "remedy_data": {
+        "remedy_type": "puja",
+        "title": "Puja Practice",
+        "description": "This traditional practice is traditionally used to help address imbalances or challenges in areas related to money and health and general. It may help create a sense of balance and correction. The effectiveness of this practice may vary based on individual circumstances and chart context. Regular and disciplined practice is traditionally recommended.",
+        "target_themes": [
+          "money",
+          "health",
+          "general"
+        ],
+        "target_planets": [
+          "SUN",
+          "JUPITER",
+          "SATURN",
+          "RAHU"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "financial",
+            "health",
+            "spiritual"
+          ],
+          "effect_type": "corrective",
+          "applicability": "conditional",
+          "intensity": "disciplined",
+          "confidence": "high",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "high",
+      "status": "ready_for_ingestion"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0743_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0743",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0743",
+        "chunk_ids": [
+          "page_266_chunk_3"
+        ],
+        "page_numbers": [
+          266
+        ],
+        "original_text": "के कारण राजयोग कारक ही क्यों न हो, अगर वो जन्मकुंडली में बहुत अधिक पाप प्रभाव में है तो राजयोगकारक समृद्धि का फल न देखकर उल्टा दिवाला तक निकाल सकता है। चन्द्र लगन से सप्तमेश होकर लग्न से सप्तम स्थान में यदि शुक्र बहुत से ग्रहों द्वारा पीड़ित हो अथवा लग्न से सप्तमेश होकर चन्द्र लग्न से सप्तम में बैठकर अतीव पीड़ित हो तो स्त्री की जन्मकुंडली में ऐसा योग होने पर स्त्री को योनि या कैंसर प्रदान करता है । शुक्र पुरुषों की जन्मकुंडली में स्त्री का कारक ग्रह है। यदि शुक्र सप्तम सातवां सप्तमेश सातवें घर का मालिक के साथ बहुत पाप प्रभाव में हो  ८७"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to help stabilize and bring balance to areas related to general. It may help create a sense of harmony and stability. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "general"
+        ],
+        "target_planets": [
+          "MOON",
+          "VENUS"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "spiritual"
+          ],
+          "effect_type": "stabilizing",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "medium",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "medium",
+      "status": "needs_review"
+    },
+    {
+      "remedy_id": "lalkitab__remedy_lalkitab_u0747_donation",
+      "source": {
+        "book_id": "lalkitab",
+        "unit_id": "lalkitab_u0747",
+        "meaning_id": "lalkitab__meaning_lalkitab_u0747",
+        "chunk_ids": [
+          "page_268_chunk_1"
+        ],
+        "page_numbers": [
+          268
+        ],
+        "original_text": "यदि जातक अपनी स्त्री को सताएगा, स्त्री समाज का अपमान करेगा, गौ आदि को पीड़ित करेगा तो उच्च शुक्र उसे अपना प्रभाव नहीं देगा। चंचल स्वभाव की शरारती स्त्री अपना कष्ट चन्द्र माता पर डाल देती है। शुक्र और चन्द्र आमने-सामने हों तो जातक की माता को आँखों का कष्ट होता है। टोटकों से सम्बन्धित उपाय नीच शुक्र वाला जातक काली कपिला गाय की सेवा किया करे। दही, लाल ज्वार धर्म-स्थान में चढ़ाए। सफेद रेशमी वस्त्र का दान करे। लाल ज्वार पत्नी के वजन के बराबर या उसका दसवां हिस्सा मन्दिर में दे । १. शुक्र को उच्च करने के लिए बादाम का सेवन करे । २. उबले आलू को पीले कर, कपिला गाय को खिलाए। ३. शनि नीच वाला व्यक्ति तेल, शराब, उड़द मांस और अण्डे का प्रयोग न करे । ४. तेल में पकौड़े बनाकर शनि के दिन काले कौओं को खिलाए। पहले घर का उपाय १. दही को मलकर स्नान करें। २. काली गाय की सेवा करें। ३. २५ वें साल में शादी न करें"
+      },
+      "remedy_data": {
+        "remedy_type": "donation",
+        "title": "Donation Practice",
+        "description": "This traditional practice is traditionally used to support areas related to career and relationship and family and general. It may help create a sense of balance and harmony. The effectiveness of this practice may vary based on individual circumstances and chart context.",
+        "target_themes": [
+          "career",
+          "relationship",
+          "family",
+          "general"
+        ],
+        "target_planets": [
+          "MOON",
+          "VENUS",
+          "SATURN"
+        ],
+        "recommended_frequency": null,
+        "min_duration_days": null,
+        "safety_notes": "This is a traditional practice. Please consult with a qualified practitioner if you have any concerns.",
+        "understanding_metadata": {
+          "target_domains": [
+            "reputation",
+            "relationships",
+            "family",
+            "spirituality"
+          ],
+          "effect_type": "supportive",
+          "applicability": "conditional",
+          "intensity": "light",
+          "confidence": "low",
+          "purpose_clear": true,
+          "context_present": true
+        }
+      },
+      "confidence": "low",
+      "status": "needs_review"
+    }
+  ],
+  "notes": "Remedies extracted from understood meanings. All remedies must be understood before conversion."
+}
