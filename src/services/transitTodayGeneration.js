@@ -82,6 +82,7 @@ function generateTransitNarrative(planet, signName, house) {
   }
   
   const planetName = getPlanetName(planet);
+  const planetUpper = String(planet || '').toUpperCase();
   const narratives = {
     'SUN_12_SCORPIO': "Don't try to be aggressive in nature because your aggressiveness can shove you into difficult situations. There will be difference of opinion, quarrels, and fighting with your friends. So, try to maintain good relations otherwise there is possibility of straining relations with them. There will be ups and downs financially. Lack of harmony and understanding is indicated in family life. There are possibilities of distress from spouse and mother. Care must be taken regarding health. The diseases that require immediate attention are headace, eye, abdominal disease, and swelling of the feet.",
     'MOON_1_SAGITTARIUS': "You will not be able to grab the chances coming your way though you will have a lot of opportunities but all in ruin. You may face problems related to your health or your parents so get good care of them as well as yours. Long distance travel is on your cards but would not be very beneficial and should be avoided. This is a period of mixed results for you. There can be dispute with the public and your colleagues. You will be prone to diseases like cold and fever. There will be mental worry without any visible causes.",
@@ -92,10 +93,13 @@ function generateTransitNarrative(planet, signName, house) {
   const specificNarrative = narratives[key];
   
   if (specificNarrative) {
-    return specificNarrative;
+    // Light cleanup for legacy text quality
+    return String(specificNarrative)
+      .replace(/\bheadace\b/gi, 'headache')
+      .trim();
   }
   
-  // Fallback generic narrative
+  // Fallback narrative (avoid template voice)
   const houseMeanings = {
     1: 'self, personality, and physical appearance',
     2: 'wealth, family, and speech',
@@ -118,8 +122,53 @@ function generateTransitNarrative(planet, signName, house) {
   // Remove placeholder sign reference if missing
   const signRef = signName ? ` (${signName})` : '';
   
-  // Make narrative more specific and natural
-  return `${planetName} is transiting through your ${ordinal} house${signRef}, influencing ${houseMeaning}. This transit may bring changes and developments in these areas of your life. Be mindful of the opportunities and challenges that arise during this period.`;
+  const lines = [];
+  lines.push(`${planetName} is moving through your ${ordinal} house${signRef}.`);
+  lines.push(`This touches ${houseMeaning} first, so events tend to show up through daily routines and small decisions.`);
+
+  switch (planetUpper) {
+    case 'SUN':
+      lines.push(`You may feel more sensitive about respect and recognition.`);
+      lines.push(`If ego reacts quickly, friction rises; calm authority keeps outcomes clean.`);
+      break;
+    case 'MOON':
+      lines.push(`Mood and mental comfort can swing, changing priorities day-to-day.`);
+      lines.push(`Stability improves when food, sleep, and routine stay consistent.`);
+      break;
+    case 'MARS':
+      lines.push(`Energy rises, but impatience can also rise.`);
+      lines.push(`Channel it into one task; avoid arguments started “in the moment.”`);
+      break;
+    case 'MERCURY':
+      lines.push(`Talk, messages, and decisions speed up.`);
+      lines.push(`Verify details and keep wording simple—misunderstandings happen fast in this transit.`);
+      break;
+    case 'JUPITER':
+      lines.push(`Hope and expansion increase, but over-promising can backfire.`);
+      lines.push(`Keep commitments realistic; steady growth beats big claims.`);
+      break;
+    case 'VENUS':
+      lines.push(`Comfort-seeking and relationship focus becomes stronger.`);
+      lines.push(`Enjoy, but keep boundaries in spending and expectations.`);
+      break;
+    case 'SATURN':
+      lines.push(`Work and responsibility feel heavier than usual.`);
+      lines.push(`Simple discipline works best: structure the day, and reduce avoidable expenses.`);
+      break;
+    case 'RAHU':
+      lines.push(`Restlessness and distraction can increase.`);
+      lines.push(`Avoid quick risks; double-check information and promises.`);
+      break;
+    case 'KETU':
+      lines.push(`Detachment can rise; you may lose interest suddenly.`);
+      lines.push(`Pause before cutting off—let clarity settle before decisions.`);
+      break;
+    default:
+      lines.push(`This transit works through repetition: the same theme shows up until you respond steadily.`);
+      break;
+  }
+
+  return lines.join('\n').trim();
 }
 
 /**

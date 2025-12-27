@@ -13,6 +13,19 @@
 import { query } from '../../config/db.js';
 import { THEMES } from '../config/problemTaxonomy.js';
 
+// Planet name to ID mapping (0=SUN, 1=MOON, 2=MARS, 3=MERCURY, 4=JUPITER, 5=VENUS, 6=SATURN, 7=RAHU, 8=KETU)
+const PLANET_NAME_TO_ID = {
+  'SUN': 0,
+  'MOON': 1,
+  'MARS': 2,
+  'MERCURY': 3,
+  'JUPITER': 4,
+  'VENUS': 5,
+  'SATURN': 6,
+  'RAHU': 7,
+  'KETU': 8
+};
+
 /**
  * Maps domain to prediction themes for remedy matching
  * Note: Database enum uses simple names: 'money', 'career', 'relationship', 'health', 'spirituality', 'general', 'travel', 'education', 'family'
@@ -61,9 +74,243 @@ function formatRemedyTitle(name, type) {
 }
 
 /**
- * Formats remedy description to be calm and supportive
+ * Query matching rules for astrological context
+ * ASTROLOGICAL CONTEXT: Extract rule meaning from actual rules in DB
  */
-function formatRemedyDescription(description, type, frequency, duration) {
+async function queryMatchingRulesForContext({ planetId = null, planetName = null, house = null, theme = null, limit = 2 } = {}) {
+  if (!planetId && !planetName && !house && !theme) {
+    return [];
+  }
+
+  try {
+    const conditions = [];
+    const params = [];
+    let paramIndex = 1;
+
+    // Query rules that match planet/house/theme
+    // Use JSONB operators to check condition_tree
+    if (planetName) {
+      const planetUpper = String(planetName).toUpperCase();
+      // Check if planet_in array contains this planet
+      conditions.push(`(condition_tree->'planet_in_house'->'planet_in' @> $${paramIndex}::jsonb)`);
+      params.push(JSON.stringify([planetUpper]));
+      paramIndex++;
+    }
+
+    if (house !== null) {
+      const houseNum = Number(house);
+      if (Number.isFinite(houseNum)) {
+        // Check if house_in array contains this house
+        conditions.push(`(condition_tree->'planet_in_house'->'house_in' @> $${paramIndex}::jsonb)`);
+        params.push(JSON.stringify([houseNum]));
+        paramIndex++;
+      }
+    }
+
+    // Build query
+    let queryText = `
+      SELECT 
+        id,
+        rule_id,
+        canonical_meaning,
+        effect_json,
+        source_book,
+        condition_tree
+      FROM rules
+      WHERE is_active = TRUE
+        AND engine_status = 'READY'
+        AND (canonical_meaning IS NOT NULL OR effect_json IS NOT NULL)
+        AND condition_tree IS NOT NULL
+        AND condition_tree->'planet_in_house' IS NOT NULL
+    `;
+
+    if (conditions.length > 0) {
+      queryText += ` AND (${conditions.join(' OR ')})`;
+    }
+
+    queryText += `
+      ORDER BY 
+        CASE WHEN source_book = 'lalkitab' THEN 1 ELSE 2 END,
+        id ASC
+      LIMIT $${paramIndex}
+    `;
+    params.push(limit);
+
+    const result = await query(queryText, params);
+    
+    if (!result || !result.rows || result.rowCount === 0) {
+      return [];
+    }
+
+    return result.rows.map(row => ({
+      id: row.id,
+      rule_id: row.rule_id,
+      canonical_meaning: row.canonical_meaning,
+      effect_json: row.effect_json,
+      source_book: row.source_book
+    }));
+  } catch (error) {
+    console.error('[RemedyResolver] Error querying matching rules:', error.message);
+    return [];
+  }
+}
+
+/**
+ * Extract astrological context from rule meaning
+ * ASTROLOGICAL CONTEXT: Creates context from actual rule canonical_meaning
+ */
+function extractAstrologicalContextFromRule(rule) {
+  if (!rule) return null;
+
+  // Priority: canonical_meaning > effect_json.narrative > effect_json.description
+  let ruleText = rule.canonical_meaning;
+  
+  if (!ruleText && rule.effect_json) {
+    ruleText = rule.effect_json.narrative || rule.effect_json.description || null;
+  }
+
+  if (!ruleText || typeof ruleText !== 'string' || ruleText.trim().length < 20) {
+    return null;
+  }
+
+  // Extract key sentence (first meaningful sentence, max 150 chars)
+  const sentences = ruleText.split(/[.!?]+/).filter(s => s.trim().length > 20);
+  
+  if (sentences.length === 0) {
+    return null;
+  }
+
+  // Take first meaningful sentence, clean it up
+  let context = sentences[0].trim();
+  
+  // Remove generic phrases
+  context = context.replace(/^(This|These|When|If|The way this influence manifests).*?/i, '');
+  context = context.replace(/As with all astrological influences.*$/i, '');
+  context = context.replace(/individual circumstances.*$/i, '');
+  context = context.trim();
+
+  // Limit length
+  if (context.length > 150) {
+    context = context.substring(0, 147) + '...';
+  }
+
+  // Only return if meaningful (not too generic)
+  if (context.length < 30 || 
+      context.toLowerCase().includes('depends on the overall chart') ||
+      context.toLowerCase().includes('individual circumstances')) {
+    return null;
+  }
+
+  return context;
+}
+
+/**
+ * Generate astrological context from rules
+ * ASTROLOGICAL CONTEXT: Uses actual rules from both books to create meaningful context
+ */
+async function generateAstrologicalContextFromRules({ planetId = null, planetName = null, house = null, theme = null, domain = null } = {}) {
+  // Query matching rules from both books
+  const matchingRules = await queryMatchingRulesForContext({
+    planetId,
+    planetName,
+    house,
+    theme,
+    limit: 3 // Get 3 rules, use best one
+  });
+
+  if (matchingRules.length === 0) {
+    return null;
+  }
+
+  // Try to extract context from rules (prefer lalkitab, then BParasharHoraShastra)
+  const sortedRules = matchingRules.sort((a, b) => {
+    if (a.source_book === 'lalkitab' && b.source_book !== 'lalkitab') return -1;
+    if (a.source_book !== 'lalkitab' && b.source_book === 'lalkitab') return 1;
+    return 0;
+  });
+
+  for (const rule of sortedRules) {
+    const context = extractAstrologicalContextFromRule(rule);
+    if (context) {
+      return context;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Generate micro-context line for remedy enrichment
+ * MICRO-CONTEXT ENRICHMENT: Adds 1 contextual line based on Mahadasha, theme, pressure
+ * Goal: Transform generic remedies (YELLOW) to personalized (GREEN) without DB changes
+ * 
+ * UPDATED: Now tries astrological context from rules first, then falls back to generic
+ */
+async function generateMicroContext({ mahadasha = null, theme = null, pressure = null, domain = null, planetId = null, planetName = null, house = null } = {}) {
+  // PRIORITY 1: Try astrological context from actual rules (both books)
+  const astroContext = await generateAstrologicalContextFromRules({
+    planetId,
+    planetName,
+    house,
+    theme,
+    domain
+  });
+
+  if (astroContext) {
+    return astroContext;
+  }
+
+  // PRIORITY 2: Fallback to Mahadasha-based context (generic but still useful)
+  if (mahadasha) {
+    const planet = String(mahadasha).toUpperCase();
+    const mahadashaContext = {
+      'SATURN': 'Especially helpful during long, effort-heavy phases where progress feels slow.',
+      'RAHU': 'Useful when the mind feels scattered or unstable, or when desires create confusion.',
+      'KETU': 'Supports clarity during periods of detachment or spiritual seeking.',
+      'SUN': 'Helpful when leadership responsibilities feel heavy or when recognition is delayed.',
+      'MOON': 'Supports emotional calm and inner steadiness during sensitive periods.',
+      'MARS': 'Useful when energy feels blocked or when conflicts create stress.',
+      'MERCURY': 'Supports clear communication and mental focus during busy or scattered times.',
+      'JUPITER': 'Helpful when wisdom or guidance feels needed, or when expansion feels blocked.',
+      'VENUS': 'Supports harmony in relationships and material comfort during challenging periods.'
+    };
+    
+    if (mahadashaContext[planet]) {
+      return mahadashaContext[planet];
+    }
+  }
+  
+  // PRIORITY 3: Theme-based context (generic)
+  if (!mahadasha && theme) {
+    const themeContext = {
+      'money': 'Helps maintain discipline around resources and financial stability.',
+      'career': 'Supports steady progress when work feels challenging or recognition is delayed.',
+      'relationship': 'Useful when relationships feel strained or communication is difficult.',
+      'health': 'Supports physical and mental well-being during stressful periods.',
+      'family': 'Helpful when family responsibilities feel heavy or home life is unsettled.',
+      'spirituality': 'Supports inner peace and spiritual growth during transformative phases.'
+    };
+    
+    if (themeContext[theme]) {
+      return themeContext[theme];
+    }
+  }
+  
+  // PRIORITY 4: Pressure-based context (generic)
+  if (!mahadasha && !theme && pressure) {
+    if (pressure === 'high' || pressure === 'medium') {
+      return 'This is especially helpful during phases where effort feels heavy and progress is slow.';
+    }
+  }
+  
+  return null;
+}
+
+/**
+ * Formats remedy description to be calm and supportive
+ * MICRO-CONTEXT ENRICHMENT: Optionally adds contextual line for top remedies
+ */
+function formatRemedyDescription(description, type, frequency, duration, microContext = null) {
   let formatted = description || '';
   
   // Ensure description doesn't contain fear-based language
@@ -83,6 +330,11 @@ function formatRemedyDescription(description, type, frequency, duration) {
       if (match.toLowerCase().includes('mandatory')) return 'beneficial';
       return match;
     });
+  }
+  
+  // MICRO-CONTEXT ENRICHMENT: Add contextual line for top remedies
+  if (microContext && typeof microContext === 'string' && microContext.trim().length > 0) {
+    formatted += ' ' + microContext.trim();
   }
   
   // Add frequency/duration info if available
@@ -222,27 +474,42 @@ function isLikelyActionable(text) {
   
   // Reject generic/descriptive phrases that are clearly NOT remedies
   // These are rule-like descriptions, not actionable remedies
+  // FIXED: Check anywhere in text, not just at start
   const rejectPatterns = [
-    /^this planetary configuration/,
-    /^creates specific influences/,
-    /^shapes life experiences/,
-    /^tends to/,
-    /^this placement affects/,
-    /^configuration affects/,
-    /^astrological/,
-    /^planetary positions reflect/
+    /planetary configuration creates specific influences/,
+    /creates specific influences that shape/,
+    /shapes life experiences and events/,
+    /planetary configuration/,
+    /planetary positions reflect/,
+    /this placement affects/,
+    /configuration affects/,
+    /tends to concentrate around/,
+    /^this astrological/,
+    /^astrological configuration/,
+    /remedial practices such as donation, chanting, wearing gemstones, or installing yantras may help balance planetary influences/i,
+    /^remedial practices such as/i,
+    /may help balance planetary influences$/i,
+    /may help restore balance\. results may take time\. planetary configuration/i
   ];
   
-  // If text STARTS with a reject pattern, it's definitely not a remedy
+  // If text contains ANY reject pattern, it's definitely not a remedy
   for (const pattern of rejectPatterns) {
     if (pattern.test(t)) return false;
+  }
+  
+  // Reject if description is too generic (lists multiple remedy types without specifics)
+  // Generic multi-type descriptions like "donation, chanting, wearing gemstones, or installing yantras"
+  const isGenericMultiType = /(donation|chanting|wearing gemstones|installing yantras).*(donation|chanting|wearing gemstones|installing yantras)/i.test(t);
+  if (isGenericMultiType && t.length < 200) {
+    // If it mentions multiple types in a short description, it's likely generic
+    return false;
   }
   
   // Must contain action verbs (remedies must describe actions)
   // Check if text contains actionable verbs anywhere
   const hasAction = /(donate|feed|chant|recite|offer|serve|help|practice|avoid|give|visit|pray|meditate|fast|wear|install|place|keep|maintain|observe|adhere|attend)/i.test(t);
   
-  // If it has action verbs AND doesn't start with reject patterns, it's likely actionable
+  // If it has action verbs AND doesn't contain reject patterns, it's likely actionable
   return hasAction;
 }
 
@@ -361,26 +628,47 @@ export async function resolveRemediesForPlanets({
 
     if (!result || !result.rows || result.rowCount === 0) return [];
 
-    const formatted = result.rows
-      .filter(row => row && typeof row.type === 'string' && typeof row.name === 'string')
-      .map((row) => {
-        const type = String(row.type || '');
-        const title = formatRemedyTitle(row.name, type);
-        const description = formatRemedyDescription(
-          row.description || '',
-          type,
-          row.recommended_frequency || null,
-          null
-        );
-        return {
-          type,
-          title: String(title || ''),
-          description: String(description || ''),
-          frequency: row.recommended_frequency || null,
-          duration: row.min_duration_days || null,
-          _actionable: isLikelyActionable(description),
-        };
-      });
+    // ASTROLOGICAL CONTEXT: Extract planet/house from rule_trace if available
+    // For planet-based remedies, we can query matching rules
+    const planetId = planetName ? PLANET_NAME_TO_ID[String(planetName).toUpperCase()] : primaryPlanetId;
+    
+    const formatted = await Promise.all(
+      result.rows
+        .filter(row => row && typeof row.type === 'string' && typeof row.name === 'string')
+        .map(async (row, index) => {
+          const type = String(row.type || '');
+          const title = formatRemedyTitle(row.name, type);
+          
+          // MICRO-CONTEXT ENRICHMENT: Only enrich top 2 remedies (index 0, 1)
+          // ASTROLOGICAL CONTEXT: Query rules to get actual astrological meaning
+          const shouldEnrich = index < 2;
+          const microContext = shouldEnrich ? await generateMicroContext({
+            mahadasha: planetName,
+            theme: null, // Planet-based, no theme context
+            pressure: null,
+            domain: null,
+            planetId: planetId,
+            planetName: planetName,
+            house: null // House not available in planet-based lookup
+          }) : null;
+          
+          const description = formatRemedyDescription(
+            row.description || '',
+            type,
+            row.recommended_frequency || null,
+            null,
+            microContext // Add micro-context for top 2 remedies
+          );
+          return {
+            type,
+            title: String(title || ''),
+            description: String(description || ''),
+            frequency: row.recommended_frequency || null,
+            duration: row.min_duration_days || null,
+            _actionable: isLikelyActionable(description),
+          };
+        })
+    );
 
     // ONLY return actionable remedies (no fallback to non-actionable)
     const actionableOnly = formatted
@@ -388,10 +676,28 @@ export async function resolveRemediesForPlanets({
       .map(({ _actionable, ...r }) => r);
     
     // Deduplicate by description (normalized)
+    // FIXED: Remove micro-context and generic phrases before comparing to catch duplicates
+    const normalizeDescription = (desc) => {
+      if (!desc || typeof desc !== 'string') return '';
+      // Remove micro-context (usually added at the end)
+      // Remove generic phrases
+      return desc
+        .toLowerCase()
+        .replace(/\s+/g, ' ')
+        .replace(/planetary configuration creates specific influences that shape life experiences and events/gi, '')
+        .replace(/\.\s*especially helpful during.*$/i, '')
+        .replace(/\.\s*useful when.*$/i, '')
+        .replace(/\.\s*supports.*$/i, '')
+        .replace(/\.\s*helpful when.*$/i, '')
+        .trim();
+    };
+    
     const seen = new Set();
     const unique = [];
     for (const remedy of actionableOnly) {
-      const key = `${remedy.type}|${(remedy.description || '').trim().toLowerCase()}`;
+      // Normalize description for comparison (remove micro-context and generic phrases)
+      const normalizedDesc = normalizeDescription(remedy.description);
+      const key = `${remedy.type}|${normalizedDesc}`;
       if (!seen.has(key)) {
         seen.add(key);
         unique.push(remedy);
@@ -399,10 +705,82 @@ export async function resolveRemediesForPlanets({
       }
     }
 
-    return unique;
+    // If DB remedies are insufficient (or too generic), fill with curated planet remedies
+    if (unique.length < Math.max(1, Number(limit) || 2)) {
+      const curated = getCuratedPlanetRemedies(planetName);
+      const normalizeDescription = (desc) =>
+        String(desc || '')
+          .toLowerCase()
+          .replace(/\s+/g, ' ')
+          .replace(/planetary configuration creates specific influences that shape life experiences and events/gi, '')
+          .replace(/\.\s*especially helpful during.*$/i, '')
+          .replace(/\.\s*useful when.*$/i, '')
+          .replace(/\.\s*supports.*$/i, '')
+          .replace(/\.\s*helpful when.*$/i, '')
+          .trim();
+
+      for (const c of curated) {
+        if (unique.length >= Math.max(1, Number(limit) || 2)) break;
+        const key = `${c.type}|${normalizeDescription(c.description)}`;
+        const already = unique.some((u) => `${u.type}|${normalizeDescription(u.description)}` === key);
+        if (!already) {
+          unique.push(c);
+        }
+      }
+    }
+
+    return unique.slice(0, Math.max(1, Number(limit) || 2));
   } catch (err) {
     return [];
   }
+}
+
+/**
+ * Curated fallback remedies when DB/book content is missing or too generic.
+ * English-only.
+ */
+function getCuratedPlanetRemedies(planetName) {
+  const p = String(planetName || '').toUpperCase();
+  const map = {
+    SATURN: [
+      {
+        type: 'donation',
+        title: 'Donate black sesame or mustard oil (Saturday)',
+        description: 'Donate black sesame or a small amount of mustard oil on Saturday. This supports steadiness during long, effort-heavy phases.',
+        frequency: 'Once a week (Saturday)',
+        duration: null,
+      },
+      {
+        type: 'feeding_beings',
+        title: 'Feed crows (Saturday)',
+        description: 'Feed crows with cooked rice on Saturday morning. This helps soften isolation and mental heaviness patterns.',
+        frequency: 'Once a week (Saturday)',
+        duration: null,
+      },
+      {
+        type: 'mantra',
+        title: 'Shani mantra (108x)',
+        description: 'Chant "Om Sham Shanicharaya Namah" 108 times daily for 40 days. This builds patience and reduces repeated friction.',
+        frequency: 'Daily',
+        duration: '40 days',
+      },
+      {
+        type: 'puja',
+        title: 'Sesame-oil lamp (Saturday evening)',
+        description: 'Light a sesame-oil lamp on Saturday evening. This supports stability and can improve sleep-restlessness tendencies.',
+        frequency: 'Once a week (Saturday)',
+        duration: null,
+      },
+      {
+        type: 'meditation',
+        title: 'Breath-counting meditation (10 minutes)',
+        description: 'Do 10 minutes of slow breath-counting meditation before sleep. This calms the mind when pressure feels constant.',
+        frequency: 'Daily',
+        duration: '10 minutes',
+      },
+    ],
+  };
+  return map[p] || [];
 }
 
 /**
@@ -539,47 +917,109 @@ export async function resolveRemedies(section) {
       return [];
     }
     
-    // Format remedies for response with validation
-    const remedies = result.rows
-      .filter(row => {
-        // Validate row structure
-        return row && 
-               row.type && 
-               typeof row.type === 'string' &&
-               row.name && 
-               typeof row.name === 'string';
-      })
-      .map((row) => {
-        const type = String(row.type || '');
-        const title = formatRemedyTitle(row.name, type);
-        const description = formatRemedyDescription(
-          row.description || '',
-          type,
-          row.recommended_frequency || null,
-          null // Don't convert duration to minutes, keep as days
+    // Extract context for micro-enrichment
+    // Try to get Mahadasha from section's _mahadasha_context (added by kundliGeneration)
+    const mahadasha = section._mahadasha_context?.current_mahadasha || null;
+    const dominantTheme = themes && themes.length > 0 ? themes[0] : null;
+    const pressure = summary_metrics?.pressure || null;
+    const domainTheme = DOMAIN_TO_DB_THEMES[domain]?.[0] || null;
+    
+    // ASTROLOGICAL CONTEXT: Extract planet/house from rule_trace
+    // Try to get planet/house from base rules that were applied
+    let planetId = null;
+    let planetName = null;
+    let house = null;
+    
+    if (rule_trace?.base_rules_applied && rule_trace.base_rules_applied.length > 0) {
+      // Query first base rule to get planet/house info
+      try {
+        const firstRuleId = rule_trace.base_rules_applied[0];
+        const ruleRes = await query(
+          `SELECT condition_tree FROM rules WHERE rule_id = $1 AND is_active = TRUE LIMIT 1`,
+          [firstRuleId]
         );
         
-        // Build remedy object with validated fields
-        const remedy = {
-          type: type,
-          title: String(title || ''),
-          description: String(description || ''),
-          frequency: row.recommended_frequency || null,
-          duration: row.min_duration_days && typeof row.min_duration_days === 'number'
-            ? `${row.min_duration_days} days`
-            : null
-        };
-        
-        // Ensure frequency is string or null
-        if (remedy.frequency && typeof remedy.frequency !== 'string') {
-          remedy.frequency = String(remedy.frequency);
+        if (ruleRes.rows.length > 0) {
+          const conditionTree = ruleRes.rows[0].condition_tree;
+          if (conditionTree?.planet_in_house) {
+            const planets = conditionTree.planet_in_house.planet_in || [];
+            const houses = conditionTree.planet_in_house.house_in || [];
+            
+            if (planets.length > 0) {
+              planetName = planets[0];
+              planetId = PLANET_NAME_TO_ID[String(planetName).toUpperCase()] ?? null;
+            }
+            if (houses.length > 0) {
+              house = houses[0];
+            }
+          }
         }
-        
-        return remedy;
-      })
-      .slice(0, 3); // Enforce max 3 remedies (deterministic limit)
+      } catch (err) {
+        // Graceful degradation - continue without planet/house
+        console.warn('[RemedyResolver] Could not extract planet/house from rule_trace:', err.message);
+      }
+    }
     
-    return remedies;
+    // Format remedies for response with validation
+    const remedies = await Promise.all(
+      result.rows
+        .filter(row => {
+          // Validate row structure
+          return row && 
+                 row.type && 
+                 typeof row.type === 'string' &&
+                 row.name && 
+                 typeof row.name === 'string';
+        })
+        .map(async (row, index) => {
+          const type = String(row.type || '');
+          const title = formatRemedyTitle(row.name, type);
+          
+          // MICRO-CONTEXT ENRICHMENT: Only enrich top 2 remedies (index 0, 1)
+          // ASTROLOGICAL CONTEXT: Query rules to get actual astrological meaning
+          const shouldEnrich = index < 2;
+          const microContext = shouldEnrich ? await generateMicroContext({
+            mahadasha: mahadasha,
+            theme: dominantTheme || domainTheme,
+            pressure: pressure,
+            domain: domain,
+            planetId: planetId,
+            planetName: planetName,
+            house: house
+          }) : null;
+          
+          const description = formatRemedyDescription(
+            row.description || '',
+            type,
+            row.recommended_frequency || null,
+            null, // Don't convert duration to minutes, keep as days
+            microContext // Add micro-context for top 2 remedies
+          );
+          
+          // Build remedy object with validated fields
+          const remedy = {
+            type: type,
+            title: String(title || ''),
+            description: String(description || ''),
+            frequency: row.recommended_frequency || null,
+            duration: row.min_duration_days && typeof row.min_duration_days === 'number'
+              ? `${row.min_duration_days} days`
+              : null
+          };
+          
+          // Ensure frequency is string or null
+          if (remedy.frequency && typeof remedy.frequency !== 'string') {
+            remedy.frequency = String(remedy.frequency);
+          }
+          
+          return remedy;
+        })
+    );
+    
+    // Enforce max 3 remedies (deterministic limit)
+    const limitedRemedies = remedies.slice(0, 3);
+    
+    return limitedRemedies;
   } catch (error) {
     // Graceful degradation: return empty array on error
     console.error(`Error resolving remedies for domain ${domain}:`, error.message);

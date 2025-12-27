@@ -162,20 +162,20 @@ function generateMunthaNarrative(house) {
     return null;
   }
   
-  // Simple Muntha narratives based on house
+  // Muntha narratives (avoid generic "be mindful" / template voice)
   const munthaNarratives = {
-    1: "This year brings focus on your personal identity and self-expression. You may experience significant changes in how you present yourself to the world. This is a time for self-discovery and building confidence.",
-    2: "Financial matters and material resources take center stage this year. There may be fluctuations in income or expenses. Focus on building stability and avoiding unnecessary risks in money matters.",
-    3: "Communication, siblings, and short journeys are highlighted. You may find yourself more active in social circles or taking on new learning opportunities. Be mindful of hasty decisions in communication.",
-    4: "Home, family, and emotional foundations are emphasized. There may be changes or developments in your domestic life. This period encourages creating a stable and nurturing environment.",
-    5: "Creativity, children, and speculative matters come into focus. This year may bring opportunities for creative expression or new learning. Be cautious with investments and avoid overconfidence.",
-    6: "Health, service, and daily routines require attention. You may need to focus on maintaining good health habits and managing work-related stress. This period encourages discipline and routine.",
-    7: "Partnerships, marriage, and relationships are highlighted. This year may bring significant developments in your personal or business partnerships. Focus on cooperation and mutual understanding.",
-    8: "Transformation, shared resources, and hidden matters come into focus. This period may bring deep changes or insights. Be cautious with joint finances and avoid unnecessary risks.",
-    9: "Higher learning, philosophy, and long journeys are emphasized. This year may bring opportunities for spiritual growth or educational pursuits. Travel, especially for learning purposes, may be beneficial.",
-    10: "Career, reputation, and public standing take center stage. This year may bring significant developments in your professional life. Focus on building a strong foundation for long-term success.",
-    11: "Friendships, goals, and social networks are highlighted. This period may bring new connections or opportunities through friends. Focus on building meaningful relationships and working toward your aspirations.",
-    12: "Spirituality, solitude, and hidden matters come into focus. This year encourages introspection and letting go of what no longer serves you. Be mindful of health and avoid unnecessary expenses."
+    1: "Muntha in the 1st house makes the year personal.\nYour image, confidence, and the way people respond to you becomes a main theme.\nSituations repeat until you learn how to carry yourself calmly under attention.\nIf you rush to prove yourself, ego-clashes rise; if you stay steady, respect builds.",
+    2: "Muntha in the 2nd house makes money and family responsibilities loud.\nIncome–expense balance becomes a repeating lesson.\nSpeech also becomes karma: one sharp sentence can create long tension.\nKeep finances simple; avoid impulsive commitments and careless borrowing.",
+    3: "Muntha in the 3rd house pushes effort, communication, and short travel.\nYou may feel restless—doing many things but needing one clear direction.\nSibling / teammate dynamics can become sensitive.\nWin through consistent effort, not through arguments or impulsive moves.",
+    4: "Muntha in the 4th house turns attention to home, mother, property, and inner peace.\nDomestic matters can demand time and emotional bandwidth.\nIf the mind feels unsettled, productivity drops even when work is fine.\nStability comes from fixing one thing at home—routine, space, or family boundaries.",
+    5: "Muntha in the 5th house highlights learning, creativity, romance, and children.\nThis year tests judgement: where you take risks, and where you stay disciplined.\nOverconfidence creates avoidable losses.\nUse skill and planning; avoid gambling-like decisions and dramatic emotional choices.",
+    6: "Muntha in the 6th house makes routine the battlefield.\nHealth, debts, workplace pressure, and small conflicts can repeat.\nIf you ignore the body, the body forces attention.\nWin through discipline: sleep, food, and a simple daily schedule.",
+    7: "Muntha in the 7th house makes partnerships central.\nRelationship expectations, promises, and fairness get tested.\nIf ego enters, small misunderstandings grow.\nClear communication and balanced give-and-take keeps this year smoother.",
+    8: "Muntha in the 8th house brings sudden shifts, hidden worries, and transformation.\nOld patterns return so you can end them properly.\nJoint finances and trust issues require clean handling.\nAvoid secrecy; keep paperwork and boundaries clear.",
+    9: "Muntha in the 9th house brings dharma, beliefs, mentors, and long journeys into focus.\nFortune improves when ethics are clean.\nIf you try shortcuts, results become uneven.\nGood year for learning and structured spiritual practice—not blind faith.",
+    10: "Muntha in the 10th house puts career and reputation on the stage.\nPeople notice your output more than your intentions.\nIf you stay consistent, visibility increases; if you cut corners, criticism rises.\nThis year rewards steady responsibility and long-term thinking.",
+    11: "Muntha in the 11th house focuses gains, networks, and fulfilment of goals.\nFriend circles and collaborations become important.\nIf you chase every opportunity, energy scatters.\nPick one main target; gains come through the right people, not through noise.",
+    12: "Muntha in the 12th house increases expenses, isolation, and inner work.\nSleep, overthinking, and mental fatigue can become themes.\nThis year asks for release—habits, people, or expectations that drain you.\nKeep expenses disciplined; protect rest and mental space."
   };
   
   return munthaNarratives[house] || null;
@@ -223,7 +223,7 @@ function generateDashaPeriodNarrative(planet, bhav, fromDate, toDate) {
     return specificNarrative;
   }
   
-  // Fallback generic narrative with ordinal fix and specific domains
+  // Fallback narrative (avoid template voice; use planet-specific archetypes)
   const ordinal = getOrdinal(bhav);
   
   const houseDomains = {
@@ -242,8 +242,56 @@ function generateDashaPeriodNarrative(planet, bhav, fromDate, toDate) {
   };
   
   const domain = houseDomains[bhav] || `areas associated with the ${ordinal} house`;
-  
-  return `During this period, ${planetName} influences your ${ordinal} house, bringing focus to ${domain}. This is a time to be mindful of the opportunities and challenges that arise, and to act with wisdom and patience.`;
+
+  const p = String(planet || '').toUpperCase();
+  const lines = [];
+  lines.push(`${planetName} period in the ${ordinal} house.`);
+  lines.push(`Theme: ${domain}.`);
+
+  // Planet-specific voice (short punch + longer cause/effect)
+  switch (p) {
+    case 'SUN':
+      lines.push(`Respect and authority matters become louder than usual.`);
+      lines.push(`If ego reacts first, conflicts repeat; if leadership stays calm, outcomes improve.`);
+      break;
+    case 'MOON':
+      lines.push(`Mood and mental comfort becomes the deciding factor behind many choices.`);
+      lines.push(`If insecurity rises, overthinking repeats; routine and emotional steadiness keeps it stable.`);
+      break;
+    case 'MARS':
+      lines.push(`Action energy rises—so does impatience.`);
+      lines.push(`Arguments and impulsive moves repeat if anger becomes a habit; discipline turns it into clean progress.`);
+      break;
+    case 'MERCURY':
+      lines.push(`Communication and decision clarity becomes karma.`);
+      lines.push(`Misunderstandings repeat when things are rushed—write, verify, and keep promises realistic.`);
+      break;
+    case 'JUPITER':
+      lines.push(`Hope and expansion rises, but so can overconfidence.`);
+      lines.push(`Results improve when ethics and judgement stay clean; shortcuts create disappointment.`);
+      break;
+    case 'VENUS':
+      lines.push(`Desire for comfort and harmony increases.`);
+      lines.push(`Attachment patterns repeat if boundaries are weak; balance gives sweetness without regret.`);
+      break;
+    case 'SATURN':
+      lines.push(`Workload and responsibility feels heavier, with delayed rewards.`);
+      lines.push(`Consistency is the only medicine here—structure first, emotion later.`);
+      break;
+    case 'RAHU':
+      lines.push(`Restlessness and strong desire can pull you into messy choices.`);
+      lines.push(`Confusion repeats when you chase quick wins; grounding and verification keeps it safer.`);
+      break;
+    case 'KETU':
+      lines.push(`Detachment increases; interest can drop suddenly.`);
+      lines.push(`Withdrawal repeats if you cut off too fast; stability comes from routine and patience.`);
+      break;
+    default:
+      lines.push(`This phase repeats lessons until your response becomes steady.`);
+      break;
+  }
+
+  return lines.join('\n');
 }
 
 /**

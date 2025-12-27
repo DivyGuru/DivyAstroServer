@@ -237,8 +237,21 @@ async function ingestUniversalRules(bookId, paths, client) {
         continue;
       }
       
+      // FIXED: Reject rules without planet/house - they cannot create condition_tree
+      // Rules need at least planet OR house to be evaluable
+      if ((!rule.planet || rule.planet.length === 0) && (!rule.house || rule.house.length === 0)) {
+        skipped++;
+        continue; // Skip - cannot create condition_tree without planet/house
+      }
+      
       // Convert to DB format
       const dbRule = convertUniversalRule(rule, bookId);
+      
+      // FIXED: Double-check - reject if condition_tree is still null after conversion
+      if (!dbRule.condition_tree) {
+        skipped++;
+        continue; // Skip - condition_tree is null, rule cannot be evaluated
+      }
       
       // Check if exists (by variant_code)
       const existsRes = await client.query(`

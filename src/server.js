@@ -64,21 +64,33 @@ app.post('/windows/:windowId/generate', async (req, res) => {
       [result.predictionId]
     );
 
+    // Clean prediction object - remove internal debugging data
+    const cleanPrediction = result.prediction ? {
+      id: result.prediction.id,
+      window_id: result.prediction.window_id,
+      user_id: result.prediction.user_id,
+      chart_id: result.prediction.chart_id,
+      scope: result.prediction.scope,
+      status: result.prediction.status,
+      language_code: result.prediction.language_code,
+      short_summary: result.prediction.short_summary,
+      final_text: result.prediction.final_text,
+      highlight_on_home: result.prediction.highlight_on_home,
+      generated_at: result.prediction.generated_at,
+      // Exclude summary_json (internal rule IDs - not needed by mobile app)
+      // Exclude error_message (internal debugging)
+    } : null;
+
     res.json({
       ok: true,
       windowId,
       predictionId: result.predictionId,
-      prediction: result.prediction,
-      summary: result.summary,
+      prediction: cleanPrediction,
       shortSummary: result.shortSummary,
       appliedRuleCount: result.applied.length,
       remedies: remediesRes.rows,
-      // Include rule execution metadata
-      ruleExecutionInfo: {
-        totalRulesEvaluated: result.applied.length,
-        executableRules: result.applied.filter(r => r.rule_nature === 'EXECUTABLE').length,
-        advisoryRules: result.applied.filter(r => r.rule_nature === 'ADVISORY').length,
-      },
+      // Exclude summary and ruleExecutionInfo (internal debugging data)
+      // Mobile app doesn't need rule execution metadata
     });
   } catch (err) {
     res.status(400).json({ ok: false, error: err.message });
@@ -662,32 +674,154 @@ app.post('/windows', async (req, res) => {
  * Helper function: Create astro_state_snapshot from Swiss Ephemeris chart_data
  */
 async function createAstroSnapshotFromChartData(windowId, userId, chartId, chartData) {
+  // Normalize helpers: client sometimes sends inconsistent sign indices (e.g., 13 for Rahu)
+  // We treat longitude as authoritative and compute sign as 1..12.
+  function normalizeSignFromLongitude(longitude) {
+    const lon = Number(longitude);
+    if (!Number.isFinite(lon)) return null;
+    // Normalize to [0, 360)
+    const norm = ((lon % 360) + 360) % 360;
+    const sign = Math.floor(norm / 30) + 1; // 1..12
+    if (sign < 1 || sign > 12) return null;
+    return sign;
+  }
+
+  function normalizeSignFallback(signNumber) {
+    const s = Number(signNumber);
+    if (!Number.isFinite(s)) return null;
+    // Many clients send 0-based sign indices (0..11). Normalize those first.
+    // 0=Aries ... 11=Pisces  => +1 to make 1..12
+    if (Number.isInteger(s) && s >= 0 && s <= 11) return s + 1;
+
+    // Otherwise wrap any integer into 1..12
+    return ((Math.trunc(s) - 1) % 12 + 12) % 12 + 1;
+  }
+
   // Extract planets from Swiss Ephemeris response
   // Chart data structure: { planets: [...], houses: [...], etc. }
   const planets = chartData.planets || chartData.planetsData || [];
   
   // Build planets_state array
-  const planets_state = planets.map((p) => ({
-    planet: p.name || p.planet || p.id,
-    house: p.house || p.h || null,
-    sign: p.sign || p.s || null,
-    degree: p.longitude || p.long || p.position || null,
-    nakshatra: p.nakshatra || p.nakshatraId || null,
-    pada: p.pada || null,
-    is_retro: p.isRetrograde || p.retrograde || false,
-    strength: p.strength || null,
-  })).filter((p) => p.planet); // Filter out invalid entries
+  const planets_state = planets
+    .map((p) => {
+      const degree = p.longitude ?? p.long ?? p.position ?? null;
+      const computedSign = normalizeSignFromLongitude(degree);
+      const rawSign = p.sign ?? p.s ?? null;
+      const sign = computedSign || normalizeSignFallback(rawSign);
+      return {
+        planet: p.name || p.planet || p.id,
+        house: p.house || p.h || null,
+        sign,
+        degree,
+        nakshatra: p.nakshatra || p.nakshatraId || null,
+        pada: p.pada || null,
+        is_retro: p.isRetrograde || p.retrograde || false,
+        strength: p.strength || null,
+      };
+    })
+    .filter((p) => p.planet); // Filter out invalid entries
 
   // Extract other data
   const houses_state = chartData.houses || chartData.housesData || null;
   const yogas_state = chartData.yogas || chartData.yogasData || [];
   const doshas_state = chartData.doshas || chartData.doshasData || [];
-  const transits_state = chartData.transits || chartData.transitsData || [];
+  const transits_raw = chartData.transits || chartData.transitsData || [];
+  const transits_state = Array.isArray(transits_raw)
+    ? transits_raw.map((t) => {
+        const lon = t.longitude ?? t.long ?? t.position ?? t.degree ?? null;
+        const computedSign = normalizeSignFromLongitude(lon);
+        const rawSign = t.sign ?? t.s ?? null;
+        return {
+          ...t,
+          longitude: lon ?? t.longitude,
+          sign: computedSign || normalizeSignFallback(rawSign),
+        };
+      })
+    : transits_raw;
 
   // Extract basic info
-  const lagna_sign = chartData.lagna?.sign || chartData.lagnaSign || null;
-  const moon_sign = chartData.moon?.sign || chartData.moonSign || null;
-  const moon_nakshatra = chartData.moon?.nakshatra || chartData.moonNakshatra || null;
+  const lagnaLongitude =
+    chartData.lagna?.longitude ??
+    chartData.lagna?.degree ??
+    chartData.lagna?.long ??
+    null;
+  const lagna_sign =
+    normalizeSignFromLongitude(lagnaLongitude) ||
+    normalizeSignFallback(chartData.lagna?.sign || chartData.lagnaSign || null);
+
+  // Prefer explicit moon info, else derive from Moon planet entry
+  const moonPlanet = planets_state.find((p) => String(p.planet || '').toUpperCase() === 'MOON');
+  const moonLongitude =
+    chartData.moon?.longitude ??
+    chartData.moon?.degree ??
+    chartData.moon?.long ??
+    moonPlanet?.degree ??
+    null;
+  const moon_sign =
+    normalizeSignFromLongitude(moonLongitude) ||
+    normalizeSignFallback(chartData.moon?.sign || chartData.moonSign || moonPlanet?.sign || null);
+
+  // moon_nakshatra column is SMALLINT (nakshatraId). Avoid storing string names here.
+  // If only the name is present (e.g., "Swati"), map it to the standard 1..27 ID.
+  function normalizeNakshatraId(value) {
+    if (value == null) return null;
+    const n = Number(value);
+    // Some clients send 0-based IDs (0..26). Normalize to 1..27.
+    if (Number.isFinite(n) && n >= 0 && n <= 26) return Math.trunc(n) + 1;
+    if (Number.isFinite(n) && n >= 1 && n <= 27) return Math.trunc(n);
+    const name = String(value || '').trim().toLowerCase();
+    if (!name) return null;
+    const map = {
+      ashwini: 1,
+      bharani: 2,
+      krittika: 3,
+      rohini: 4,
+      mrigashira: 5,
+      mrigasira: 5,
+      ardra: 6,
+      punarvasu: 7,
+      pushya: 8,
+      ashlesha: 9,
+      aslesha: 9,
+      magha: 10,
+      purva_phalguni: 11,
+      'purva phalguni': 11,
+      uttara_phalguni: 12,
+      'uttara phalguni': 12,
+      hasta: 13,
+      chitra: 14,
+      swati: 15,
+      vishakha: 16,
+      vishakhaaa: 16,
+      anuradha: 17,
+      jyeshtha: 18,
+      jyestha: 18,
+      mula: 19,
+      purva_ashadha: 20,
+      'purva ashadha': 20,
+      uttara_ashadha: 21,
+      'uttara ashadha': 21,
+      shravana: 22,
+      dhanishtha: 23,
+      dhanishta: 23,
+      shatabhisha: 24,
+      satabhisha: 24,
+      purva_bhadrapada: 25,
+      'purva bhadrapada': 25,
+      uttara_bhadrapada: 26,
+      'uttara bhadrapada': 26,
+      revati: 27,
+    };
+    return map[name] || null;
+  }
+
+  const moon_nakshatra =
+    normalizeNakshatraId(chartData.moon?.nakshatraId) ||
+    normalizeNakshatraId(chartData.moonNakshatraId) ||
+    normalizeNakshatraId(chartData.moon?.nakshatra) ||
+    normalizeNakshatraId(chartData.moonNakshatra) ||
+    normalizeNakshatraId(moonPlanet?.nakshatra) ||
+    null;
 
   // Extract varshaphal data (for yearly windows)
   const varshaphal_data = chartData.varshaphal || null;
@@ -726,133 +860,151 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
   
   const hasMetadata = Object.keys(metadata).length > 0;
 
-  // Check if snapshot already exists
-  const existing = await query(
-    'SELECT id FROM astro_state_snapshots WHERE window_id = $1',
+  // FIXED: Fetch existing metadata first (if any) to merge with new metadata
+  // This ensures we don't lose existing dasha/varshaphal data when updating
+  let existingMetadata = {};
+  let existingPlanetsState = null;
+  let existingTransitsState = null;
+  const existingSnapshot = await query(
+    'SELECT houses_state, planets_state, transits_state FROM astro_state_snapshots WHERE window_id = $1',
     [windowId]
   );
   
-  if (existing.rowCount > 0) {
-    // Update existing snapshot
-    // IMPORTANT: Merge with existing metadata instead of overwriting
-    const existingSnapshot = await query(
-      'SELECT houses_state FROM astro_state_snapshots WHERE window_id = $1',
-      [windowId]
-    );
+  if (existingSnapshot.rowCount > 0) {
+    let existingHouses = existingSnapshot.rows[0].houses_state;
+    let existingPlanets = existingSnapshot.rows[0].planets_state;
+    let existingTransits = existingSnapshot.rows[0].transits_state;
     
-    let existingMetadata = {};
-    if (existingSnapshot.rowCount > 0) {
-      let existingHouses = existingSnapshot.rows[0].houses_state;
-      
-      // Parse if string
-      if (typeof existingHouses === 'string') {
-        try {
-          existingHouses = JSON.parse(existingHouses);
-        } catch (e) {
-          // ignore
-        }
-      }
-      
-      // Extract existing metadata
-      if (existingHouses && typeof existingHouses === 'object' && existingHouses._metadata) {
-        existingMetadata = existingHouses._metadata;
+    // Parse if string
+    if (typeof existingHouses === 'string') {
+      try {
+        existingHouses = JSON.parse(existingHouses);
+      } catch (e) {
+        // ignore
       }
     }
-    
-    // Merge metadata (new data takes precedence, but preserve existing)
-    const mergedMetadata = {
-      ...existingMetadata,
-      ...metadata
-    };
-    
-    // Store merged metadata (including varshaphal and dasha) in houses_state
-    let houses_with_metadata = houses_state;
-    if (Object.keys(mergedMetadata).length > 0) {
-      if (Array.isArray(houses_state)) {
-        houses_with_metadata = {
-          houses: houses_state,
-          _metadata: mergedMetadata
-        };
-      } else if (houses_state && typeof houses_state === 'object') {
-        houses_with_metadata = {
-          ...houses_state,
-          _metadata: mergedMetadata
-        };
-      } else {
-        houses_with_metadata = { _metadata: mergedMetadata };
+
+    if (typeof existingPlanets === 'string') {
+      try {
+        existingPlanets = JSON.parse(existingPlanets);
+      } catch (e) {
+        // ignore
       }
     }
-    
-    await query(
-      `UPDATE astro_state_snapshots
-       SET planets_state = $1::jsonb,
-           houses_state = $2::jsonb,
-           yogas_state = $3::jsonb,
-           doshas_state = $4::jsonb,
-           transits_state = $5::jsonb,
-           lagna_sign = $6,
-           moon_sign = $7,
-           moon_nakshatra = $8,
-           computed_at = NOW()
-       WHERE window_id = $9`,
-      [
-        JSON.stringify(planets_state),
-        JSON.stringify(houses_with_metadata),
-        JSON.stringify(yogas_state),
-        JSON.stringify(doshas_state),
-        JSON.stringify(transits_state),
-        lagna_sign,
-        moon_sign,
-        moon_nakshatra,
-        windowId,
-      ]
-    );
-  } else {
-    // Create new snapshot
-    // Store metadata (including varshaphal and dasha) in houses_state as extra field
-    let houses_with_metadata = houses_state;
-    if (hasMetadata) {
-      if (Array.isArray(houses_state)) {
-        // If houses_state is an array, convert to object with array and metadata
-        houses_with_metadata = {
-          houses: houses_state,
-          _metadata: metadata
-        };
-      } else if (houses_state && typeof houses_state === 'object') {
-        // If already an object, add metadata
-        houses_with_metadata = {
-          ...houses_state,
-          _metadata: metadata
-        };
-      } else {
-        // If null or invalid, create object with just metadata
-        houses_with_metadata = { _metadata: metadata };
+    if (typeof existingTransits === 'string') {
+      try {
+        existingTransits = JSON.parse(existingTransits);
+      } catch (e) {
+        // ignore
       }
     }
+    existingPlanetsState = Array.isArray(existingPlanets) ? existingPlanets : null;
+    existingTransitsState = Array.isArray(existingTransits) ? existingTransits : null;
     
-    await query(
-      `INSERT INTO astro_state_snapshots (
-         user_id, chart_id, window_id,
-         lagna_sign, moon_sign, moon_nakshatra,
-         planets_state, houses_state, yogas_state, doshas_state, transits_state
-       )
-       VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10::jsonb, $11::jsonb)
-       RETURNING id`,
-      [
-        userId,
-        chartId,
-        windowId,
-        lagna_sign,
-        moon_sign,
-        moon_nakshatra,
-        JSON.stringify(planets_state),
-        JSON.stringify(houses_with_metadata),
-        JSON.stringify(yogas_state),
-        JSON.stringify(doshas_state),
-        JSON.stringify(transits_state),
-      ]
-    );
+    // Extract existing metadata
+    if (existingHouses && typeof existingHouses === 'object' && existingHouses._metadata) {
+      existingMetadata = existingHouses._metadata;
+    }
   }
+  
+  // Merge metadata (new data takes precedence, but preserve existing)
+  const mergedMetadata = {
+    ...existingMetadata,
+    ...metadata
+  };
+
+  // Preserve existing planets/transits if incoming payload is partial (common during incremental updates).
+  let finalPlanetsState = planets_state;
+  if (Array.isArray(existingPlanetsState) && existingPlanetsState.length >= 9 && Array.isArray(planets_state) && planets_state.length < 9) {
+    finalPlanetsState = existingPlanetsState;
+    mergedMetadata.ingest_warning_planets_partial = true;
+  }
+
+  let finalTransitsState = transits_state;
+  const incomingTransitsCount = Array.isArray(transits_state) ? transits_state.length : 0;
+  const existingTransitsCount = Array.isArray(existingTransitsState) ? existingTransitsState.length : 0;
+  if (existingTransitsCount > 0 && incomingTransitsCount === 0) {
+    finalTransitsState = existingTransitsState;
+    mergedMetadata.ingest_warning_transits_missing = true;
+  }
+
+  // Detect "natal-as-transit" (when transits longitudes match natal longitudes).
+  try {
+    if (Array.isArray(finalTransitsState) && finalTransitsState.length >= 7 && Array.isArray(finalPlanetsState) && finalPlanetsState.length >= 7) {
+      const pMap = new Map(finalPlanetsState.map(p => [String(p.planet || p.name || '').toUpperCase(), p]));
+      let same = 0;
+      let compared = 0;
+      for (const t of finalTransitsState) {
+        const key = String(t.planet || t.name || '').toUpperCase();
+        const p = pMap.get(key);
+        if (!p) continue;
+        const tLon = Number(t.longitude ?? t.degree ?? t.long);
+        const pLon = Number(p.degree ?? p.longitude ?? p.long);
+        if (!Number.isFinite(tLon) || !Number.isFinite(pLon)) continue;
+        compared++;
+        if (Math.abs(tLon - pLon) < 0.001) same++;
+      }
+      if (compared >= 7 && same >= 7) {
+        mergedMetadata.ingest_warning_transits_look_natal = true;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+  
+  // Prepare houses_with_metadata with merged metadata
+  let houses_with_metadata = houses_state;
+  if (Object.keys(mergedMetadata).length > 0) {
+    if (Array.isArray(houses_state)) {
+      houses_with_metadata = {
+        houses: houses_state,
+        _metadata: mergedMetadata
+      };
+    } else if (houses_state && typeof houses_state === 'object') {
+      houses_with_metadata = {
+        ...houses_state,
+        _metadata: mergedMetadata
+      };
+    } else {
+      houses_with_metadata = { _metadata: mergedMetadata };
+    }
+  }
+  
+  // FIXED: Use INSERT ... ON CONFLICT to handle race conditions atomically
+  // This prevents "duplicate key" errors when multiple requests try to create snapshot simultaneously
+  // The metadata merge above ensures we preserve existing data even in race conditions
+  await query(
+    `INSERT INTO astro_state_snapshots (
+       user_id, chart_id, window_id,
+       lagna_sign, moon_sign, moon_nakshatra,
+       planets_state, houses_state, yogas_state, doshas_state, transits_state
+     )
+     VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10::jsonb, $11::jsonb)
+     ON CONFLICT (window_id) DO UPDATE SET
+       planets_state = EXCLUDED.planets_state,
+       houses_state = EXCLUDED.houses_state,
+       yogas_state = EXCLUDED.yogas_state,
+       doshas_state = EXCLUDED.doshas_state,
+       transits_state = EXCLUDED.transits_state,
+       lagna_sign = EXCLUDED.lagna_sign,
+       moon_sign = EXCLUDED.moon_sign,
+       moon_nakshatra = EXCLUDED.moon_nakshatra,
+       computed_at = NOW()
+     RETURNING id`,
+    [
+      userId,
+      chartId,
+      windowId,
+      lagna_sign,
+      moon_sign,
+      moon_nakshatra,
+      JSON.stringify(finalPlanetsState),
+      JSON.stringify(houses_with_metadata),
+      JSON.stringify(yogas_state),
+      JSON.stringify(doshas_state),
+      JSON.stringify(finalTransitsState),
+    ]
+  );
 }
 
 /**
@@ -935,6 +1087,19 @@ app.post('/windows/:windowId/astro-snapshot', async (req, res) => {
   // Debug logging
   console.log(`[POST /windows/${windowId}/astro-snapshot] Received request`);
   console.log(`[POST /windows/${windowId}/astro-snapshot] chart_data keys: ${Object.keys(chart_data || {}).join(', ')}`);
+  try {
+    const rawTransits = chart_data?.transits || chart_data?.transitsData || null;
+    const rawPlanets = chart_data?.planets || chart_data?.planetsData || null;
+    const transitsCount = Array.isArray(rawTransits)
+      ? rawTransits.length
+      : (rawTransits && typeof rawTransits === 'object' ? Object.keys(rawTransits).length : 0);
+    const planetsCount = Array.isArray(rawPlanets)
+      ? rawPlanets.length
+      : (rawPlanets && typeof rawPlanets === 'object' ? Object.keys(rawPlanets).length : 0);
+    console.log(`[POST /windows/${windowId}/astro-snapshot] planets_count=${planetsCount}, transits_count=${transitsCount}`);
+  } catch (e) {
+    // ignore logging errors
+  }
   if (chart_data.dasha) {
     console.log(`[POST /windows/${windowId}/astro-snapshot] ✅ dasha data present`);
     console.log(`[POST /windows/${windowId}/astro-snapshot] dasha keys: ${Object.keys(chart_data.dasha).join(', ')}`);
@@ -986,6 +1151,7 @@ app.post('/windows/:windowId/astro-snapshot', async (req, res) => {
 app.get('/predictions/:windowId', async (req, res) => {
   const windowId = Number(req.params.windowId);
   const language = req.query.lang || 'en';
+  const includeAppliedRules = String(req.query.include_applied_rules || '') === '1' || String(req.query.debug || '') === '1';
 
   try {
     // Fetch window context (needed for timing windows)
@@ -1471,10 +1637,58 @@ app.get('/predictions/:windowId', async (req, res) => {
       }
     }
 
+    // Clean prediction object - remove internal debugging data
+    // Mobile app only needs user-facing fields, not internal rule IDs
+    const cleanPrediction = {
+      id: prediction.id,
+      window_id: prediction.window_id,
+      user_id: prediction.user_id,
+      chart_id: prediction.chart_id,
+      scope: prediction.scope,
+      status: prediction.status,
+      language_code: prediction.language_code,
+      short_summary: prediction.short_summary,
+      final_text: prediction.final_text,
+      highlight_on_home: prediction.highlight_on_home,
+      generated_at: prediction.generated_at,
+      // Exclude summary_json (internal rule IDs - not needed by mobile app)
+      // Exclude error_message (internal debugging)
+    };
+
+    // Quality + payload guardrail:
+    // - Mobile app doesn't need the entire appliedRules dump (it's internal/diagnostic)
+    // - Applied rules may contain generic universal-knowledge phrases that harm UX
+    const appliedRuleCount = Array.isArray(appliedRes.rows) ? appliedRes.rows.length : 0;
+    const isGenericRuleText = (t) => {
+      const s = String(t || '').toLowerCase();
+      return (
+        s.includes('this planetary configuration creates specific influences') ||
+        s.includes('planetary positions reflect karmic patterns') ||
+        s.includes('creates specific influences that shape life experiences')
+      );
+    };
+
+    const appliedRulesSlim = (Array.isArray(appliedRes.rows) ? appliedRes.rows : [])
+      .filter((r) => !isGenericRuleText(r?.canonical_meaning))
+      .slice(0, 200)
+      .map((r) => ({
+        id: r.id,
+        prediction_id: r.prediction_id,
+        rule_id: r.rule_id,
+        score: r.score,
+        weight: r.weight,
+        point_code: r.point_code || null,
+        source_book: r.source_book || null,
+        rule_type: r.rule_type || null,
+        confidence_level: r.confidence_level || null,
+        canonical_meaning: r.canonical_meaning || null,
+      }));
+
     return res.json({
       ok: true,
-      prediction,
-      appliedRules: appliedRes.rows,
+      prediction: cleanPrediction,
+      appliedRuleCount,
+      appliedRules: includeAppliedRules ? appliedRulesSlim : [],
       remedies: remediesRes.rows,
       marriageTimingWindows,
       careerTimingWindows,

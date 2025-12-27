@@ -499,7 +499,7 @@ export async function generateMahadashaPhal(windowId) {
           preferLongTerm: true,
           preferShortTerm: false,
           preferDisciplined: true,
-          limit: 2,
+          limit: 5,
         });
 
         console.log(`[MahadashaPhal] Current ${planet} period: Found ${remedies?.length || 0} remedies`);

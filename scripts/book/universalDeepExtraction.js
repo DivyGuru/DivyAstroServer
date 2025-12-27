@@ -295,9 +295,16 @@ async function universalDeepExtraction(bookId) {
     
     processedChunks++;
     
-    // Extract planets and houses (may be empty - that's OK)
+    // Extract planets and houses
     const planets = extractPlanets(text);
     const houses = extractHouses(text);
+    
+    // FIXED: Skip rules without planet/house - they cannot create condition_tree
+    // Rules need astrological entities (planet/house) to be evaluable
+    if (planets.length === 0 && houses.length === 0) {
+      // Skip this chunk - no astrological entities to create a rule
+      continue;
+    }
     
     // Check for rules
     if (hasRuleIndicators(text)) {
@@ -305,7 +312,7 @@ async function universalDeepExtraction(bookId) {
       const effectText = extractEffectText(text);
       const confidence = determineConfidence(text, planets.length > 0, houses.length > 0, ruleType, 'unknown');
       
-      // CONTENT-DEPTH-FIRST: Extract even if vague
+      // CONTENT-DEPTH-FIRST: Extract even if vague (but only if has planet/house)
       if (effectText && effectText.length > 5) {
         const rule = {
           source_book: bookId,
@@ -317,7 +324,7 @@ async function universalDeepExtraction(bookId) {
           effect_text: effectText,
           rule_type: ruleType,
           confidence_level: confidence,
-          notes: planets.length === 0 && houses.length === 0 ? 'No explicit planet/house mapping' : null,
+          notes: null, // No longer needed since we skip if no planet/house
           source: {
             chunk_id: chunk.chunk_id,
             page_number: chunk.page_number,

@@ -32,14 +32,113 @@ function convertPlanetNamesToIds(planetNames) {
 }
 
 /**
- * Map remedy category to DB type
+ * Extract themes from remedy description
+ * Maps remedy text to prediction_theme enum values
  */
-function mapRemedyType(category) {
+function extractThemesFromDescription(description) {
+  if (!description || typeof description !== 'string') {
+    return null;
+  }
+  
+  const text = description.toLowerCase();
+  const themes = [];
+  
+  // Money/Finance keywords
+  if (text.includes('money') || text.includes('wealth') || text.includes('finance') || 
+      text.includes('धन') || text.includes('पैसा') || text.includes('आर्थिक') ||
+      text.includes('donation') || text.includes('charity') || text.includes('दान')) {
+    themes.push('money');
+  }
+  
+  // Career keywords
+  if (text.includes('career') || text.includes('job') || text.includes('work') ||
+      text.includes('करियर') || text.includes('नौकरी') || text.includes('काम') ||
+      text.includes('business') || text.includes('व्यापार')) {
+    themes.push('career');
+  }
+  
+  // Relationship keywords
+  if (text.includes('relationship') || text.includes('marriage') || text.includes('love') ||
+      text.includes('संबंध') || text.includes('विवाह') || text.includes('प्रेम') ||
+      text.includes('partner') || text.includes('साथी')) {
+    themes.push('relationship');
+  }
+  
+  // Health keywords
+  if (text.includes('health') || text.includes('disease') || text.includes('illness') ||
+      text.includes('स्वास्थ्य') || text.includes('रोग') || text.includes('बीमारी') ||
+      text.includes('body') || text.includes('शरीर')) {
+    themes.push('health');
+  }
+  
+  // Family keywords
+  if (text.includes('family') || text.includes('children') || text.includes('parents') ||
+      text.includes('परिवार') || text.includes('बच्चे') || text.includes('माता-पिता') ||
+      text.includes('home') || text.includes('घर')) {
+    themes.push('family');
+  }
+  
+  // Spirituality keywords
+  if (text.includes('spiritual') || text.includes('meditation') || text.includes('prayer') ||
+      text.includes('आध्यात्मिक') || text.includes('ध्यान') || text.includes('प्रार्थना') ||
+      text.includes('mantra') || text.includes('मंत्र') || text.includes('puja') || text.includes('पूजा')) {
+    themes.push('spirituality');
+  }
+  
+  // Education keywords
+  if (text.includes('education') || text.includes('learning') || text.includes('study') ||
+      text.includes('शिक्षा') || text.includes('पढ़ाई') || text.includes('ज्ञान')) {
+    themes.push('education');
+  }
+  
+  // Travel keywords
+  if (text.includes('travel') || text.includes('journey') || text.includes('trip') ||
+      text.includes('यात्रा') || text.includes('सफर')) {
+    themes.push('travel');
+  }
+  
+  // If no specific theme found, default to 'general'
+  if (themes.length === 0) {
+    themes.push('general');
+  }
+  
+  // Return unique themes
+  return [...new Set(themes)];
+}
+
+/**
+ * Map remedy category to DB type
+ * 
+ * FIXED: Only map to 'meditation' if source text actually contains meditation terms.
+ * Previously, all 'behavior' category remedies were incorrectly mapped to 'meditation'.
+ */
+function mapRemedyType(category, remedyText = '') {
+  // If behavior category, check if it's actually meditation
+  if (category === 'behavior') {
+    const text = (remedyText || '').toLowerCase();
+    // Check for meditation-specific terms
+    if (text.includes('ध्यान') || 
+        text.includes('meditation') || 
+        text.includes('meditate') ||
+        text.includes('dhyan') ||
+        text.includes('समाधि')) {
+      return 'meditation';
+    }
+    // Otherwise, treat as generic behavior advice (map to donation)
+    return 'donation';
+  }
+  
   const typeMap = {
     'donation': 'donation',
     'feeding': 'feeding_beings',
-    'behavior': 'meditation', // Behavioral advice as meditation
-    'symbolic': 'puja', // Symbolic acts as puja
+    // FIXED: Only map 'symbolic' to 'puja' if it actually mentions worship/prayer
+    // Otherwise, symbolic acts (gemstones, yantras) are more like donation
+    'symbolic': remedyText && (
+      remedyText.toLowerCase().includes('puja') ||
+      remedyText.toLowerCase().includes('worship') ||
+      remedyText.toLowerCase().includes('पूजा') ||
+      remedyText.toLowerCase().includes('prayer')
+    ) ? 'puja' : 'donation',
     'worship': 'puja',
     'mantra': 'mantra',
     'fast': 'fast',
@@ -73,9 +172,12 @@ async function ingestUniversalRemedies(bookId, paths, client) {
     try {
       // Convert to DB format
       const remedyName = remedy.remedy_text?.substring(0, 200) || `Remedy from ${bookId}`;
-      const remedyType = mapRemedyType(remedy.remedy_category);
       const remedyDescription = remedy.remedy_text || remedy.condition_text?.substring(0, 500) || '';
+      // Pass remedy text to mapRemedyType for proper type detection (meditation, symbolic→puja check)
+      const remedyType = mapRemedyType(remedy.remedy_category, remedyDescription);
       const targetPlanets = convertPlanetNamesToIds(remedy.planet || []);
+      // Extract themes from description
+      const targetThemes = extractThemesFromDescription(remedyDescription);
       
       // Create unique identifier
       const remedyId = `${bookId}__universal_remedy_${remedy.source?.chunk_id || Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -95,13 +197,15 @@ async function ingestUniversalRemedies(bookId, paths, client) {
               type = $2,
               description = $3,
               target_planets = $4,
-              is_active = $5
-          WHERE id = $6
+              target_themes = $5,
+              is_active = $6
+          WHERE id = $7
         `, [
           remedyName,
           remedyType,
           remedyDescription,
           targetPlanets,
+          targetThemes,
           true,
           existsRes.rows[0].id
         ]);
@@ -122,7 +226,7 @@ async function ingestUniversalRemedies(bookId, paths, client) {
           remedyType,
           remedyDescription,
           targetPlanets,
-          null, // target_themes
+          targetThemes, // Extract themes from description
           null, // min_duration_days
           null, // recommended_frequency
           `Universal knowledge extraction from ${bookId}. Confidence: ${remedy.confidence_level || 'MEDIUM'}. Source: ${remedy.source?.chunk_id || 'unknown'}`,
