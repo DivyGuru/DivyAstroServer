@@ -487,6 +487,29 @@ app.get('/monthly-experience/:windowId', async (req, res) => {
 });
 
 /**
+ * GET /doshas/:windowId
+ *
+ * Returns dosha report computed from birth chart snapshot.
+ * Notes:
+ * - Some doshas require partner chart details; those are marked as requires_additional_input.
+ */
+app.get('/doshas/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateDoshaReport } = await import('./services/doshaReportGeneration.js');
+    const out = await generateDoshaReport(windowId);
+    return res.json(out);
+  } catch (err) {
+    console.error('Dosha report generation failed:', err);
+    return res.status(500).json({ ok: false, error: err.message || 'Failed to generate dosha report' });
+  }
+});
+
+/**
  * GET /lalkitab-prediction/:windowId
  * 
  * Returns Lal Kitab Prediction data based on planet positions.
@@ -1841,6 +1864,21 @@ app.get('/predictions/:windowId', async (req, res) => {
       }
     }
 
+    // ---- Dosha report (birth-chart derived; safe to include for all scopes) ----
+    // Non-blocking: never fail predictions payload if dosha computation fails.
+    let doshaReport = null;
+    try {
+      const { generateDoshaReport } = await import('./services/doshaReportGeneration.js');
+      doshaReport = await generateDoshaReport(windowId);
+      // Remove 'ok' field from doshaReport as it's already in parent response
+      if (doshaReport && doshaReport.ok) {
+        delete doshaReport.ok;
+      }
+    } catch (doshaErr) {
+      console.warn('Dosha report generation failed:', doshaErr.message);
+      doshaReport = { error: String(doshaErr?.message || doshaErr) };
+    }
+
     // Clean prediction object - remove internal debugging data
     // Mobile app only needs user-facing fields, not internal rule IDs
     const cleanPrediction = {
@@ -1900,6 +1938,7 @@ app.get('/predictions/:windowId', async (req, res) => {
       financeTimingWindows,
       healthTimingWindows,
       varshfal, // Added for yearly windows
+      doshaReport, // Added for all windows (birth-chart derived)
     });
   } catch (err) {
     return res.status(500).json({ ok: false, error: err.message });
