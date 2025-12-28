@@ -464,6 +464,29 @@ app.get('/weekly-experience/:windowId', async (req, res) => {
 });
 
 /**
+ * GET /monthly-experience/:windowId
+ *
+ * Planning-grade monthly experience narrative (Phase-2M).
+ * Output must not expose planet/dasha labels.
+ */
+app.get('/monthly-experience/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateMonthlyExperience } = await import('./services/monthlyExperienceGeneration.js');
+    const out = await generateMonthlyExperience(windowId);
+    return res.json({ ok: true, ...out });
+  } catch (err) {
+    console.error('Monthly experience generation failed:', err);
+    return res.status(500).json({ ok: false, error: err.message || 'Failed to generate monthly experience' });
+  }
+});
+
+/**
  * GET /lalkitab-prediction/:windowId
  * 
  * Returns Lal Kitab Prediction data based on planet positions.
