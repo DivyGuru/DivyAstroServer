@@ -106,7 +106,7 @@ app.post('/windows/:windowId/generate', async (req, res) => {
  * Signal Aggregation → Time Patch Engine → Narrative Composer
  * 
  * Query parameters:
- * - scope (optional): 'daily' | 'monthly' | 'yearly' - If provided, ensures window has correct scope
+ * - scope (optional): 'daily' | 'weekly' | 'monthly' | 'yearly' - If provided, ensures window has correct scope
  * 
  * Response format:
  * {
@@ -134,7 +134,7 @@ app.get('/kundli/:windowId', async (req, res) => {
   try {
     // If scope is provided, validate window scope matches
     if (scope) {
-      const validScopes = ['daily', 'monthly', 'yearly'];
+      const validScopes = ['daily', 'weekly', 'monthly', 'yearly'];
       if (!validScopes.includes(scope)) {
         return res.status(400).json({ 
           ok: false, 
