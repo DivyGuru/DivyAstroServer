@@ -144,6 +144,9 @@ CREATE TABLE IF NOT EXISTS astro_state_snapshots (
     running_mahadasha_planet   SMALLINT,
     running_antardasha_planet  SMALLINT,
     running_pratyantardasha_planet SMALLINT,
+    running_sookshma_planet    SMALLINT,
+    running_sookshma_start     TIMESTAMPTZ,
+    running_sookshma_end       TIMESTAMPTZ,
 
     -- planets, houses, yogs, dosh, transit sab ek hi JSON me:
     planets_state   JSONB,
@@ -158,6 +161,14 @@ CREATE TABLE IF NOT EXISTS astro_state_snapshots (
 
     computed_at     TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Backward-compatible migration (safe if columns already exist)
+ALTER TABLE IF EXISTS astro_state_snapshots
+  ADD COLUMN IF NOT EXISTS running_sookshma_planet SMALLINT;
+ALTER TABLE IF EXISTS astro_state_snapshots
+  ADD COLUMN IF NOT EXISTS running_sookshma_start TIMESTAMPTZ;
+ALTER TABLE IF EXISTS astro_state_snapshots
+  ADD COLUMN IF NOT EXISTS running_sookshma_end TIMESTAMPTZ;
 
 -- =========================
 -- 4. KNOWLEDGE BASE / RULES

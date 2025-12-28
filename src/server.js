@@ -417,6 +417,53 @@ app.get('/transit-today/:windowId', async (req, res) => {
 });
 
 /**
+ * GET /daily-experience/:windowId
+ *
+ * Premium daily experience narrative (Phase-2B).
+ * Internal astro inputs only; output must not expose planet/dasha labels.
+ */
+app.get('/daily-experience/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  const { date } = req.query; // optional YYYY-MM-DD (defaults to window start date)
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateDailyExperience } = await import('./services/dailyExperienceGeneration.js');
+    const out = await generateDailyExperience(windowId, date || null);
+    return res.json({ ok: true, ...out });
+  } catch (err) {
+    console.error('Daily experience generation failed:', err);
+    return res.status(500).json({ ok: false, error: err.message || 'Failed to generate daily experience' });
+  }
+});
+
+/**
+ * GET /weekly-experience/:windowId
+ *
+ * Planning-grade weekly experience narrative (Phase-2D).
+ * Output must not expose planet/dasha labels.
+ */
+app.get('/weekly-experience/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  try {
+    const { generateWeeklyExperience } = await import('./services/weeklyExperienceGeneration.js');
+    const out = await generateWeeklyExperience(windowId);
+    return res.json({ ok: true, ...out });
+  } catch (err) {
+    console.error('Weekly experience generation failed:', err);
+    return res.status(500).json({ ok: false, error: err.message || 'Failed to generate weekly experience' });
+  }
+});
+
+/**
  * GET /lalkitab-prediction/:windowId
  * 
  * Returns Lal Kitab Prediction data based on planet positions.
@@ -566,11 +613,11 @@ app.post('/windows', async (req, res) => {
   }
 
   try {
-    // For time-based scopes (daily, monthly, yearly), auto-generate dates if not provided
+    // For time-based scopes (daily, weekly, monthly, yearly), auto-generate dates if not provided
     let finalStartAt = start_at;
     let finalEndAt = end_at;
     
-    if (['daily', 'monthly', 'yearly'].includes(scope)) {
+    if (['daily', 'weekly', 'monthly', 'yearly'].includes(scope)) {
       if (!start_at || !end_at) {
         // Use provided date or current date
         const targetDate = date ? new Date(date) : new Date();
@@ -932,6 +979,9 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
   let running_mahadasha_planet = null;
   let running_antardasha_planet = null;
   let running_pratyantardasha_planet = null;
+  let running_sookshma_planet = null;
+  let running_sookshma_start = null;
+  let running_sookshma_end = null;
 
   try {
     const birthUtc = metadata?.birthDateTimeUtc ? new Date(String(metadata.birthDateTimeUtc)) : null;
@@ -955,6 +1005,18 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
       running_mahadasha_planet = mdName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[mdName] || null) : null;
       running_antardasha_planet = adName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[adName] || null) : null;
       running_pratyantardasha_planet = pdName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[pdName] || null) : null;
+
+      // Phase-2: Sookshma (internal-only timing amplifier)
+      const { computeVimshottariSookshmaAt } = await import('./services/vimshottariDasha.js');
+      const s = computeVimshottariSookshmaAt({
+        birthDateTimeUtc: birthUtc,
+        moonLongitudeSidereal: moonLonSid,
+        atUtc: at,
+      });
+      const sName = s?.sookshma?.planet ? String(s.sookshma.planet).toUpperCase() : null;
+      running_sookshma_planet = sName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[sName] || null) : null;
+      running_sookshma_start = s?.sookshma?.start instanceof Date ? s.sookshma.start.toISOString() : null;
+      running_sookshma_end = s?.sookshma?.end instanceof Date ? s.sookshma.end.toISOString() : null;
     } else {
       if (!metadata?.birthDateTimeUtc) metadata.ingest_warning_birth_datetime_missing_for_dasha = true;
       if (!Number.isFinite(moonLonSid)) metadata.ingest_warning_moon_longitude_missing_for_dasha = true;
@@ -1083,9 +1145,10 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
        user_id, chart_id, window_id,
        lagna_sign, moon_sign, moon_nakshatra,
        running_mahadasha_planet, running_antardasha_planet, running_pratyantardasha_planet,
+       running_sookshma_planet, running_sookshma_start, running_sookshma_end,
        planets_state, houses_state, yogas_state, doshas_state, transits_state
      )
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb, $11::jsonb, $12::jsonb, $13::jsonb, $14::jsonb)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13::jsonb, $14::jsonb, $15::jsonb, $16::jsonb, $17::jsonb)
      ON CONFLICT (window_id) DO UPDATE SET
        planets_state = EXCLUDED.planets_state,
        houses_state = EXCLUDED.houses_state,
@@ -1098,6 +1161,9 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
        running_mahadasha_planet = EXCLUDED.running_mahadasha_planet,
        running_antardasha_planet = EXCLUDED.running_antardasha_planet,
        running_pratyantardasha_planet = EXCLUDED.running_pratyantardasha_planet,
+       running_sookshma_planet = EXCLUDED.running_sookshma_planet,
+       running_sookshma_start = EXCLUDED.running_sookshma_start,
+       running_sookshma_end = EXCLUDED.running_sookshma_end,
        computed_at = NOW()
      RETURNING id`,
     [
@@ -1110,6 +1176,9 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
       running_mahadasha_planet,
       running_antardasha_planet,
       running_pratyantardasha_planet,
+      running_sookshma_planet,
+      running_sookshma_start,
+      running_sookshma_end,
       JSON.stringify(finalPlanetsState),
       JSON.stringify(houses_with_metadata),
       JSON.stringify(yogas_state),

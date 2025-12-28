@@ -280,4 +280,82 @@ export function computeVimshottariStateAt({ birthDateTimeUtc, moonLongitudeSider
   };
 }
 
+function parseISOUTCDateToDate(iso) {
+  const d = parseISODateUTC(iso);
+  return d;
+}
+
+function computeSubPeriodsPrecise({ parentPlanet, fromISO, toISO }) {
+  const P = String(parentPlanet || '').toUpperCase();
+  if (!DASHA_YEARS[P]) throw new Error(`Invalid parentPlanet: ${parentPlanet}`);
+
+  const fromDt = parseISOUTCDateToDate(fromISO);
+  const toDt = parseISOUTCDateToDate(toISO);
+  if (!fromDt || !toDt) throw new Error('from/to must be ISO YYYY-MM-DD');
+  if (toDt.getTime() <= fromDt.getTime()) throw new Error('parent duration must be > 0');
+
+  const parentMs = toDt.getTime() - fromDt.getTime();
+  const out = [];
+
+  let cursor = new Date(fromDt.getTime());
+  let planet = P;
+
+  // 9 subperiods, starting from parent lord, using exact fractional ms duration.
+  for (let i = 0; i < 9; i++) {
+    const years = DASHA_YEARS[planet];
+    const frac = years / 120;
+    const nextRaw = new Date(cursor.getTime() + parentMs * frac);
+    let next = nextRaw;
+    if (i === 8 || next.getTime() > toDt.getTime()) next = new Date(toDt.getTime());
+
+    out.push({
+      planet,
+      fromTs: new Date(cursor.getTime()),
+      toTs: new Date(next.getTime()),
+    });
+
+    cursor = next;
+    planet = nextPlanetInOrder(planet);
+    if (!planet) break;
+    if (cursor.getTime() >= toDt.getTime()) break;
+  }
+
+  // Clamp last end exactly to parent end
+  if (out.length > 0) out[out.length - 1].toTs = new Date(toDt.getTime());
+  return out;
+}
+
+/**
+ * Compute running Sookshma Dasha under the current MD/AD/PD.
+ *
+ * Internal-only, meant for high-precision timing signals.
+ * Returns timestamps (Date objects) for start/end.
+ */
+export function computeVimshottariSookshmaAt({ birthDateTimeUtc, moonLongitudeSidereal, atUtc }) {
+  if (!(atUtc instanceof Date) || Number.isNaN(atUtc.getTime())) throw new Error('atUtc is required (valid Date)');
+
+  const state = computeVimshottariStateAt({ birthDateTimeUtc, moonLongitudeSidereal, atUtc });
+  const pd = state?.pratyantardasha || null;
+  if (!pd) return { sookshma: null, context: state };
+
+  const periods = computeSubPeriodsPrecise({
+    parentPlanet: pd.planet,
+    fromISO: pd.from,
+    toISO: pd.to,
+  });
+
+  const t = atUtc.getTime();
+  const cur = periods.find(p => p.fromTs.getTime() <= t && t <= p.toTs.getTime()) || null;
+  if (!cur) return { sookshma: null, context: state };
+
+  return {
+    sookshma: {
+      planet: cur.planet,
+      start: cur.fromTs,
+      end: cur.toTs,
+    },
+    context: state,
+  };
+}
+
 

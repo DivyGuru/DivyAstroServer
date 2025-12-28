@@ -2,7 +2,7 @@
  * Window Helpers
  * 
  * Utility functions for creating prediction windows with proper date ranges
- * for different scopes (daily, monthly, yearly).
+ * for different scopes (daily, weekly, monthly, yearly).
  */
 
 /**
@@ -87,9 +87,34 @@ export function getDailyWindowDates(date = new Date(), timezone = 'Asia/Kolkata'
 }
 
 /**
+ * Get start and end dates for a weekly window (7 days).
+ *
+ * @param {Date|string} date - Date within the week (defaults to current date)
+ * @param {string} timezone - Timezone (defaults to 'Asia/Kolkata')
+ * @returns {Object} { start_at: ISO string, end_at: ISO string }
+ */
+export function getWeeklyWindowDates(date = new Date(), timezone = 'Asia/Kolkata') {
+  const d = typeof date === 'string' ? new Date(date) : date;
+
+  // Start of the given day (00:00:00) as week start.
+  // (We keep this simple & deterministic; app can choose which day starts the weekly plan.)
+  const startAt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
+
+  // End of day after 6 days (inclusive 7-day window)
+  const endAt = new Date(startAt);
+  endAt.setDate(startAt.getDate() + 6);
+  endAt.setHours(23, 59, 59, 999);
+
+  return {
+    start_at: startAt.toISOString(),
+    end_at: endAt.toISOString(),
+  };
+}
+
+/**
  * Get window dates based on scope
  * 
- * @param {string} scope - Window scope ('daily', 'monthly', 'yearly')
+ * @param {string} scope - Window scope ('daily', 'weekly', 'monthly', 'yearly')
  * @param {Date|string|number} dateOrYear - Date or year (defaults to current date)
  * @param {string} timezone - Timezone (defaults to 'Asia/Kolkata')
  * @returns {Object} { start_at: ISO string, end_at: ISO string }
@@ -98,12 +123,14 @@ export function getWindowDatesForScope(scope, dateOrYear = new Date(), timezone 
   switch (scope) {
     case 'daily':
       return getDailyWindowDates(dateOrYear, timezone);
+    case 'weekly':
+      return getWeeklyWindowDates(dateOrYear, timezone);
     case 'monthly':
       return getMonthlyWindowDates(dateOrYear, timezone);
     case 'yearly':
       return getYearlyWindowDates(dateOrYear, timezone);
     default:
-      throw new Error(`Unsupported scope: ${scope}. Supported scopes: daily, monthly, yearly`);
+      throw new Error(`Unsupported scope: ${scope}. Supported scopes: daily, weekly, monthly, yearly`);
   }
 }
 
