@@ -213,6 +213,255 @@ function angularDistance(aLon, bLon) {
   return d;
 }
 
+function conjWithin(aLon, bLon, orbDeg = 8) {
+  const d = angularDistance(aLon, bLon);
+  return d != null && d <= Number(orbDeg);
+}
+
+function computeNadiGroupFromNakshatra(nakId) {
+  const n = Number(nakId);
+  if (!Number.isFinite(n) || n < 1 || n > 27) return null;
+  // Standard Ashtakoota grouping repeats every 3 nakshatras:
+  // 1=Aadi, 2=Madhya, 0=Antya (when using mod 3).
+  const r = n % 3;
+  if (r === 1) return 'AADI';
+  if (r === 2) return 'MADHYA';
+  return 'ANTYA';
+}
+
+function computeNadiProfile({ astroSnapshot, planetsByName }) {
+  const moon = planetsByName.get('MOON');
+  const moonNak = Number(astroSnapshot?.moon_nakshatra ?? null);
+  const nadi = computeNadiGroupFromNakshatra(moonNak);
+  const ok = Boolean(nadi);
+  return {
+    code: 'NADI_PROFILE',
+    name: 'Nadi Profile (from Moon Nakshatra)',
+    is_present: ok ? true : false, // this is not a "dosha"; it is a profile used for compatibility
+    confidence: ok ? 0.9 : 0,
+    requires_additional_input: false,
+    definition:
+      'Nadi is an Ashtakoota compatibility factor derived from the Moon nakshatra. It is used primarily for partner matching (Nadi Dosha check).',
+    effects_summary:
+      'This is a profile marker, not a problem by itself. It becomes relevant when comparing with a partner chart.',
+    indicators: {
+      moon_nakshatra_id: Number.isFinite(moonNak) ? moonNak : null,
+      nadi_group: nadi,
+    },
+    remedies: [],
+    related_planets_for_activation: [],
+  };
+}
+
+function computeNadiDoshaPlaceholder({ userNadiGroup }) {
+  return {
+    code: 'NADI_DOSHA',
+    name: 'Nadi Dosha (Ashtakoota Compatibility)',
+    is_present: null,
+    confidence: 0,
+    requires_additional_input: true,
+    required_inputs: ['partner_birth_chart'],
+    note:
+      'Nadi Dosha is a partner-compatibility check. Provide partner birth chart details to compute it. Your Nadi group is included below for reference.',
+    indicators: {
+      user_nadi_group: userNadiGroup || null,
+    },
+  };
+}
+
+function computeGrahan({ planetsByName }) {
+  const sun = planetsByName.get('SUN');
+  const moon = planetsByName.get('MOON');
+  const rahu = planetsByName.get('RAHU');
+  const ketu = planetsByName.get('KETU');
+
+  const solar = sun?.longitude != null && (conjWithin(sun.longitude, rahu?.longitude, 8) || conjWithin(sun.longitude, ketu?.longitude, 8));
+  const lunar = moon?.longitude != null && (conjWithin(moon.longitude, rahu?.longitude, 8) || conjWithin(moon.longitude, ketu?.longitude, 8));
+
+  const present = Boolean(solar || lunar);
+  const subtype = solar && lunar ? 'SOLAR_AND_LUNAR' : solar ? 'SOLAR' : lunar ? 'LUNAR' : null;
+
+  const indicators = {
+    solar: solar || false,
+    lunar: lunar || false,
+    sun_rahu_orb_deg: sun?.longitude != null && rahu?.longitude != null ? angularDistance(sun.longitude, rahu.longitude) : null,
+    sun_ketu_orb_deg: sun?.longitude != null && ketu?.longitude != null ? angularDistance(sun.longitude, ketu.longitude) : null,
+    moon_rahu_orb_deg: moon?.longitude != null && rahu?.longitude != null ? angularDistance(moon.longitude, rahu.longitude) : null,
+    moon_ketu_orb_deg: moon?.longitude != null && ketu?.longitude != null ? angularDistance(moon.longitude, ketu.longitude) : null,
+  };
+
+  return {
+    code: 'GRAHAN_DOSHA',
+    name: 'Grahan Dosha (Node Conjunction)',
+    is_present: present,
+    subtype_code: subtype,
+    severity: !present ? null : (subtype === 'SOLAR_AND_LUNAR' ? 'strong' : 'moderate'),
+    confidence: present ? 0.75 : 0.2,
+    requires_additional_input: false,
+    definition:
+      'Grahan Dosha is commonly indicated when Sun or Moon is closely conjunct Rahu or Ketu (node conjunction).',
+    effects_summary:
+      'When present, it may correlate with stronger identity/emotional swings or periods of confusion, especially during Rahu/Ketu or Sun/Moon dashas.',
+    indicators,
+    remedies: present ? [
+      {
+        type: 'meditation',
+        title: 'Mind steadiness routine (10 minutes)',
+        description: 'Daily 10 minutes of slow breathing or body-scan. Focus is reducing reactivity and mental loops.',
+        frequency: 'Daily',
+        duration: '21 days',
+        safety_notes: 'If anxiety/depression is present, consider professional help alongside spiritual practice.',
+      },
+    ] : [],
+    related_planets_for_activation: ['RAHU', 'KETU', 'SUN', 'MOON'],
+  };
+}
+
+function computeShrapit({ planetsByName }) {
+  const saturn = planetsByName.get('SATURN');
+  const rahu = planetsByName.get('RAHU');
+  if (!saturn?.longitude || !rahu?.longitude) {
+    return {
+      code: 'SHRAPIT_DOSHA',
+      name: 'Shrapit Dosha (Saturn–Rahu Conjunction)',
+      is_present: false,
+      confidence: 0.2,
+      requires_additional_input: false,
+      reason: 'Saturn/Rahu longitude missing.',
+    };
+  }
+  const orb = angularDistance(saturn.longitude, rahu.longitude);
+  const present = orb != null && orb <= 8;
+  return {
+    code: 'SHRAPIT_DOSHA',
+    name: 'Shrapit Dosha (Saturn–Rahu Conjunction)',
+    is_present: present,
+    subtype_code: null,
+    severity: !present ? null : 'moderate',
+    confidence: present ? 0.7 : 0.2,
+    requires_additional_input: false,
+    definition:
+      'Shrapit Dosha is commonly discussed when Saturn is closely conjunct Rahu, indicating heavier karmic/pressure themes in certain traditions.',
+    effects_summary:
+      'When present, it may correlate with longer effort cycles, delays, and a need for disciplined choices, especially during Saturn/Rahu periods.',
+    indicators: { saturn_rahu_orb_deg: orb, saturn_house: saturn.house ?? null, rahu_house: rahu.house ?? null },
+    remedies: present ? [
+      {
+        type: 'routine',
+        title: 'Consistency-first month',
+        description: 'Commit to one simple discipline for 30 days: sleep timing, a daily walk, or a single work routine. Consistency reduces heaviness.',
+        frequency: 'Daily',
+        duration: '30 days',
+        safety_notes: 'Avoid extreme rituals; focus on sustainable habits.',
+      },
+    ] : [],
+    related_planets_for_activation: ['SATURN', 'RAHU'],
+  };
+}
+
+function computeGuruChandal({ planetsByName }) {
+  const jupiter = planetsByName.get('JUPITER');
+  const rahu = planetsByName.get('RAHU');
+  const ketu = planetsByName.get('KETU');
+  if (!jupiter?.longitude) {
+    return {
+      code: 'GURU_CHANDAL_DOSHA',
+      name: 'Guru Chandal Dosha (Jupiter–Node Conjunction)',
+      is_present: false,
+      confidence: 0.2,
+      requires_additional_input: false,
+      reason: 'Jupiter longitude missing.',
+    };
+  }
+  const orbR = rahu?.longitude != null ? angularDistance(jupiter.longitude, rahu.longitude) : null;
+  const orbK = ketu?.longitude != null ? angularDistance(jupiter.longitude, ketu.longitude) : null;
+  const present = (orbR != null && orbR <= 8) || (orbK != null && orbK <= 8);
+  return {
+    code: 'GURU_CHANDAL_DOSHA',
+    name: 'Guru Chandal Dosha (Jupiter–Node Conjunction)',
+    is_present: present,
+    subtype_code: orbR != null && orbR <= 8 ? 'JUPITER_RAHU' : orbK != null && orbK <= 8 ? 'JUPITER_KETU' : null,
+    severity: !present ? null : 'moderate',
+    confidence: present ? 0.7 : 0.2,
+    requires_additional_input: false,
+    definition:
+      'Guru Chandal Dosha is commonly discussed when Jupiter is closely conjunct Rahu or Ketu, indicating belief/ethics learning cycles in certain traditions.',
+    effects_summary:
+      'When present, it may correlate with confusion around guidance, mentors, or ideology—improving when you keep learning grounded and practical.',
+    indicators: { jupiter_rahu_orb_deg: orbR, jupiter_ketu_orb_deg: orbK },
+    remedies: present ? [
+      {
+        type: 'learning',
+        title: 'Grounded study routine (weekly)',
+        description: 'Once a week, spend 30 minutes studying one practical topic (health/finance/skill) and applying one action step. This stabilizes belief-driven swings.',
+        frequency: 'Weekly',
+        duration: '8 weeks',
+        safety_notes: 'Avoid blind trust; verify sources and keep decisions practical.',
+      },
+    ] : [],
+    related_planets_for_activation: ['JUPITER', 'RAHU', 'KETU'],
+  };
+}
+
+function computeKemadruma({ planetsByName, moon_sign }) {
+  const moon = planetsByName.get('MOON');
+  const ms = Number(moon_sign ?? moon?.sign ?? null);
+  if (!Number.isFinite(ms)) {
+    return {
+      code: 'KEMADRUMA_DOSHA',
+      name: 'Kemadruma Dosha (Moon Support Check)',
+      is_present: false,
+      confidence: 0.2,
+      requires_additional_input: false,
+      reason: 'Moon sign missing.',
+    };
+  }
+  const sign2 = ((ms - 1 + 1) % 12) + 1; // next sign
+  const sign12 = ((ms - 1 - 1 + 12) % 12) + 1; // prev sign
+
+  // Conservative variant: check if ANY of the classical planets (excluding Sun, Rahu, Ketu) are in 2nd/12th from Moon.
+  const supportPlanets = ['MARS','MERCURY','JUPITER','VENUS','SATURN'];
+  const hasSupport = supportPlanets.some(pn => {
+    const p = planetsByName.get(pn);
+    const s = Number(p?.sign ?? null);
+    return Number.isFinite(s) && (s === sign2 || s === sign12);
+  });
+
+  const present = !hasSupport;
+  return {
+    code: 'KEMADRUMA_DOSHA',
+    name: 'Kemadruma Dosha (Moon Support Check)',
+    is_present: present,
+    subtype_code: present ? 'ADJACENT_SIGNS_EMPTY' : null,
+    severity: !present ? null : 'mild',
+    confidence: present ? 0.55 : 0.2,
+    requires_additional_input: false,
+    definition:
+      'Kemadruma is traditionally evaluated from the Moon by checking supportive planetary presence in the 2nd and 12th positions from the Moon. Rules vary by tradition; this uses a conservative sign-based variant.',
+    effects_summary:
+      'When present, it may correlate with periodic emotional isolation or self-driven coping. It improves with stable routines and social support hygiene.',
+    indicators: {
+      moon_sign: ms,
+      sign_2nd_from_moon: sign2,
+      sign_12th_from_moon: sign12,
+      support_planets_checked: supportPlanets,
+      has_support_in_adjacent_signs: hasSupport,
+      rule_variant: 'sign_adjacent_empty_excluding_sun_nodes',
+    },
+    remedies: present ? [
+      {
+        type: 'routine',
+        title: 'Stable routine + sleep protection',
+        description: 'Keep sleep timing stable and add one daily grounding habit (walk, breathing, journaling). This reduces emotional drift patterns.',
+        frequency: 'Daily',
+        duration: '30 days',
+        safety_notes: 'If mood symptoms are severe, seek professional care.',
+      },
+    ] : [],
+    related_planets_for_activation: ['MOON'],
+  };
+}
+
 function computeKaalSarp({ planetsByName }) {
   const rahu = planetsByName.get('RAHU');
   const ketu = planetsByName.get('KETU');
@@ -528,12 +777,13 @@ export async function generateDoshaReport(windowId) {
   const manglik = computeManglik({ planetsByName, lagna_sign: astro?.lagna_sign, moon_sign: astro?.moon_sign });
   const pitra = computePitra({ planetsByName });
 
-  // Doshas that require partner chart (not computable from a single chart)
-  const nadi = buildNotComputableDosha({
-    code: 'NADI_DOSHA',
-    name: 'Nadi Dosha (Ashtakoota Compatibility)',
-    required: ['partner_birth_chart'],
-  });
+  const nadiProfile = computeNadiProfile({ astroSnapshot: astro, planetsByName });
+  const nadiDosha = computeNadiDoshaPlaceholder({ userNadiGroup: nadiProfile?.indicators?.nadi_group });
+
+  const grahan = computeGrahan({ planetsByName });
+  const shrapit = computeShrapit({ planetsByName });
+  const guruChandal = computeGuruChandal({ planetsByName });
+  const kemadruma = computeKemadruma({ planetsByName, moon_sign: astro?.moon_sign });
 
   // Activation windows (Mahadasha) per dosha (highlight relevant planets)
   const activation = buildActivationFromMahadasha({
@@ -544,6 +794,10 @@ export async function generateDoshaReport(windowId) {
         ...(kaalSarp.related_planets_for_activation || []),
         ...(manglik.related_planets_for_activation || []),
         ...(pitra.related_planets_for_activation || []),
+        ...(grahan.related_planets_for_activation || []),
+        ...(shrapit.related_planets_for_activation || []),
+        ...(guruChandal.related_planets_for_activation || []),
+        ...(kemadruma.related_planets_for_activation || []),
       ]),
     ],
   });
@@ -560,7 +814,12 @@ export async function generateDoshaReport(windowId) {
       kaalSarp,
       manglik,
       pitra,
-      nadi,
+      grahan,
+      shrapit,
+      guruChandal,
+      kemadruma,
+      nadiProfile,
+      nadiDosha,
     ],
     activation, // shared timeline with highlight flags
     notes: [

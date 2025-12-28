@@ -1879,6 +1879,21 @@ app.get('/predictions/:windowId', async (req, res) => {
       doshaReport = { error: String(doshaErr?.message || doshaErr) };
     }
 
+    // ---- Yoga report (birth-chart derived; safe to include for all scopes) ----
+    // Non-blocking: never fail predictions payload if yoga computation fails.
+    let yogaReport = null;
+    try {
+      const { generateYogaReport } = await import('./services/yogaReportGeneration.js');
+      yogaReport = await generateYogaReport(windowId);
+      // Remove 'ok' field from yogaReport as it's already in parent response
+      if (yogaReport && yogaReport.ok) {
+        delete yogaReport.ok;
+      }
+    } catch (yogaErr) {
+      console.warn('Yoga report generation failed:', yogaErr.message);
+      yogaReport = { error: String(yogaErr?.message || yogaErr) };
+    }
+
     // Clean prediction object - remove internal debugging data
     // Mobile app only needs user-facing fields, not internal rule IDs
     const cleanPrediction = {
@@ -1939,6 +1954,7 @@ app.get('/predictions/:windowId', async (req, res) => {
       healthTimingWindows,
       varshfal, // Added for yearly windows
       doshaReport, // Added for all windows (birth-chart derived)
+      yogaReport, // Added for all windows (birth-chart derived)
     });
   } catch (err) {
     return res.status(500).json({ ok: false, error: err.message });
