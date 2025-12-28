@@ -30,6 +30,7 @@
 
 import { query } from '../../config/db.js';
 import { resolveRemediesForPlanets } from './remedyResolver.js';
+import { computeVimshottariMahadashaPeriods } from './vimshottariDasha.js';
 
 function getMahadashaThemesByHouse(house) {
   const h = Number(house);
@@ -373,6 +374,57 @@ function getPlanetPosition(astroSnapshot, planetName) {
   return result;
 }
 
+function getPlanetLongitude(astroSnapshot, planetName) {
+  if (!astroSnapshot.planets_state) return null;
+  let planets = astroSnapshot.planets_state;
+  if (typeof planets === 'string') {
+    try { planets = JSON.parse(planets); } catch { return null; }
+  }
+  if (!Array.isArray(planets)) return null;
+  const p = planets.find(x => String(x?.planet || x?.name || '').toUpperCase() === String(planetName || '').toUpperCase());
+  const lon = p?.degree ?? p?.longitude ?? p?.long ?? null;
+  const n = Number(lon);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parseBirthDateTimeUtcFromMetadata(metadata) {
+  if (!metadata || typeof metadata !== 'object') return null;
+
+  // Preferred: explicit UTC datetime
+  const dtUtcRaw =
+    metadata.birthDateTimeUtc ?? metadata.birth_datetime_utc ?? metadata.birthDateTimeUTC ?? null;
+  if (dtUtcRaw) {
+    const dt = new Date(String(dtUtcRaw));
+    if (!Number.isNaN(dt.getTime())) return dt;
+  }
+
+  // Fallback: local date + local time + offset minutes
+  const birthDateRaw = metadata.birthDate ?? metadata.birth_date ?? null;
+  if (!birthDateRaw || typeof birthDateRaw !== 'string') return null;
+  const birthDate = birthDateRaw.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) return null;
+
+  const birthTimeRaw = metadata.birthTime ?? metadata.birth_time ?? '00:00:00';
+  const birthTime = String(birthTimeRaw || '00:00:00').trim();
+  const m = birthTime.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+  if (!m) return null;
+  const hh = Number(m[1]);
+  const mm = Number(m[2]);
+  const ss = Number(m[3] ?? 0);
+  if (![hh, mm, ss].every(Number.isFinite)) return null;
+
+  const offsetMinRaw =
+    metadata.timezoneOffsetMinutes ?? metadata.tzOffsetMinutes ?? metadata.tz_offset_minutes ?? 330;
+  const offsetMinutes = Number(offsetMinRaw);
+  if (!Number.isFinite(offsetMinutes)) return null;
+
+  const [Y, Mo, D] = birthDate.split('-').map(Number);
+  const localAsUtc = Date.UTC(Y, Mo - 1, D, hh, mm, ss); // treat provided local clock as UTC
+  const utcMs = localAsUtc - offsetMinutes * 60 * 1000;
+  const dt = new Date(utcMs);
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
 /**
  * Generate Mahadasha Phal data
  */
@@ -572,6 +624,87 @@ export async function generateMahadashaPhal(windowId) {
       }
     }
   }
+
+  // Server-side fallback: compute Vimshottari Mahadasha from birth datetime + Moon longitude
+  if (!Array.isArray(mahadashaPeriods) || mahadashaPeriods.length === 0) {
+    // Extract birth metadata from houses_state._metadata
+    let metadata = null;
+    if (astroSnapshot.houses_state) {
+      let houses = astroSnapshot.houses_state;
+      if (typeof houses === 'string') {
+        try { houses = JSON.parse(houses); } catch { /* ignore */ }
+      }
+      if (houses && typeof houses === 'object' && houses._metadata) metadata = houses._metadata;
+    }
+
+    const birthDateTimeUtc = parseBirthDateTimeUtcFromMetadata(metadata);
+    const moonLon = getPlanetLongitude(astroSnapshot, 'MOON');
+
+    if (birthDateTimeUtc && Number.isFinite(moonLon)) {
+      console.log(`[MahadashaPhal] Computing Vimshottari server-side (window ${windowId})`);
+      const computed = computeVimshottariMahadashaPeriods({
+        birthDateTimeUtc,
+        moonLongitudeSidereal: moonLon,
+      });
+
+      const currentDate = new Date();
+      for (const p of computed) {
+        const fromDate = new Date(String(p.from));
+        const toDate = new Date(String(p.to));
+        const planet = p.planet;
+        const planetPosition = getPlanetPosition(astroSnapshot, planet);
+        const narrative = generateMahadashaNarrative(
+          planet,
+          planetPosition?.house || null,
+          planetPosition?.signName || null
+        );
+
+        const isCurrent = currentDate >= fromDate && currentDate <= toDate;
+
+        let cleanedPlanetPosition = null;
+        if (planetPosition) {
+          cleanedPlanetPosition = { sign: planetPosition.sign, house: planetPosition.house };
+          if (planetPosition.signName && planetPosition.signName.trim().length > 0) {
+            cleanedPlanetPosition.signName = planetPosition.signName;
+          }
+        }
+
+        mahadashaPeriods.push({
+          planet: String(planet || '').toUpperCase(),
+          from: p.from,
+          to: p.to,
+          planet_position: cleanedPlanetPosition,
+          narrative: narrative || null,
+          is_current: isCurrent,
+        });
+
+        if (isCurrent) {
+          const planetId = PLANET_NAME_TO_ID[String(planet || '').toUpperCase()];
+          const remedies = await resolveRemediesForPlanets({
+            planetIds: Number.isFinite(planetId) ? [planetId] : [],
+            planetName: String(planet || '').toUpperCase(),
+            preferLongTerm: true,
+            preferShortTerm: false,
+            preferDisciplined: true,
+            limit: 5,
+          });
+
+          if (Array.isArray(remedies) && remedies.length > 0) {
+            const last = mahadashaPeriods[mahadashaPeriods.length - 1];
+            last.remedy_hook = buildMahadashaRemedyHook(last.planet);
+            last.remedies = remedies;
+          }
+        }
+      }
+    } else {
+      if (!birthDateTimeUtc) {
+        console.warn(`[MahadashaPhal] Missing birth datetime metadata; cannot compute dasha server-side (window ${windowId})`);
+      }
+      if (!Number.isFinite(moonLon)) {
+        console.warn(`[MahadashaPhal] Missing Moon longitude in snapshot; cannot compute dasha server-side (window ${windowId})`);
+      }
+    }
+  }
   
   // If no periods found, return empty array (graceful degradation)
   // In production, you might want to calculate mahadasha periods from birth data
@@ -589,6 +722,19 @@ export async function generateMahadashaPhal(windowId) {
     }
     if (houses && typeof houses === 'object' && houses._metadata) {
       birthDate = houses._metadata.birthDate || houses._metadata.birth_date || null;
+    }
+  }
+
+  // If birthDate wasn't provided explicitly but UTC datetime exists, derive YYYY-MM-DD.
+  if (!birthDate && astroSnapshot.houses_state) {
+    let houses = astroSnapshot.houses_state;
+    if (typeof houses === 'string') {
+      try { houses = JSON.parse(houses); } catch { /* ignore */ }
+    }
+    const dtUtcRaw = houses?._metadata?.birthDateTimeUtc || houses?._metadata?.birth_datetime_utc || null;
+    if (dtUtcRaw) {
+      const dt = new Date(String(dtUtcRaw));
+      if (!Number.isNaN(dt.getTime())) birthDate = dt.toISOString().split('T')[0];
     }
   }
   

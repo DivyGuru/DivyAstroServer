@@ -36,6 +36,16 @@ function getRunningMahadashaName(astroSnapshot) {
   return Number.isFinite(id) ? (DASHA_PLANET_ID_TO_NAME[id] || null) : null;
 }
 
+function getRunningAntardashaName(astroSnapshot) {
+  const id = Number(astroSnapshot?.running_antardasha_planet);
+  return Number.isFinite(id) ? (DASHA_PLANET_ID_TO_NAME[id] || null) : null;
+}
+
+function getRunningPratyantardashaName(astroSnapshot) {
+  const id = Number(astroSnapshot?.running_pratyantardasha_planet);
+  return Number.isFinite(id) ? (DASHA_PLANET_ID_TO_NAME[id] || null) : null;
+}
+
 function normalizePlanets(planetsState) {
   const planetsByName = {};
   if (Array.isArray(planetsState)) {
@@ -150,9 +160,13 @@ export function composeKundliLifeStory({ astroSnapshot, signalsWithPatches }) {
   const metrics = safeSummaryMetricsFromCore(core, 0.9);
 
   const mahadasha = getRunningMahadashaName(astroSnapshot);
+  const antardasha = getRunningAntardashaName(astroSnapshot);
+  const pratyantardasha = getRunningPratyantardashaName(astroSnapshot);
   const mdPlacement = mahadasha ? getPlanetPlacement(planetsByName, mahadasha) : null;
   const mdHouse = mdPlacement?.house || null;
   const mdHouseDomain = mdHouse ? describeHouseDomain(mdHouse) : 'the core themes of your life';
+  const adPlacement = antardasha ? getPlanetPlacement(planetsByName, antardasha) : null;
+  const pdPlacement = pratyantardasha ? getPlanetPlacement(planetsByName, pratyantardasha) : null;
 
   const moonPlacement = getPlanetPlacement(planetsByName, 'MOON');
   const moonNak = moonPlacement?.nakshatra || null;
@@ -201,6 +215,12 @@ export function composeKundliLifeStory({ astroSnapshot, signalsWithPatches }) {
 
   const presentPhaseLines = [
     `Right now, your present phase is dominated by ${mahadasha ? `${mahadasha} Mahadasha` : 'a long-term karmic cycle'}, and it changes the tone of everything.`,
+    antardasha
+      ? `Inside this, ${antardasha} Antardasha becomes the active sub-tone, shaping what events repeat and what lessons feel urgent.`
+      : null,
+    pratyantardasha
+      ? `At the micro-level, ${pratyantardasha} Pratyantardasha is the day-to-day flavor that decides how fast pressure or support shows up.`
+      : null,
     `In this phase, effort can feel heavy, and results can feel delayed—not because you are doing it wrong, but because life is asking for structure.`,
     `It tests patience and asks you to hold discipline even when motivation does not feel natural.`,
     ``,
@@ -210,6 +230,9 @@ export function composeKundliLifeStory({ astroSnapshot, signalsWithPatches }) {
     `When this phase is active, isolation can increase—not always physically, but emotionally: you may feel fewer people truly understand your burden.`,
     `You may also feel more responsibility for outcomes, even when factors are outside your control.`,
     ``,
+    antardasha && adPlacement?.house
+      ? `Because the Antardasha planet is placed in your ${ordinal(adPlacement.house)} house, it adds emphasis through ${describeHouseDomain(adPlacement.house)}.`
+      : null,
     moonNak
       ? `Your Moon’s nakshatra tone (${moonNak}) can add restlessness and mental movement, which makes it harder to feel settled during pressure.`
       : `Your emotional nature can become more sensitive during pressure, which makes rest harder to reach.`,

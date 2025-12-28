@@ -763,6 +763,15 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
 
   // moon_nakshatra column is SMALLINT (nakshatraId). Avoid storing string names here.
   // If only the name is present (e.g., "Swati"), map it to the standard 1..27 ID.
+  function normalizeNakshatraFromLongitude(longitude) {
+    const lon = Number(longitude);
+    if (!Number.isFinite(lon)) return null;
+    const norm = ((lon % 360) + 360) % 360;
+    const idx0 = Math.floor(norm / (360 / 27)); // 0..26
+    const id = idx0 + 1; // 1..27
+    return id >= 1 && id <= 27 ? id : null;
+  }
+
   function normalizeNakshatraId(value) {
     if (value == null) return null;
     const n = Number(value);
@@ -816,6 +825,8 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
   }
 
   const moon_nakshatra =
+    // Longitude is authoritative (north-Indian standard). Prefer it when available.
+    normalizeNakshatraFromLongitude(moonLongitude) ||
     normalizeNakshatraId(chartData.moon?.nakshatraId) ||
     normalizeNakshatraId(chartData.moonNakshatraId) ||
     normalizeNakshatraId(chartData.moon?.nakshatra) ||
@@ -853,9 +864,103 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
     metadata.dasha = dasha_data;
     console.log(`[createAstroSnapshot] Window ${windowId}: Storing dasha in metadata`);
   }
-  // Also store birth date if available
-  if (chartData.birthDate || chartData.birth_date) {
-    metadata.birthDate = chartData.birthDate || chartData.birth_date;
+  // Also store birth datetime info if available (for server-side Vimshottari).
+  // Preferred keys (English-only DB-bound text):
+  // - birthDateTimeUtc: ISO string (e.g., "1986-12-27T02:44:00.000Z")
+  // Fallback keys:
+  // - birthDate: "YYYY-MM-DD"
+  // - birthTime: "HH:mm:ss" (local clock time)
+  // - timezoneOffsetMinutes: number (e.g., 330 for IST)
+  const metaFromClient = (chartData && typeof chartData === 'object' && chartData.meta && typeof chartData.meta === 'object')
+    ? chartData.meta
+    : null;
+  const birthDateTimeUtc =
+    chartData.birthDateTimeUtc ||
+    chartData.birth_datetime_utc ||
+    metaFromClient?.birthDateTimeUtc ||
+    metaFromClient?.birth_datetime_utc ||
+    null;
+  const birthDate =
+    chartData.birthDate ||
+    chartData.birth_date ||
+    metaFromClient?.birthDate ||
+    metaFromClient?.birth_date ||
+    null;
+  const birthTime =
+    chartData.birthTime ||
+    chartData.birth_time ||
+    metaFromClient?.birthTime ||
+    metaFromClient?.birth_time ||
+    null;
+  const timezoneOffsetMinutes =
+    chartData.timezoneOffsetMinutes ||
+    chartData.tzOffsetMinutes ||
+    metaFromClient?.timezoneOffsetMinutes ||
+    metaFromClient?.tzOffsetMinutes ||
+    null;
+
+  if (birthDateTimeUtc) metadata.birthDateTimeUtc = birthDateTimeUtc;
+  if (birthDate) metadata.birthDate = birthDate;
+  if (birthTime) metadata.birthTime = birthTime;
+  if (timezoneOffsetMinutes != null) metadata.timezoneOffsetMinutes = timezoneOffsetMinutes;
+
+  // If client sent UTC datetime but not a separate birthDate, derive YYYY-MM-DD for convenience.
+  if (!metadata.birthDate && metadata.birthDateTimeUtc) {
+    const dt = new Date(String(metadata.birthDateTimeUtc));
+    if (!Number.isNaN(dt.getTime())) {
+      metadata.birthDate = dt.toISOString().split('T')[0];
+    }
+  }
+
+  // ----------------------------
+  // Server-side Vimshottari: compute running MD/AD/PD planets for rule-engine dasha layer
+  // Engine mapping (see src/engine/ruleEvaluator.js):
+  // 1 SUN, 2 MOON, 3 MARS, 4 MERCURY, 5 JUPITER, 6 VENUS, 7 SATURN, 8 RAHU, 9 KETU
+  // ----------------------------
+  const DASHA_PLANET_NAME_TO_ENGINE_ID = {
+    SUN: 1,
+    MOON: 2,
+    MARS: 3,
+    MERCURY: 4,
+    JUPITER: 5,
+    VENUS: 6,
+    SATURN: 7,
+    RAHU: 8,
+    KETU: 9,
+  };
+
+  let running_mahadasha_planet = null;
+  let running_antardasha_planet = null;
+  let running_pratyantardasha_planet = null;
+
+  try {
+    const birthUtc = metadata?.birthDateTimeUtc ? new Date(String(metadata.birthDateTimeUtc)) : null;
+    const moonLonSid = Number(moonLongitude);
+    if (birthUtc instanceof Date && !Number.isNaN(birthUtc.getTime()) && Number.isFinite(moonLonSid)) {
+      // Evaluate dasha state at window start (preferred) else today.
+      const winRes = await query('SELECT start_at FROM prediction_windows WHERE id = $1', [windowId]);
+      const at = winRes.rowCount > 0 && winRes.rows[0]?.start_at ? new Date(winRes.rows[0].start_at) : new Date();
+
+      const { computeVimshottariStateAt } = await import('./services/vimshottariDasha.js');
+      const state = computeVimshottariStateAt({
+        birthDateTimeUtc: birthUtc,
+        moonLongitudeSidereal: moonLonSid,
+        atUtc: at,
+      });
+
+      const mdName = state?.mahadasha?.planet ? String(state.mahadasha.planet).toUpperCase() : null;
+      const adName = state?.antardasha?.planet ? String(state.antardasha.planet).toUpperCase() : null;
+      const pdName = state?.pratyantardasha?.planet ? String(state.pratyantardasha.planet).toUpperCase() : null;
+
+      running_mahadasha_planet = mdName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[mdName] || null) : null;
+      running_antardasha_planet = adName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[adName] || null) : null;
+      running_pratyantardasha_planet = pdName ? (DASHA_PLANET_NAME_TO_ENGINE_ID[pdName] || null) : null;
+    } else {
+      if (!metadata?.birthDateTimeUtc) metadata.ingest_warning_birth_datetime_missing_for_dasha = true;
+      if (!Number.isFinite(moonLonSid)) metadata.ingest_warning_moon_longitude_missing_for_dasha = true;
+    }
+  } catch (e) {
+    metadata.ingest_warning_dasha_compute_failed = true;
   }
   
   const hasMetadata = Object.keys(metadata).length > 0;
@@ -977,9 +1082,10 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
     `INSERT INTO astro_state_snapshots (
        user_id, chart_id, window_id,
        lagna_sign, moon_sign, moon_nakshatra,
+       running_mahadasha_planet, running_antardasha_planet, running_pratyantardasha_planet,
        planets_state, houses_state, yogas_state, doshas_state, transits_state
      )
-     VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::jsonb, $10::jsonb, $11::jsonb)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb, $11::jsonb, $12::jsonb, $13::jsonb, $14::jsonb)
      ON CONFLICT (window_id) DO UPDATE SET
        planets_state = EXCLUDED.planets_state,
        houses_state = EXCLUDED.houses_state,
@@ -989,6 +1095,9 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
        lagna_sign = EXCLUDED.lagna_sign,
        moon_sign = EXCLUDED.moon_sign,
        moon_nakshatra = EXCLUDED.moon_nakshatra,
+       running_mahadasha_planet = EXCLUDED.running_mahadasha_planet,
+       running_antardasha_planet = EXCLUDED.running_antardasha_planet,
+       running_pratyantardasha_planet = EXCLUDED.running_pratyantardasha_planet,
        computed_at = NOW()
      RETURNING id`,
     [
@@ -998,6 +1107,9 @@ async function createAstroSnapshotFromChartData(windowId, userId, chartId, chart
       lagna_sign,
       moon_sign,
       moon_nakshatra,
+      running_mahadasha_planet,
+      running_antardasha_planet,
+      running_pratyantardasha_planet,
       JSON.stringify(finalPlanetsState),
       JSON.stringify(houses_with_metadata),
       JSON.stringify(yogas_state),
