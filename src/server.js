@@ -1375,128 +1375,192 @@ app.post('/windows/:windowId/astro-snapshot', async (req, res) => {
 
 // ---- Get prediction + applied rules for a window ---------------------------
 
-app.get('/predictions/:windowId', async (req, res) => {
-  const windowId = Number(req.params.windowId);
-  const language = req.query.lang || 'en';
-  const includeAppliedRules = String(req.query.include_applied_rules || '') === '1' || String(req.query.debug || '') === '1';
+/**
+ * Build the same payload as GET /predictions/:windowId, but reusable for bundle endpoint.
+ * Returns an object WITHOUT the top-level { ok: true } wrapper.
+ */
+async function buildPredictionPayload(windowId, { language = 'en', includeAppliedRules = false } = {}) {
+  // Fetch window context (needed for timing windows)
+  const winCtxRes = await query(
+    `SELECT id, user_id, chart_id, scope, start_at, end_at
+     FROM prediction_windows
+     WHERE id = $1
+     LIMIT 1`,
+    [windowId]
+  );
+  const windowCtx = winCtxRes.rowCount ? winCtxRes.rows[0] : null;
 
-  try {
-    // Fetch window context (needed for timing windows)
-    const winCtxRes = await query(
-      `SELECT id, user_id, chart_id, scope, start_at, end_at
-       FROM prediction_windows
-       WHERE id = $1
-       LIMIT 1`,
-      [windowId]
-    );
-    const windowCtx = winCtxRes.rowCount ? winCtxRes.rows[0] : null;
+  // Fetch prediction row (prefer given language)
+  const predRes = await query(
+    `
+    SELECT *
+    FROM predictions
+    WHERE window_id = $1
+      AND language_code = $2
+    ORDER BY id DESC
+    LIMIT 1;
+    `,
+    [windowId, language]
+  );
 
-    // Fetch prediction row (prefer given language)
-    const predRes = await query(
-      `
-      SELECT *
-      FROM predictions
-      WHERE window_id = $1
-        AND language_code = $2
-      ORDER BY id DESC
-      LIMIT 1;
-      `,
-      [windowId, language]
-    );
+  let prediction;
+  let needsRegeneration = false;
 
-    let prediction;
-    let needsRegeneration = false;
-
-    if (predRes.rowCount === 0) {
-      // No prediction exists - need to generate
+  if (predRes.rowCount === 0) {
+    // No prediction exists - need to generate
+    needsRegeneration = true;
+  } else {
+    prediction = predRes.rows[0];
+    // Check if prediction is empty/incomplete
+    const themes = prediction.summary_json?.themes || {};
+    const themesCount = Object.keys(themes).length;
+    if (!prediction.short_summary || themesCount === 0) {
+      // Prediction exists but is empty - regenerate
       needsRegeneration = true;
-    } else {
-      prediction = predRes.rows[0];
-      // Check if prediction is empty/incomplete
-      const themes = prediction.summary_json?.themes || {};
-      const themesCount = Object.keys(themes).length;
-      if (!prediction.short_summary || themesCount === 0) {
-        // Prediction exists but is empty - regenerate
-        needsRegeneration = true;
-      }
     }
+  }
 
-    // Auto-regenerate if needed
-    if (needsRegeneration) {
-      try {
-        const result = await generatePredictionForWindowCore(windowId, { language });
-        prediction = result.prediction;
-      } catch (genErr) {
-        // If generation fails, return 404 or existing empty prediction
-        if (predRes.rowCount === 0) {
-          return res.status(404).json({ ok: false, error: 'Prediction not found and generation failed: ' + genErr.message });
-        }
-        // Return existing prediction even if empty
-        prediction = predRes.rows[0];
-      }
-    }
-
-    // Fetch applied rules with basic rule metadata
-    // Include universal knowledge-aware fields
-    const appliedRes = await query(
-      `
-      SELECT
-        par.*,
-        r.point_code,
-        r.effect_json AS rule_effect_json,
-        r.rule_nature,
-        r.execution_status,
-        r.raw_rule_type,
-        r.confidence_level,
-        r.source_book,
-        r.rule_type,
-        r.canonical_meaning
-      FROM prediction_applied_rules par
-      JOIN rules r ON r.id = par.rule_id
-      WHERE par.prediction_id = $1
-      ORDER BY par.score DESC NULLS LAST, par.id ASC;
-      `,
-      [prediction.id]
-    );
-
-    // Fetch recommended remedies
-    const remediesRes = await query(
-      `
-      SELECT
-        prr.id,
-        prr.prediction_id,
-        prr.remedy_id,
-        prr.suggested_by_rule_id,
-        prr.reason_json,
-        prr.priority,
-        r.name,
-        r.type,
-        r.description,
-        r.target_planets,
-        r.target_themes,
-        r.min_duration_days,
-        r.recommended_frequency,
-        r.safety_notes
-      FROM prediction_recommended_remedies prr
-      JOIN remedies r ON r.id = prr.remedy_id
-      WHERE prr.prediction_id = $1
-        AND r.is_active = TRUE
-      ORDER BY prr.priority DESC, prr.id ASC;
-      `,
-      [prediction.id]
-    );
-
-    // ---- Marriage timing month–year windows (deterministic, no guessing) ----
-    // Rule: compute windows only if RELATIONSHIP_MARRIAGE_TIMING is present among applied rules.
-    let marriageTimingWindows = null;
+  // Auto-regenerate if needed
+  if (needsRegeneration) {
     try {
-      const hasMarriageTiming = appliedRes.rows.some((r) => String(r.point_code || '') === 'RELATIONSHIP_MARRIAGE_TIMING');
-      if (hasMarriageTiming && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const result = await generatePredictionForWindowCore(windowId, { language });
+      prediction = result.prediction;
+    } catch (genErr) {
+      // If generation fails, return 404 or existing empty prediction
+      if (predRes.rowCount === 0) {
+        const e = new Error('Prediction not found and generation failed: ' + genErr.message);
+        e.statusCode = 404;
+        throw e;
+      }
+      // Return existing prediction even if empty
+      prediction = predRes.rows[0];
+    }
+  }
+
+  // Fetch applied rules with basic rule metadata
+  // Include universal knowledge-aware fields
+  const appliedRes = await query(
+    `
+    SELECT
+      par.*,
+      r.point_code,
+      r.effect_json AS rule_effect_json,
+      r.rule_nature,
+      r.execution_status,
+      r.raw_rule_type,
+      r.confidence_level,
+      r.source_book,
+      r.rule_type,
+      r.canonical_meaning
+    FROM prediction_applied_rules par
+    JOIN rules r ON r.id = par.rule_id
+    WHERE par.prediction_id = $1
+    ORDER BY par.score DESC NULLS LAST, par.id ASC;
+    `,
+    [prediction.id]
+  );
+
+  // Fetch recommended remedies
+  const remediesRes = await query(
+    `
+    SELECT
+      prr.id,
+      prr.prediction_id,
+      prr.remedy_id,
+      prr.suggested_by_rule_id,
+      prr.reason_json,
+      prr.priority,
+      r.name,
+      r.type,
+      r.description,
+      r.target_planets,
+      r.target_themes,
+      r.min_duration_days,
+      r.recommended_frequency,
+      r.safety_notes
+    FROM prediction_recommended_remedies prr
+    JOIN remedies r ON r.id = prr.remedy_id
+    WHERE prr.prediction_id = $1
+      AND r.is_active = TRUE
+    ORDER BY prr.priority DESC, prr.id ASC;
+    `,
+    [prediction.id]
+  );
+
+  // ---- Marriage timing month–year windows (deterministic, no guessing) ----
+  // Rule: compute windows only if RELATIONSHIP_MARRIAGE_TIMING is present among applied rules.
+  let marriageTimingWindows = null;
+  try {
+    const hasMarriageTiming = appliedRes.rows.some((r) => String(r.point_code || '') === 'RELATIONSHIP_MARRIAGE_TIMING');
+    if (hasMarriageTiming && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const winResult = await findBestMonthYearWindowsForPoint({
+        userId: Number(windowCtx.user_id),
+        chartId: Number(windowCtx.chart_id),
+        pointCodes: ['RELATIONSHIP_MARRIAGE_TIMING'],
+        contextKey: 'marriage',
+        startAt: windowCtx.start_at,
+        monthsAhead: 24,
+        limit: 3,
+        minBaseScore: 0.25,
+      });
+
+      const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+      const primary = ranges[0]?.range_text || null;
+      const secondary = ranges[1]?.range_text || null;
+      const tertiary = ranges[2]?.range_text || null;
+
+      // Narrative (English-only; no exact date, no guarantees)
+      let narrative_hi = null;
+      if (primary) {
+        narrative_hi =
+          `A marriage yog is present.\n` +
+          `Strongest window appears to be ${primary}.\n` +
+          (secondary ? `Secondary window: ${secondary}.\n` : '') +
+          (tertiary ? `Additional window: ${tertiary}.\n` : '');
+        narrative_hi = narrative_hi.trim();
+      }
+
+      marriageTimingWindows = {
+        ok: true,
+        point_code: 'RELATIONSHIP_MARRIAGE_TIMING',
+        primary_window: primary,
+        secondary_window: secondary,
+        additional_window: tertiary,
+        windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+        narrative_hi,
+        source: 'timingWindowFinder_v1',
+      };
+    }
+  } catch (e) {
+    // Non-blocking: do not fail the prediction response if windows cannot be computed.
+    marriageTimingWindows = { ok: false, error: String(e?.message || e), point_code: 'RELATIONSHIP_MARRIAGE_TIMING' };
+  }
+
+  // ---- Career month–year windows (deterministic, no guessing) ----
+  let careerTimingWindows = null;
+  try {
+    const careerPointCodes = [
+      'CAREER_STABILITY',
+      'CAREER_GROWTH_PROMOTION',
+      'CAREER_JOB_CHANGE',
+      'CAREER_WORKPLACE_CONFLICT',
+      'CAREER_SKILL_STAGNATION',
+    ];
+
+    const presentCareerPoints = careerPointCodes.filter((pc) =>
+      appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+    );
+
+    if (presentCareerPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const windowsByPoint = {};
+
+      for (const pc of presentCareerPoints) {
+        // eslint-disable-next-line no-await-in-loop
         const winResult = await findBestMonthYearWindowsForPoint({
           userId: Number(windowCtx.user_id),
           chartId: Number(windowCtx.chart_id),
-          pointCodes: ['RELATIONSHIP_MARRIAGE_TIMING'],
-          contextKey: 'marriage',
+          pointCodes: [pc],
+          contextKey: 'career',
           startAt: windowCtx.start_at,
           monthsAhead: 24,
           limit: 3,
@@ -1508,20 +1572,26 @@ app.get('/predictions/:windowId', async (req, res) => {
         const secondary = ranges[1]?.range_text || null;
         const tertiary = ranges[2]?.range_text || null;
 
-        // Narrative (English-only; no exact date, no guarantees)
+        let headingHi = null;
+        if (pc === 'CAREER_STABILITY') headingHi = 'A career stability yog is present.';
+        else if (pc === 'CAREER_GROWTH_PROMOTION') headingHi = 'A career growth/promotion yog is present.';
+        else if (pc === 'CAREER_JOB_CHANGE') headingHi = 'A career change/role-shift yog is present.';
+        else if (pc === 'CAREER_WORKPLACE_CONFLICT') headingHi = 'Workplace stress/politics sensitivity may be higher.';
+        else if (pc === 'CAREER_SKILL_STAGNATION') headingHi = 'A slower-growth / skill-stagnation phase may be active.';
+
         let narrative_hi = null;
-        if (primary) {
+        if (primary && headingHi) {
           narrative_hi =
-            `A marriage yog is present.\n` +
+            `${headingHi}\n` +
             `Strongest window appears to be ${primary}.\n` +
             (secondary ? `Secondary window: ${secondary}.\n` : '') +
             (tertiary ? `Additional window: ${tertiary}.\n` : '');
           narrative_hi = narrative_hi.trim();
         }
 
-        marriageTimingWindows = {
+        windowsByPoint[pc] = {
           ok: true,
-          point_code: 'RELATIONSHIP_MARRIAGE_TIMING',
+          point_code: pc,
           primary_window: primary,
           secondary_window: secondary,
           additional_window: tertiary,
@@ -1530,435 +1600,521 @@ app.get('/predictions/:windowId', async (req, res) => {
           source: 'timingWindowFinder_v1',
         };
       }
-    } catch (e) {
-      // Non-blocking: do not fail the prediction response if windows cannot be computed.
-      marriageTimingWindows = { ok: false, error: String(e?.message || e), point_code: 'RELATIONSHIP_MARRIAGE_TIMING' };
+
+      careerTimingWindows = {
+        ok: true,
+        context: 'career',
+        windowsByPoint,
+      };
     }
-
-    // ---- Career month–year windows (deterministic, no guessing) ----
-    let careerTimingWindows = null;
-    try {
-      const careerPointCodes = [
-        'CAREER_STABILITY',
-        'CAREER_GROWTH_PROMOTION',
-        'CAREER_JOB_CHANGE',
-        'CAREER_WORKPLACE_CONFLICT',
-        'CAREER_SKILL_STAGNATION',
-      ];
-
-      const presentCareerPoints = careerPointCodes.filter((pc) =>
-        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
-      );
-
-      if (presentCareerPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
-        const windowsByPoint = {};
-
-        for (const pc of presentCareerPoints) {
-          // eslint-disable-next-line no-await-in-loop
-          const winResult = await findBestMonthYearWindowsForPoint({
-            userId: Number(windowCtx.user_id),
-            chartId: Number(windowCtx.chart_id),
-            pointCodes: [pc],
-            contextKey: 'career',
-            startAt: windowCtx.start_at,
-            monthsAhead: 24,
-            limit: 3,
-            minBaseScore: 0.25,
-          });
-
-          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
-          const primary = ranges[0]?.range_text || null;
-          const secondary = ranges[1]?.range_text || null;
-          const tertiary = ranges[2]?.range_text || null;
-
-          let headingHi = null;
-          if (pc === 'CAREER_STABILITY') headingHi = 'A career stability yog is present.';
-          else if (pc === 'CAREER_GROWTH_PROMOTION') headingHi = 'A career growth/promotion yog is present.';
-          else if (pc === 'CAREER_JOB_CHANGE') headingHi = 'A career change/role-shift yog is present.';
-          else if (pc === 'CAREER_WORKPLACE_CONFLICT') headingHi = 'Workplace stress/politics sensitivity may be higher.';
-          else if (pc === 'CAREER_SKILL_STAGNATION') headingHi = 'A slower-growth / skill-stagnation phase may be active.';
-
-          let narrative_hi = null;
-          if (primary && headingHi) {
-            narrative_hi =
-              `${headingHi}\n` +
-              `Strongest window appears to be ${primary}.\n` +
-              (secondary ? `Secondary window: ${secondary}.\n` : '') +
-              (tertiary ? `Additional window: ${tertiary}.\n` : '');
-            narrative_hi = narrative_hi.trim();
-          }
-
-          windowsByPoint[pc] = {
-            ok: true,
-            point_code: pc,
-            primary_window: primary,
-            secondary_window: secondary,
-            additional_window: tertiary,
-            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
-            narrative_hi,
-            source: 'timingWindowFinder_v1',
-          };
-        }
-
-        careerTimingWindows = {
-          ok: true,
-          context: 'career',
-          windowsByPoint,
-        };
-      }
-    } catch (e) {
-      careerTimingWindows = { ok: false, error: String(e?.message || e), context: 'career' };
-    }
-
-    // ---- Business month–year windows (deterministic, no guessing) ----
-    let businessTimingWindows = null;
-    try {
-      const businessPointCodes = [
-        'MONEY_BUSINESS_GENERAL',
-        'MONEY_BUSINESS_GROWTH_WIN',
-        'MONEY_BUSINESS_LOSS_RISK',
-        'MONEY_BUSINESS_START',
-        'MONEY_BUSINESS_PARTNERSHIP_COMPLEX',
-      ];
-
-      const presentBusinessPoints = businessPointCodes.filter((pc) =>
-        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
-      );
-
-      if (presentBusinessPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
-        const windowsByPoint = {};
-
-        for (const pc of presentBusinessPoints) {
-          // eslint-disable-next-line no-await-in-loop
-          const winResult = await findBestMonthYearWindowsForPoint({
-            userId: Number(windowCtx.user_id),
-            chartId: Number(windowCtx.chart_id),
-            pointCodes: [pc],
-            contextKey: 'business',
-            startAt: windowCtx.start_at,
-            monthsAhead: 24,
-            limit: 3,
-            minBaseScore: 0.25,
-          });
-
-          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
-          const primary = ranges[0]?.range_text || null;
-          const secondary = ranges[1]?.range_text || null;
-          const tertiary = ranges[2]?.range_text || null;
-
-          let headingHi = null;
-          if (pc === 'MONEY_BUSINESS_GENERAL') headingHi = 'A business-support yog is present.';
-          else if (pc === 'MONEY_BUSINESS_GROWTH_WIN') headingHi = 'A business growth/expansion yog is present.';
-          else if (pc === 'MONEY_BUSINESS_START') headingHi = 'A business-start yog is present.';
-          else if (pc === 'MONEY_BUSINESS_PARTNERSHIP_COMPLEX') headingHi = 'A business partnership signal is active.';
-          else if (pc === 'MONEY_BUSINESS_LOSS_RISK') headingHi = 'Risk management is important in this phase.';
-
-          let narrative_hi = null;
-          if (primary && headingHi) {
-            narrative_hi =
-              `${headingHi}\n` +
-              `Strongest window appears to be ${primary}.\n` +
-              (secondary ? `Secondary window: ${secondary}.\n` : '') +
-              (tertiary ? `Additional window: ${tertiary}.\n` : '');
-            narrative_hi = narrative_hi.trim();
-          }
-
-          windowsByPoint[pc] = {
-            ok: true,
-            point_code: pc,
-            primary_window: primary,
-            secondary_window: secondary,
-            additional_window: tertiary,
-            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
-            narrative_hi,
-            source: 'timingWindowFinder_v1',
-          };
-        }
-
-        businessTimingWindows = {
-          ok: true,
-          context: 'business',
-          windowsByPoint,
-        };
-      }
-    } catch (e) {
-      businessTimingWindows = { ok: false, error: String(e?.message || e), context: 'business' };
-    }
-
-    // ---- Finance month–year windows (deterministic, no guessing) ----
-    let financeTimingWindows = null;
-    try {
-      const financePointCodes = [
-        'FINANCE_GENERAL',
-        'FINANCE_INCOME_FLOW',
-        'FINANCE_EXPENSE_PRESSURE',
-        'FINANCE_SAVINGS_GROWTH',
-        'FINANCE_DEBT_LOAN',
-        'FINANCE_INVESTMENT_TIMING',
-        'FINANCE_SUDDEN_GAIN_LOSS',
-        'FINANCE_LONG_TERM_WEALTH',
-      ];
-
-      const presentFinancePoints = financePointCodes.filter((pc) =>
-        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
-      );
-
-      if (presentFinancePoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
-        const windowsByPoint = {};
-
-        for (const pc of presentFinancePoints) {
-          // eslint-disable-next-line no-await-in-loop
-          const winResult = await findBestMonthYearWindowsForPoint({
-            userId: Number(windowCtx.user_id),
-            chartId: Number(windowCtx.chart_id),
-            pointCodes: [pc],
-            contextKey: 'finance',
-            startAt: windowCtx.start_at,
-            monthsAhead: 24,
-            limit: 3,
-            minBaseScore: 0.25,
-          });
-
-          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
-          const primary = ranges[0]?.range_text || null;
-          const secondary = ranges[1]?.range_text || null;
-          const tertiary = ranges[2]?.range_text || null;
-
-          let headingHi = null;
-          if (pc === 'FINANCE_GENERAL') headingHi = 'A wealth-support yog is present.';
-          else if (pc === 'FINANCE_INCOME_FLOW') headingHi = 'An income-flow signal is strong.';
-          else if (pc === 'FINANCE_EXPENSE_PRESSURE') headingHi = 'Expense pressure may be higher in this phase.';
-          else if (pc === 'FINANCE_SAVINGS_GROWTH') headingHi = 'A gains-and-savings yog is present.';
-          else if (pc === 'FINANCE_DEBT_LOAN') headingHi = 'Debt/loan risk control is important in this phase.';
-          else if (pc === 'FINANCE_INVESTMENT_TIMING') headingHi = 'Investment timing may be supportive.';
-          else if (pc === 'FINANCE_SUDDEN_GAIN_LOSS') headingHi = 'Volatility direction may be more sensitive in this phase.';
-          else if (pc === 'FINANCE_LONG_TERM_WEALTH') headingHi = 'Long-term wealth direction can be supportive.';
-
-          let narrative_hi = null;
-          if (primary && headingHi) {
-            narrative_hi =
-              `${headingHi}\n` +
-              `Strongest window appears to be ${primary}.\n` +
-              (secondary ? `Secondary window: ${secondary}.\n` : '') +
-              (tertiary ? `Additional window: ${tertiary}.\n` : '');
-            narrative_hi = narrative_hi.trim();
-          }
-
-          windowsByPoint[pc] = {
-            ok: true,
-            point_code: pc,
-            primary_window: primary,
-            secondary_window: secondary,
-            additional_window: tertiary,
-            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
-            narrative_hi,
-            source: 'timingWindowFinder_v1',
-          };
-        }
-
-        financeTimingWindows = {
-          ok: true,
-          context: 'finance',
-          windowsByPoint,
-        };
-      }
-    } catch (e) {
-      financeTimingWindows = { ok: false, error: String(e?.message || e), context: 'finance' };
-    }
-
-    // ---- Health month–year windows (deterministic, no guessing) ----
-    let healthTimingWindows = null;
-    try {
-      const healthPointCodes = [
-        'HEALTH_GENERAL',
-        'HEALTH_ENERGY_LEVEL',
-        'HEALTH_STRESS_PRESSURE',
-        'HEALTH_RECOVERY_PHASE',
-        'HEALTH_IMMUNITY_BALANCE',
-        'HEALTH_LIFESTYLE_IMPACT',
-        'HEALTH_WORK_HEALTH_TRADEOFF',
-        'HEALTH_LONG_TERM_VITALITY',
-      ];
-
-      const presentHealthPoints = healthPointCodes.filter((pc) =>
-        appliedRes.rows.some((r) => String(r.point_code || '') === pc)
-      );
-
-      if (presentHealthPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
-        const windowsByPoint = {};
-
-        for (const pc of presentHealthPoints) {
-          // eslint-disable-next-line no-await-in-loop
-          const winResult = await findBestMonthYearWindowsForPoint({
-            userId: Number(windowCtx.user_id),
-            chartId: Number(windowCtx.chart_id),
-            pointCodes: [pc],
-            contextKey: 'health',
-            startAt: windowCtx.start_at,
-            monthsAhead: 24,
-            limit: 3,
-            minBaseScore: 0.25,
-          });
-
-          const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
-          const primary = ranges[0]?.range_text || null;
-          const secondary = ranges[1]?.range_text || null;
-          const tertiary = ranges[2]?.range_text || null;
-
-          let headingHi = null;
-          if (pc === 'HEALTH_GENERAL') headingHi = 'A vitality-support yog is present.';
-          else if (pc === 'HEALTH_ENERGY_LEVEL') headingHi = 'Energy balance may be supportive.';
-          else if (pc === 'HEALTH_STRESS_PRESSURE') headingHi = 'Stress sensitivity may be higher in this phase.';
-          else if (pc === 'HEALTH_RECOVERY_PHASE') headingHi = 'A recovery/healing yog is strong.';
-          else if (pc === 'HEALTH_IMMUNITY_BALANCE') headingHi = 'A resilience/balance yog is present.';
-          else if (pc === 'HEALTH_LIFESTYLE_IMPACT') headingHi = 'Routine balance can provide support.';
-          else if (pc === 'HEALTH_WORK_HEALTH_TRADEOFF') headingHi = 'Work–health tradeoff needs active management.';
-          else if (pc === 'HEALTH_LONG_TERM_VITALITY') headingHi = 'Long-term vitality direction may be supportive.';
-
-          let narrative_hi = null;
-          if (primary && headingHi) {
-            narrative_hi =
-              `${headingHi}\n` +
-              `Strongest window appears to be ${primary}.\n` +
-              (secondary ? `Secondary window: ${secondary}.\n` : '') +
-              (tertiary ? `Additional window: ${tertiary}.\n` : '');
-            narrative_hi = narrative_hi.trim();
-          }
-
-          windowsByPoint[pc] = {
-            ok: true,
-            point_code: pc,
-            primary_window: primary,
-            secondary_window: secondary,
-            additional_window: tertiary,
-            windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
-            narrative_hi,
-            source: 'timingWindowFinder_v1',
-          };
-        }
-
-        healthTimingWindows = {
-          ok: true,
-          context: 'health',
-          windowsByPoint,
-        };
-      }
-    } catch (e) {
-      healthTimingWindows = { ok: false, error: String(e?.message || e), context: 'health' };
-    }
-
-    // ---- Varshfal data (for yearly windows only) ----
-    let varshfal = null;
-    if (windowCtx && windowCtx.scope === 'yearly') {
-      try {
-        const { generateVarshfal } = await import('./services/varshfalGeneration.js');
-        varshfal = await generateVarshfal(windowId);
-        // Remove 'ok' field from varshfal as it's already in parent response
-        if (varshfal && varshfal.ok) {
-          delete varshfal.ok;
-        }
-      } catch (varshfalErr) {
-        // Non-blocking: do not fail the prediction response if varshfal cannot be generated
-        console.warn('Varshfal generation failed for yearly window:', varshfalErr.message);
-        varshfal = { error: String(varshfalErr?.message || varshfalErr) };
-      }
-    }
-
-    // ---- Dosha report (birth-chart derived; safe to include for all scopes) ----
-    // Non-blocking: never fail predictions payload if dosha computation fails.
-    let doshaReport = null;
-    try {
-      const { generateDoshaReport } = await import('./services/doshaReportGeneration.js');
-      doshaReport = await generateDoshaReport(windowId);
-      // Remove 'ok' field from doshaReport as it's already in parent response
-      if (doshaReport && doshaReport.ok) {
-        delete doshaReport.ok;
-      }
-    } catch (doshaErr) {
-      console.warn('Dosha report generation failed:', doshaErr.message);
-      doshaReport = { error: String(doshaErr?.message || doshaErr) };
-    }
-
-    // ---- Yoga report (birth-chart derived; safe to include for all scopes) ----
-    // Non-blocking: never fail predictions payload if yoga computation fails.
-    let yogaReport = null;
-    try {
-      const { generateYogaReport } = await import('./services/yogaReportGeneration.js');
-      yogaReport = await generateYogaReport(windowId);
-      // Remove 'ok' field from yogaReport as it's already in parent response
-      if (yogaReport && yogaReport.ok) {
-        delete yogaReport.ok;
-      }
-    } catch (yogaErr) {
-      console.warn('Yoga report generation failed:', yogaErr.message);
-      yogaReport = { error: String(yogaErr?.message || yogaErr) };
-    }
-
-    // Clean prediction object - remove internal debugging data
-    // Mobile app only needs user-facing fields, not internal rule IDs
-    const cleanPrediction = {
-      id: prediction.id,
-      window_id: prediction.window_id,
-      user_id: prediction.user_id,
-      chart_id: prediction.chart_id,
-      scope: prediction.scope,
-      status: prediction.status,
-      language_code: prediction.language_code,
-      short_summary: prediction.short_summary,
-      final_text: prediction.final_text,
-      highlight_on_home: prediction.highlight_on_home,
-      generated_at: prediction.generated_at,
-      // Exclude summary_json (internal rule IDs - not needed by mobile app)
-      // Exclude error_message (internal debugging)
-    };
-
-    // Quality + payload guardrail:
-    // - Mobile app doesn't need the entire appliedRules dump (it's internal/diagnostic)
-    // - Applied rules may contain generic universal-knowledge phrases that harm UX
-    const appliedRuleCount = Array.isArray(appliedRes.rows) ? appliedRes.rows.length : 0;
-    const isGenericRuleText = (t) => {
-      const s = String(t || '').toLowerCase();
-      return (
-        s.includes('this planetary configuration creates specific influences') ||
-        s.includes('planetary positions reflect karmic patterns') ||
-        s.includes('creates specific influences that shape life experiences')
-      );
-    };
-
-    const appliedRulesSlim = (Array.isArray(appliedRes.rows) ? appliedRes.rows : [])
-      .filter((r) => !isGenericRuleText(r?.canonical_meaning))
-      .slice(0, 200)
-      .map((r) => ({
-        id: r.id,
-        prediction_id: r.prediction_id,
-        rule_id: r.rule_id,
-        score: r.score,
-        weight: r.weight,
-        point_code: r.point_code || null,
-        source_book: r.source_book || null,
-        rule_type: r.rule_type || null,
-        confidence_level: r.confidence_level || null,
-        canonical_meaning: r.canonical_meaning || null,
-      }));
-
-    return res.json({
-      ok: true,
-      prediction: cleanPrediction,
-      appliedRuleCount,
-      appliedRules: includeAppliedRules ? appliedRulesSlim : [],
-      remedies: remediesRes.rows,
-      marriageTimingWindows,
-      careerTimingWindows,
-      businessTimingWindows,
-      financeTimingWindows,
-      healthTimingWindows,
-      varshfal, // Added for yearly windows
-      doshaReport, // Added for all windows (birth-chart derived)
-      yogaReport, // Added for all windows (birth-chart derived)
-    });
-  } catch (err) {
-    return res.status(500).json({ ok: false, error: err.message });
+  } catch (e) {
+    careerTimingWindows = { ok: false, error: String(e?.message || e), context: 'career' };
   }
+
+  // ---- Business month–year windows (deterministic, no guessing) ----
+  let businessTimingWindows = null;
+  try {
+    const businessPointCodes = [
+      'MONEY_BUSINESS_GENERAL',
+      'MONEY_BUSINESS_GROWTH_WIN',
+      'MONEY_BUSINESS_LOSS_RISK',
+      'MONEY_BUSINESS_START',
+      'MONEY_BUSINESS_PARTNERSHIP_COMPLEX',
+    ];
+
+    const presentBusinessPoints = businessPointCodes.filter((pc) =>
+      appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+    );
+
+    if (presentBusinessPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const windowsByPoint = {};
+
+      for (const pc of presentBusinessPoints) {
+        // eslint-disable-next-line no-await-in-loop
+        const winResult = await findBestMonthYearWindowsForPoint({
+          userId: Number(windowCtx.user_id),
+          chartId: Number(windowCtx.chart_id),
+          pointCodes: [pc],
+          contextKey: 'business',
+          startAt: windowCtx.start_at,
+          monthsAhead: 24,
+          limit: 3,
+          minBaseScore: 0.25,
+        });
+
+        const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+        const primary = ranges[0]?.range_text || null;
+        const secondary = ranges[1]?.range_text || null;
+        const tertiary = ranges[2]?.range_text || null;
+
+        let headingHi = null;
+        if (pc === 'MONEY_BUSINESS_GENERAL') headingHi = 'A business-support yog is present.';
+        else if (pc === 'MONEY_BUSINESS_GROWTH_WIN') headingHi = 'A business growth/expansion yog is present.';
+        else if (pc === 'MONEY_BUSINESS_START') headingHi = 'A business-start yog is present.';
+        else if (pc === 'MONEY_BUSINESS_PARTNERSHIP_COMPLEX') headingHi = 'A business partnership signal is active.';
+        else if (pc === 'MONEY_BUSINESS_LOSS_RISK') headingHi = 'Risk management is important in this phase.';
+
+        let narrative_hi = null;
+        if (primary && headingHi) {
+          narrative_hi =
+            `${headingHi}\n` +
+            `Strongest window appears to be ${primary}.\n` +
+            (secondary ? `Secondary window: ${secondary}.\n` : '') +
+            (tertiary ? `Additional window: ${tertiary}.\n` : '');
+          narrative_hi = narrative_hi.trim();
+        }
+
+        windowsByPoint[pc] = {
+          ok: true,
+          point_code: pc,
+          primary_window: primary,
+          secondary_window: secondary,
+          additional_window: tertiary,
+          windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+          narrative_hi,
+          source: 'timingWindowFinder_v1',
+        };
+      }
+
+      businessTimingWindows = {
+        ok: true,
+        context: 'business',
+        windowsByPoint,
+      };
+    }
+  } catch (e) {
+    businessTimingWindows = { ok: false, error: String(e?.message || e), context: 'business' };
+  }
+
+  // ---- Finance month–year windows (deterministic, no guessing) ----
+  let financeTimingWindows = null;
+  try {
+    const financePointCodes = [
+      'FINANCE_GENERAL',
+      'FINANCE_INCOME_FLOW',
+      'FINANCE_EXPENSE_PRESSURE',
+      'FINANCE_SAVINGS_GROWTH',
+      'FINANCE_DEBT_LOAN',
+      'FINANCE_INVESTMENT_TIMING',
+      'FINANCE_SUDDEN_GAIN_LOSS',
+      'FINANCE_LONG_TERM_WEALTH',
+    ];
+
+    const presentFinancePoints = financePointCodes.filter((pc) =>
+      appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+    );
+
+    if (presentFinancePoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const windowsByPoint = {};
+
+      for (const pc of presentFinancePoints) {
+        // eslint-disable-next-line no-await-in-loop
+        const winResult = await findBestMonthYearWindowsForPoint({
+          userId: Number(windowCtx.user_id),
+          chartId: Number(windowCtx.chart_id),
+          pointCodes: [pc],
+          contextKey: 'finance',
+          startAt: windowCtx.start_at,
+          monthsAhead: 24,
+          limit: 3,
+          minBaseScore: 0.25,
+        });
+
+        const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+        const primary = ranges[0]?.range_text || null;
+        const secondary = ranges[1]?.range_text || null;
+        const tertiary = ranges[2]?.range_text || null;
+
+        let headingHi = null;
+        if (pc === 'FINANCE_GENERAL') headingHi = 'A wealth-support yog is present.';
+        else if (pc === 'FINANCE_INCOME_FLOW') headingHi = 'An income-flow signal is strong.';
+        else if (pc === 'FINANCE_EXPENSE_PRESSURE') headingHi = 'Expense pressure may be higher in this phase.';
+        else if (pc === 'FINANCE_SAVINGS_GROWTH') headingHi = 'A gains-and-savings yog is present.';
+        else if (pc === 'FINANCE_DEBT_LOAN') headingHi = 'Debt/loan risk control is important in this phase.';
+        else if (pc === 'FINANCE_INVESTMENT_TIMING') headingHi = 'Investment timing may be supportive.';
+        else if (pc === 'FINANCE_SUDDEN_GAIN_LOSS') headingHi = 'Volatility direction may be more sensitive in this phase.';
+        else if (pc === 'FINANCE_LONG_TERM_WEALTH') headingHi = 'Long-term wealth direction can be supportive.';
+
+        let narrative_hi = null;
+        if (primary && headingHi) {
+          narrative_hi =
+            `${headingHi}\n` +
+            `Strongest window appears to be ${primary}.\n` +
+            (secondary ? `Secondary window: ${secondary}.\n` : '') +
+            (tertiary ? `Additional window: ${tertiary}.\n` : '');
+          narrative_hi = narrative_hi.trim();
+        }
+
+        windowsByPoint[pc] = {
+          ok: true,
+          point_code: pc,
+          primary_window: primary,
+          secondary_window: secondary,
+          additional_window: tertiary,
+          windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+          narrative_hi,
+          source: 'timingWindowFinder_v1',
+        };
+      }
+
+      financeTimingWindows = {
+        ok: true,
+        context: 'finance',
+        windowsByPoint,
+      };
+    }
+  } catch (e) {
+    financeTimingWindows = { ok: false, error: String(e?.message || e), context: 'finance' };
+  }
+
+  // ---- Health month–year windows (deterministic, no guessing) ----
+  let healthTimingWindows = null;
+  try {
+    const healthPointCodes = [
+      'HEALTH_GENERAL',
+      'HEALTH_ENERGY_LEVEL',
+      'HEALTH_STRESS_PRESSURE',
+      'HEALTH_RECOVERY_PHASE',
+      'HEALTH_IMMUNITY_BALANCE',
+      'HEALTH_LIFESTYLE_IMPACT',
+      'HEALTH_WORK_HEALTH_TRADEOFF',
+      'HEALTH_LONG_TERM_VITALITY',
+    ];
+
+    const presentHealthPoints = healthPointCodes.filter((pc) =>
+      appliedRes.rows.some((r) => String(r.point_code || '') === pc)
+    );
+
+    if (presentHealthPoints.length && windowCtx?.user_id && windowCtx?.chart_id && windowCtx?.start_at) {
+      const windowsByPoint = {};
+
+      for (const pc of presentHealthPoints) {
+        // eslint-disable-next-line no-await-in-loop
+        const winResult = await findBestMonthYearWindowsForPoint({
+          userId: Number(windowCtx.user_id),
+          chartId: Number(windowCtx.chart_id),
+          pointCodes: [pc],
+          contextKey: 'health',
+          startAt: windowCtx.start_at,
+          monthsAhead: 24,
+          limit: 3,
+          minBaseScore: 0.25,
+        });
+
+        const ranges = Array.isArray(winResult.monthYearRanges) ? winResult.monthYearRanges : [];
+        const primary = ranges[0]?.range_text || null;
+        const secondary = ranges[1]?.range_text || null;
+        const tertiary = ranges[2]?.range_text || null;
+
+        let headingHi = null;
+        if (pc === 'HEALTH_GENERAL') headingHi = 'A vitality-support yog is present.';
+        else if (pc === 'HEALTH_ENERGY_LEVEL') headingHi = 'Energy balance may be supportive.';
+        else if (pc === 'HEALTH_STRESS_PRESSURE') headingHi = 'Stress sensitivity may be higher in this phase.';
+        else if (pc === 'HEALTH_RECOVERY_PHASE') headingHi = 'A recovery/healing yog is strong.';
+        else if (pc === 'HEALTH_IMMUNITY_BALANCE') headingHi = 'A resilience/balance yog is present.';
+        else if (pc === 'HEALTH_LIFESTYLE_IMPACT') headingHi = 'Routine balance can provide support.';
+        else if (pc === 'HEALTH_WORK_HEALTH_TRADEOFF') headingHi = 'Work–health tradeoff needs active management.';
+        else if (pc === 'HEALTH_LONG_TERM_VITALITY') headingHi = 'Long-term vitality direction may be supportive.';
+
+        let narrative_hi = null;
+        if (primary && headingHi) {
+          narrative_hi =
+            `${headingHi}\n` +
+            `Strongest window appears to be ${primary}.\n` +
+            (secondary ? `Secondary window: ${secondary}.\n` : '') +
+            (tertiary ? `Additional window: ${tertiary}.\n` : '');
+          narrative_hi = narrative_hi.trim();
+        }
+
+        windowsByPoint[pc] = {
+          ok: true,
+          point_code: pc,
+          primary_window: primary,
+          secondary_window: secondary,
+          additional_window: tertiary,
+          windows: ranges.map((r) => ({ range_text: r.range_text, avgScore: r.avgScore, monthCount: r.monthCount })),
+          narrative_hi,
+          source: 'timingWindowFinder_v1',
+        };
+      }
+
+      healthTimingWindows = {
+        ok: true,
+        context: 'health',
+        windowsByPoint,
+      };
+    }
+  } catch (e) {
+    healthTimingWindows = { ok: false, error: String(e?.message || e), context: 'health' };
+  }
+
+  // ---- Varshfal data (for yearly windows only) ----
+  let varshfal = null;
+  if (windowCtx && windowCtx.scope === 'yearly') {
+    try {
+      const { generateVarshfal } = await import('./services/varshfalGeneration.js');
+      varshfal = await generateVarshfal(windowId);
+      if (varshfal && varshfal.ok) delete varshfal.ok;
+    } catch (varshfalErr) {
+      console.warn('Varshfal generation failed for yearly window:', varshfalErr.message);
+      varshfal = { error: String(varshfalErr?.message || varshfalErr) };
+    }
+  }
+
+  // ---- Dosha report (birth-chart derived; safe to include for all scopes) ----
+  let doshaReport = null;
+  try {
+    const { generateDoshaReport } = await import('./services/doshaReportGeneration.js');
+    doshaReport = await generateDoshaReport(windowId);
+    if (doshaReport && doshaReport.ok) delete doshaReport.ok;
+  } catch (doshaErr) {
+    console.warn('Dosha report generation failed:', doshaErr.message);
+    doshaReport = { error: String(doshaErr?.message || doshaErr) };
+  }
+
+  // ---- Yoga report (birth-chart derived; safe to include for all scopes) ----
+  let yogaReport = null;
+  try {
+    const { generateYogaReport } = await import('./services/yogaReportGeneration.js');
+    yogaReport = await generateYogaReport(windowId);
+    if (yogaReport && yogaReport.ok) delete yogaReport.ok;
+  } catch (yogaErr) {
+    console.warn('Yoga report generation failed:', yogaErr?.message);
+    yogaReport = { error: String(yogaErr?.message || yogaErr) };
+  }
+
+  // Clean prediction object - remove internal debugging data
+  const cleanPrediction = {
+    id: prediction.id,
+    window_id: prediction.window_id,
+    user_id: prediction.user_id,
+    chart_id: prediction.chart_id,
+    scope: prediction.scope,
+    status: prediction.status,
+    language_code: prediction.language_code,
+    short_summary: prediction.short_summary,
+    final_text: prediction.final_text,
+    highlight_on_home: prediction.highlight_on_home,
+    generated_at: prediction.generated_at,
+  };
+
+  const appliedRuleCount = Array.isArray(appliedRes.rows) ? appliedRes.rows.length : 0;
+  const isGenericRuleText = (t) => {
+    const s = String(t || '').toLowerCase();
+    return (
+      s.includes('this planetary configuration creates specific influences') ||
+      s.includes('planetary positions reflect karmic patterns') ||
+      s.includes('creates specific influences that shape life experiences')
+    );
+  };
+
+  const appliedRulesSlim = (Array.isArray(appliedRes.rows) ? appliedRes.rows : [])
+    .filter((r) => !isGenericRuleText(r?.canonical_meaning))
+    .slice(0, 200)
+    .map((r) => ({
+      id: r.id,
+      prediction_id: r.prediction_id,
+      rule_id: r.rule_id,
+      score: r.score,
+      weight: r.weight,
+      point_code: r.point_code || null,
+      source_book: r.source_book || null,
+      rule_type: r.rule_type || null,
+      confidence_level: r.confidence_level || null,
+      canonical_meaning: r.canonical_meaning || null,
+    }));
+
+  return {
+    prediction: cleanPrediction,
+    appliedRuleCount,
+    appliedRules: includeAppliedRules ? appliedRulesSlim : [],
+    remedies: remediesRes.rows,
+    marriageTimingWindows,
+    careerTimingWindows,
+    businessTimingWindows,
+    financeTimingWindows,
+    healthTimingWindows,
+    varshfal,
+    doshaReport,
+    yogaReport,
+  };
+}
+
+app.get('/predictions/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  const language = req.query.lang || 'en';
+  const includeAppliedRules = String(req.query.include_applied_rules || '') === '1' || String(req.query.debug || '') === '1';
+
+  try {
+    const payload = await buildPredictionPayload(windowId, { language, includeAppliedRules });
+    return res.json({ ok: true, ...payload });
+  } catch (err) {
+    const status = Number(err?.statusCode) || 500;
+    return res.status(status).json({ ok: false, error: err.message });
+  }
+});
+
+// ---- Bundle endpoint (single-call aggregation) ------------------------------
+
+/**
+ * GET /bundle/:windowId
+ *
+ * One endpoint to fetch multiple modules in a single response.
+ *
+ * Query:
+ * - include: comma-separated list of modules OR "all"
+ *   Supported modules:
+ *   - prediction
+ *   - kundli
+ *   - dailyExperience
+ *   - weeklyExperience
+ *   - monthlyExperience
+ *   - transitToday
+ *   - mahadashaPhal
+ *   - lalkitab
+ *   - varshfal
+ *
+ * - lang: for prediction (default: en)
+ * - date: for dailyExperience (YYYY-MM-DD; optional)
+ * - include_applied_rules=1: include appliedRules in prediction payload (optional)
+ *
+ * Non-blocking: module failures are returned in `errors` while `ok` stays true if window exists.
+ */
+app.get('/bundle/:windowId', async (req, res) => {
+  const windowId = Number(req.params.windowId);
+  const language = req.query.lang || 'en';
+  const includeAppliedRules = String(req.query.include_applied_rules || '') === '1' || String(req.query.debug || '') === '1';
+  const date = req.query.date ? String(req.query.date) : null;
+
+  if (!windowId || Number.isNaN(windowId)) {
+    return res.status(400).json({ ok: false, error: 'Invalid window_id' });
+  }
+
+  const allModules = [
+    'prediction',
+    'kundli',
+    'dailyExperience',
+    'weeklyExperience',
+    'monthlyExperience',
+    'transitToday',
+    'mahadashaPhal',
+    'lalkitab',
+    'varshfal',
+  ];
+
+  const rawInclude = String(req.query.include || 'prediction');
+  const include = rawInclude
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const includeSet = new Set(
+    include.includes('all') ? allModules : include
+  );
+
+  // Load window basic context (so bundle can fail fast if window doesn't exist)
+  const winRes = await query(
+    'SELECT id, user_id, chart_id, scope, start_at, end_at, timezone FROM prediction_windows WHERE id = $1',
+    [windowId]
+  );
+  if (winRes.rowCount === 0) {
+    return res.status(404).json({ ok: false, error: `Window not found: ${windowId}` });
+  }
+  const window = winRes.rows[0];
+
+  const data = {};
+  const errors = {};
+
+  const runModule = async (key, fn) => {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      data[key] = await fn();
+      errors[key] = null;
+    } catch (e) {
+      data[key] = null;
+      errors[key] = String(e?.message || e);
+    }
+  };
+
+  // prediction (includes doshaReport/yogaReport already)
+  if (includeSet.has('prediction')) {
+    await runModule('prediction', async () => {
+      const p = await buildPredictionPayload(windowId, { language, includeAppliedRules });
+      return { ok: true, ...p };
+    });
+  }
+
+  if (includeSet.has('kundli')) {
+    await runModule('kundli', async () => {
+      const { generateKundli } = await import('./services/kundliGeneration.js');
+      const out = await generateKundli(windowId);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('dailyExperience')) {
+    await runModule('dailyExperience', async () => {
+      const { generateDailyExperience } = await import('./services/dailyExperienceGeneration.js');
+      const out = await generateDailyExperience(windowId, date || null);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('weeklyExperience')) {
+    await runModule('weeklyExperience', async () => {
+      const { generateWeeklyExperience } = await import('./services/weeklyExperienceGeneration.js');
+      const out = await generateWeeklyExperience(windowId);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('monthlyExperience')) {
+    await runModule('monthlyExperience', async () => {
+      const { generateMonthlyExperience } = await import('./services/monthlyExperienceGeneration.js');
+      const out = await generateMonthlyExperience(windowId);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('transitToday')) {
+    await runModule('transitToday', async () => {
+      const { generateTransitToday } = await import('./services/transitTodayGeneration.js');
+      const out = await generateTransitToday(windowId, date || undefined);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('mahadashaPhal')) {
+    await runModule('mahadashaPhal', async () => {
+      const { generateMahadashaPhal } = await import('./services/mahadashaPhalGeneration.js');
+      const out = await generateMahadashaPhal(windowId);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('lalkitab')) {
+    await runModule('lalkitab', async () => {
+      const { generateLalkitabPrediction } = await import('./services/lalkitabPredictionGeneration.js');
+      const out = await generateLalkitabPrediction(windowId);
+      return { ok: true, ...out };
+    });
+  }
+
+  if (includeSet.has('varshfal')) {
+    await runModule('varshfal', async () => {
+      const { generateVarshfal } = await import('./services/varshfalGeneration.js');
+      const out = await generateVarshfal(windowId);
+      // keep nested ok true (module-level), bundle also ok true
+      return { ok: true, ...out };
+    });
+  }
+
+  return res.json({
+    ok: true,
+    window,
+    include: Array.from(includeSet),
+    data,
+    errors,
+  });
 });
 
 // ---- Start server ----------------------------------------------------------
