@@ -425,6 +425,7 @@ app.get('/transit-today/:windowId', async (req, res) => {
 app.get('/daily-experience/:windowId', async (req, res) => {
   const windowId = Number(req.params.windowId);
   const { date } = req.query; // optional YYYY-MM-DD (defaults to window start date)
+  const debug = String(req.query.debug || '') === '1';
 
   if (!windowId || Number.isNaN(windowId)) {
     return res.status(400).json({ ok: false, error: 'Invalid window_id' });
@@ -432,7 +433,7 @@ app.get('/daily-experience/:windowId', async (req, res) => {
 
   try {
     const { generateDailyExperience } = await import('./services/dailyExperienceGeneration.js');
-    const out = await generateDailyExperience(windowId, date || null);
+    const out = await generateDailyExperience(windowId, date || null, { debug });
     return res.json({ ok: true, ...out });
   } catch (err) {
     console.error('Daily experience generation failed:', err);
@@ -2054,7 +2055,8 @@ app.get('/bundle/:windowId', async (req, res) => {
   if (includeSet.has('dailyExperience')) {
     await runModule('dailyExperience', async () => {
       const { generateDailyExperience } = await import('./services/dailyExperienceGeneration.js');
-      const out = await generateDailyExperience(windowId, date || null);
+      const debug = String(req.query.debug || '') === '1';
+      const out = await generateDailyExperience(windowId, date || null, { debug });
       return { ok: true, ...out };
     });
   }

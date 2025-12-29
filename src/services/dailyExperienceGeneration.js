@@ -16,6 +16,7 @@
  */
 
 import { query } from '../../config/db.js';
+import { computeVimshottariStateAt, computeVimshottariSookshmaAt } from './vimshottariDasha.js';
 
 const PLANET_ID_TO_NAME = {
   1: 'SUN',
@@ -30,6 +31,7 @@ const PLANET_ID_TO_NAME = {
 };
 
 const DUSTHANA_HOUSES = new Set([6, 8, 12]);
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 function norm360(x) {
   const n = Number(x);
@@ -45,6 +47,80 @@ function nakshatraIdFromLongitude(lon) {
   return id >= 1 && id <= 27 ? id : null;
 }
 
+function tithiIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const diff = ((m - s) % 360 + 360) % 360; // 0..360
+  const id = Math.floor(diff / 12) + 1; // 1..30
+  return id >= 1 && id <= 30 ? id : null;
+}
+
+function yogaIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const sum = ((s + m) % 360 + 360) % 360; // 0..360
+  const id = Math.floor(sum / (360 / 27)) + 1; // 1..27
+  return id >= 1 && id <= 27 ? id : null;
+}
+
+const TITHI_NAMES = [
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Purnima',
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Amavasya',
+];
+
+const YOGA_NAMES = [
+  'Vishkambha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shoola',
+  'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana',
+  'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti',
+];
+
+function weekdayNameFromISODate(dateStr) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const day = d.getUTCDay(); // 0 Sun .. 6 Sat
+  return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day] || null;
+}
+
+function computePanchangLiteFromLongitudes({ sunLon, moonLon, dateStr, source = 'unavailable' }) {
+  const tithiId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? tithiIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const yogaId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? yogaIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const nakId = Number.isFinite(moonLon) ? nakshatraIdFromLongitude(moonLon) : null;
+  const paksha = tithiId != null ? (tithiId <= 15 ? 'Shukla' : 'Krishna') : null;
+  return {
+    weekday: weekdayNameFromISODate(dateStr),
+    tithi: tithiId ? { id: tithiId, name: TITHI_NAMES[tithiId - 1] || null, paksha } : null,
+    yoga: yogaId ? { id: yogaId, name: YOGA_NAMES[yogaId - 1] || null } : null,
+    nakshatra: nakId ? { id: nakId } : null,
+    _source: source,
+  };
+}
+
+function parseISODateToUTCStart(ymd) {
+  const s = String(ymd || '').trim();
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return null;
+  const Y = Number(m[1]);
+  const Mo = Number(m[2]);
+  const D = Number(m[3]);
+  if (![Y, Mo, D].every(Number.isFinite)) return null;
+  return new Date(Date.UTC(Y, Mo - 1, D, 0, 0, 0));
+}
+
+function startOfDayUTC(d) {
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 0, 0, 0));
+}
+
+function daysBetweenUTC(a, b) {
+  const A = startOfDayUTC(a);
+  const B = startOfDayUTC(b);
+  const ms = B.getTime() - A.getTime();
+  return Math.floor(ms / (24 * 60 * 60 * 1000));
+}
+
 function toISODate(date) {
   return date.toISOString().split('T')[0];
 }
@@ -55,6 +131,60 @@ function safeParseJson(val) {
     try { return JSON.parse(val); } catch { return val; }
   }
   return val;
+}
+
+function extractMetadataFromHousesState(houses_state) {
+  const hs = safeParseJson(houses_state);
+  if (hs && typeof hs === 'object' && hs._metadata && typeof hs._metadata === 'object') return hs._metadata;
+  return null;
+}
+
+function parseBirthDateTimeUtcFromMetadata(metadata) {
+  if (!metadata || typeof metadata !== 'object') return null;
+  const dtUtcRaw =
+    metadata.birthDateTimeUtc ?? metadata.birth_datetime_utc ?? metadata.birthDateTimeUTC ?? null;
+  if (dtUtcRaw) {
+    const dt = new Date(String(dtUtcRaw));
+    if (!Number.isNaN(dt.getTime())) return dt;
+  }
+  return null;
+}
+
+const DAILY_RESET_HOUR_LOCAL = 5; // business rule: daily cycle anchors at 5:00 AM local time
+const MOON_DEG_PER_DAY_APPROX = 13.176358;
+const SUN_DEG_PER_DAY_APPROX = 0.985647; // average solar motion
+
+function parseLocalDateAtResetToUtc(dateStr, offsetMinutes) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const off = Number(offsetMinutes);
+  const offsetMin = Number.isFinite(off) ? off : 0;
+  // Interpret provided YYYY-MM-DD as LOCAL calendar date, evaluate at daily reset hour (default 05:00 local).
+  // UTC = local - offset.
+  const utcMs =
+    Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), DAILY_RESET_HOUR_LOCAL, 0, 0) -
+    offsetMin * 60 * 1000;
+  const out = new Date(utcMs);
+  return Number.isNaN(out.getTime()) ? null : out;
+}
+
+function formatLocalAsOfLabel(dateStr, hourLocal) {
+  const s = String(dateStr || '').trim();
+  const h = Number(hourLocal);
+  const hh = Number.isFinite(h) ? String(Math.max(0, Math.min(23, h))).padStart(2, '0') : '05';
+  return `${s} ${hh}:00`;
+}
+
+function safeDate(d) {
+  const dt = d instanceof Date ? d : new Date(String(d));
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+function deltaDaysFloat(a, b) {
+  const A = safeDate(a);
+  const B = safeDate(b);
+  if (!A || !B) return 0;
+  return (B.getTime() - A.getTime()) / MS_PER_DAY;
 }
 
 function getPlanetFromPlanetsState(planets_state, planetUpper) {
@@ -133,22 +263,93 @@ function dusthanaPenalty(activeCount) {
   return { pressure: 0.22 * w, clarity: -0.10 * w, noise: 0.18 * w, action: -0.04 * w, risk: 0.22 * w };
 }
 
-function buildNarrative({ levels, dusthanaActive, moonToneHint, actionHint }) {
+function moonFlavorHintFromNakshatraId(nakId) {
+  const id = Number(nakId);
+  if (!Number.isFinite(id) || id < 1 || id > 27) return null;
+  // Deterministic, non-astro "flavor" hints to prevent identical day text when core levels don't change.
+  // Grouping by 1..9 cycle provides enough variation without overfitting.
+  const g = ((id - 1) % 9) + 1; // 1..9
+  switch (g) {
+    case 1: return 'Mind runs fast today—write decisions down to keep them clean.';
+    case 2: return 'Today rewards patience more than pushing—small steady steps work best.';
+    case 3: return 'Emotions can swing; keep conversations short and factual.';
+    case 4: return 'Good day for finishing one task fully—completion brings relief.';
+    case 5: return 'Avoid rushing replies; a small pause prevents regret.';
+    case 6: return 'Keep the plan simple; complexity increases friction today.';
+    case 7: return 'Energy is best used on routine and maintenance, not big reinvention.';
+    case 8: return 'Clarity improves when you reduce inputs—fewer messages, fewer tabs, fewer promises.';
+    case 9: return 'Focus returns when you stop re-checking and commit to one next step.';
+    default: return null;
+  }
+}
+
+function buildNarrative({ levels, dusthanaActive, moonToneHint, actionHint, variantSeed, panchang }) {
   const { pressure_level, clarity_level, emotional_noise, action_support, reaction_risk } = levels;
 
   const lines = [];
 
   // 1) Felt opening
   if (pressure_level === 'high' && emotional_noise === 'high') {
-    lines.push('Today feels heavier than it should—small things can feel oddly effortful.');
+    const wd = panchang?.weekday ? String(panchang.weekday) : null;
+    lines.push(
+      pickBySeed(
+        [
+          'Today feels heavier than it should—small things can feel oddly effortful.',
+          wd ? `${wd} starts with heavier effort than expected—go slower than your mind wants.` : 'The day starts with heavier effort than expected—go slower than your mind wants.',
+          'Today can feel weighty—small tasks may take more willpower than usual.',
+          'This day can feel demanding early—reduce noise and keep the plan small.',
+        ],
+        variantSeed
+      )
+    );
   } else if (clarity_level === 'high' && action_support !== 'low') {
-    lines.push('Today has a clean, forward-moving tone—you can get real work done.');
+    const wd = panchang?.weekday ? String(panchang.weekday) : null;
+    lines.push(
+      pickBySeed(
+        [
+          'Today has a clean, forward-moving tone—you can get real work done.',
+          wd ? `${wd} supports clean momentum—one focused push will land well.` : 'Today supports clean momentum—one focused push will land well.',
+          'Today is crisp enough to move things forward—avoid overthinking and execute.',
+        ],
+        variantSeed
+      )
+    );
   } else if (emotional_noise === 'high') {
-    lines.push('Today can feel mentally noisy—your focus may drift even when you try to be steady.');
+    const wd = panchang?.weekday ? String(panchang.weekday) : null;
+    lines.push(
+      pickBySeed(
+        [
+          'Today can feel mentally noisy—your focus may drift even when you try to be steady.',
+          wd ? `${wd} can feel mentally noisy—keep your day simple and your words clean.` : 'The day can feel mentally noisy—keep it simple and keep your words clean.',
+          'Your mind may run in loops today—structure is your anchor.',
+        ],
+        variantSeed
+      )
+    );
   } else if (pressure_level === 'high') {
-    lines.push('Today carries a quiet pressure—things move, but not at your preferred speed.');
+    const wd = panchang?.weekday ? String(panchang.weekday) : null;
+    lines.push(
+      pickBySeed(
+        [
+          'Today carries a quiet pressure—things move, but not at your preferred speed.',
+          wd ? `${wd} carries quiet pressure—progress is real, but slower than your mind wants.` : 'The day carries quiet pressure—progress is real, but slower than your mind wants.',
+          'Today asks for patience—results come from steady steps, not force.',
+        ],
+        variantSeed
+      )
+    );
   } else {
-    lines.push('Today is workable, but it rewards structure more than impulse.');
+    const wd = panchang?.weekday ? String(panchang.weekday) : null;
+    lines.push(
+      pickBySeed(
+        [
+          'Today is workable, but it rewards structure more than impulse.',
+          wd ? `${wd} is workable—structure beats impulse today.` : 'Today is workable—structure beats impulse.',
+          'Today runs best on simple routines—keep decisions small and clean.',
+        ],
+        variantSeed
+      )
+    );
   }
 
   // 2) Continuity anchor (EXACTLY ONE line; no astro terms)
@@ -248,11 +449,28 @@ async function pickDailyRemedies({ pressure_level, clarity_level, reaction_risk 
   ].slice(0, max);
 }
 
-export async function generateDailyExperience(windowId, targetDate = null) {
+function hashStringToInt(s) {
+  const str = String(s || '');
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function pickBySeed(arr, seed) {
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const idx = Math.abs(Number(seed) || 0) % arr.length;
+  return arr[idx];
+}
+
+export async function generateDailyExperience(windowId, targetDate = null, options = {}) {
   if (!windowId || Number.isNaN(Number(windowId))) throw new Error('WINDOW_ID missing or invalid');
   const windowIdNum = Number(windowId);
+  const debugMode = Boolean(options?.debug);
 
-  const winRes = await query('SELECT id, scope, start_at FROM prediction_windows WHERE id = $1', [windowIdNum]);
+  const winRes = await query('SELECT id, scope, start_at, timezone FROM prediction_windows WHERE id = $1', [windowIdNum]);
   if (winRes.rowCount === 0) throw new Error(`Window not found: ${windowId}`);
   const window = winRes.rows[0];
 
@@ -263,15 +481,76 @@ export async function generateDailyExperience(windowId, targetDate = null) {
   const at = window?.start_at ? new Date(window.start_at) : new Date();
   const dateStr = targetDate ? String(targetDate) : toISODate(at);
 
-  const md = PLANET_ID_TO_NAME[Number(astro.running_mahadasha_planet)] || null;
-  const ad = PLANET_ID_TO_NAME[Number(astro.running_antardasha_planet)] || null;
-  const pd = PLANET_ID_TO_NAME[Number(astro.running_pratyantardasha_planet)] || null;
-  const sookshma = PLANET_ID_TO_NAME[Number(astro.running_sookshma_planet)] || null;
+  const metadata = extractMetadataFromHousesState(astro.houses_state);
+  const offsetMinutes = metadata?.timezoneOffsetMinutes ?? metadata?.tzOffsetMinutes ?? 0;
+  const asOfUtc = parseLocalDateAtResetToUtc(dateStr, offsetMinutes);
+  const asOfLocalLabel = formatLocalAsOfLabel(dateStr, DAILY_RESET_HOUR_LOCAL);
+
+  // ---- Dasha state (date-sensitive) ----------------------------------------
+  // Previously we used stored running_* planets computed at window start.
+  // That makes "today" and "yesterday" look identical if the windowId is reused or transits are stale.
+  // Fix: recompute MD/AD/PD/Sookshma at the requested date (local midday) using birth UTC + natal Moon longitude.
+  let md = PLANET_ID_TO_NAME[Number(astro.running_mahadasha_planet)] || null;
+  let ad = PLANET_ID_TO_NAME[Number(astro.running_antardasha_planet)] || null;
+  let pd = PLANET_ID_TO_NAME[Number(astro.running_pratyantardasha_planet)] || null;
+  let sookshma = PLANET_ID_TO_NAME[Number(astro.running_sookshma_planet)] || null;
+
+  try {
+    const birthUtc = parseBirthDateTimeUtcFromMetadata(metadata);
+    const moonNatal = getPlanetFromPlanetsState(astro.planets_state, 'MOON');
+    const moonLonSid = Number(moonNatal?.longitude ?? moonNatal?.degree ?? moonNatal?.long);
+
+    if (birthUtc && asOfUtc && Number.isFinite(moonLonSid)) {
+      const st = computeVimshottariStateAt({
+        birthDateTimeUtc: birthUtc,
+        moonLongitudeSidereal: moonLonSid,
+        atUtc: asOfUtc,
+      });
+      const mdName = st?.mahadasha?.planet ? String(st.mahadasha.planet).toUpperCase() : null;
+      const adName = st?.antardasha?.planet ? String(st.antardasha.planet).toUpperCase() : null;
+      const pdName = st?.pratyantardasha?.planet ? String(st.pratyantardasha.planet).toUpperCase() : null;
+
+      if (mdName && PLANET_VECTOR[mdName]) md = mdName;
+      if (adName && PLANET_VECTOR[adName]) ad = adName;
+      if (pdName && PLANET_VECTOR[pdName]) pd = pdName;
+
+      const sk = computeVimshottariSookshmaAt({
+        birthDateTimeUtc: birthUtc,
+        moonLongitudeSidereal: moonLonSid,
+        atUtc: asOfUtc,
+      });
+      const sName = sk?.sookshma?.planet ? String(sk.sookshma.planet).toUpperCase() : null;
+      if (sName && PLANET_VECTOR[sName]) sookshma = sName;
+    }
+  } catch {
+    // Non-blocking: fall back to stored running_* values.
+  }
 
   // Daily Moon Nakshatra (from transits Moon longitude). Fallback to stored moon_nakshatra.
   const tMoon = getTransitFromTransitsState(astro.transits_state, 'MOON');
   const tMoonLon = Number(tMoon?.longitude ?? tMoon?.degree ?? tMoon?.long);
-  const dailyMoonNak = Number.isFinite(tMoonLon) ? nakshatraIdFromLongitude(tMoonLon) : (astro.moon_nakshatra || null);
+  const tSun = getTransitFromTransitsState(astro.transits_state, 'SUN');
+  const tSunLon = Number(tSun?.longitude ?? tSun?.degree ?? tSun?.long);
+
+  // IMPORTANT:
+  // - The mobile app often computes "now" transits, while dailyExperience is for a DATE.
+  // - To keep daily output consistent and trustable, we shift Sun/Moon longitudes to the daily reset "as-of" time.
+  const transitAnchorUtc = safeDate(astro?.computed_at) || new Date();
+  const shiftDays = asOfUtc ? deltaDaysFloat(transitAnchorUtc, asOfUtc) : 0;
+
+  let moonLonForDay = Number.isFinite(tMoonLon) ? (tMoonLon + MOON_DEG_PER_DAY_APPROX * shiftDays) : null;
+  let sunLonForDay = Number.isFinite(tSunLon) ? (tSunLon + SUN_DEG_PER_DAY_APPROX * shiftDays) : null;
+
+  const dailyMoonNak =
+    moonLonForDay != null
+      ? nakshatraIdFromLongitude(moonLonForDay)
+      : (astro.moon_nakshatra || null);
+
+  // Seed is deterministic per date and computed state (no randomness).
+  // This lets wording vary safely even when bucketed levels don't change.
+  const variantSeed = hashStringToInt(
+    `${dateStr}|${md || ''}|${ad || ''}|${pd || ''}|${sookshma || ''}|${dailyMoonNak || ''}`
+  );
 
   // Dusthana activation: count how many of the active dasha planets sit in 6/8/12 (natal placements).
   const activePlanets = [md, ad, pd, sookshma].filter(Boolean);
@@ -314,11 +593,31 @@ export async function generateDailyExperience(windowId, targetDate = null) {
     reaction_risk: level3(risk),
   };
 
-  // A tiny “moon tone” hint without astrology labels
+  // A tiny “moon tone” hint without astrology labels (deterministic variants)
   const moonToneHint =
     levels.emotional_noise === 'high'
-      ? 'Keep one calming routine fixed today; stability comes from repetition, not from perfect conditions.'
+      ? pickBySeed(
+          [
+            'Keep one calming routine fixed today; stability comes from repetition, not from perfect conditions.',
+            'Protect sleep and keep routines steady today; stability comes from repetition, not from forcing outcomes.',
+            'Keep the day simple and protect your baseline routine; steadiness matters more than intensity today.',
+          ],
+          variantSeed
+        )
       : null;
+  const moonFlavorHint = moonFlavorHintFromNakshatraId(dailyMoonNak);
+
+  // Deterministic narrative variation (does NOT add randomness):
+  // Even when the level buckets stay the same, small shifts in inputs should reflect in wording.
+  const extraFlavor = pickBySeed(
+    [
+      null,
+      'Keep promises small today; clean follow-through matters more than big claims.',
+      'If you feel stuck, reduce the plan—clarity returns after you simplify.',
+      'Avoid reacting to tone; respond to facts and keep it brief.',
+    ],
+    variantSeed
+  );
 
   const actionHint =
     levels.action_support === 'high'
@@ -327,11 +626,22 @@ export async function generateDailyExperience(windowId, targetDate = null) {
           ? 'Best use: do the minimum that keeps life clean—one task, one boundary, and a quieter pace.'
           : null);
 
+  const panchang = computePanchangLiteFromLongitudes({
+    sunLon: sunLonForDay,
+    moonLon: moonLonForDay,
+    dateStr,
+    source: (Number.isFinite(sunLonForDay) && Number.isFinite(moonLonForDay))
+      ? 'shifted_from_snapshot_transits_to_daily_reset'
+      : 'unavailable',
+  });
+
   const narrative = buildNarrative({
     levels,
     dusthanaActive,
-    moonToneHint,
+    moonToneHint: moonToneHint || moonFlavorHint || extraFlavor,
     actionHint,
+    variantSeed,
+    panchang,
   });
 
   const remedies = await pickDailyRemedies(levels);
@@ -341,6 +651,29 @@ export async function generateDailyExperience(windowId, targetDate = null) {
       window_id: String(windowId),
       generated_at: new Date().toISOString(),
       date: dateStr,
+      as_of_local: asOfLocalLabel,
+      as_of_utc: asOfUtc ? asOfUtc.toISOString() : null,
+      daily_reset_hour_local: DAILY_RESET_HOUR_LOCAL,
+      timezone: window?.timezone || null,
+      timezone_offset_minutes: Number.isFinite(Number(offsetMinutes)) ? Number(offsetMinutes) : null,
+      panchang,
+      ...(debugMode ? {
+        debug: {
+          md,
+          ad,
+          pd,
+          sookshma,
+          dailyMoonNak,
+          moonLonForDay: moonLonForDay != null ? Number(moonLonForDay) : null,
+          sunLonForDay: sunLonForDay != null ? Number(sunLonForDay) : null,
+          dasha_evaluated_at_local_reset_hour: DAILY_RESET_HOUR_LOCAL,
+          window_start_at: window?.start_at || null,
+          snapshot_computed_at: astro?.computed_at || null,
+          transit_anchor_utc: transitAnchorUtc ? transitAnchorUtc.toISOString() : null,
+          transit_shift_days: shiftDays,
+          panchang,
+        },
+      } : {}),
     },
     signals: levels,
     narrative,

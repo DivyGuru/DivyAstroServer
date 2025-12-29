@@ -30,6 +30,10 @@ const PLANET_ID_TO_NAME = {
 };
 
 const DUSTHANA_HOUSES = new Set([6, 8, 12]);
+const DAILY_RESET_HOUR_LOCAL = 5;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const MOON_DEG_PER_DAY_APPROX = 13.176358;
+const SUN_DEG_PER_DAY_APPROX = 0.985647;
 
 function safeParseJson(val) {
   if (val == null) return val;
@@ -58,6 +62,19 @@ function getTransitMoonLongitude(transits_state) {
   return Number.isFinite(lon) ? lon : null;
 }
 
+function getTransitLongitude(transits_state, planetUpper) {
+  let transits = safeParseJson(transits_state);
+  if (!transits) return null;
+  if (!Array.isArray(transits) && typeof transits === 'object') {
+    transits = Object.entries(transits).map(([k, v]) => ({ planet: k, ...(v || {}) }));
+  }
+  if (!Array.isArray(transits)) return null;
+  const key = String(planetUpper || '').toUpperCase();
+  const t = transits.find(x => String(x?.planet || x?.name || '').toUpperCase() === key) || null;
+  const lon = Number(t?.longitude ?? t?.degree ?? t?.long);
+  return Number.isFinite(lon) ? lon : null;
+}
+
 function norm360(x) {
   const n = Number(x);
   if (!Number.isFinite(n)) return null;
@@ -70,6 +87,108 @@ function nakshatraIdFromLongitude(lon) {
   const idx0 = Math.floor(n / (360 / 27));
   const id = idx0 + 1;
   return id >= 1 && id <= 27 ? id : null;
+}
+
+function tithiIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const diff = ((m - s) % 360 + 360) % 360;
+  const id = Math.floor(diff / 12) + 1;
+  return id >= 1 && id <= 30 ? id : null;
+}
+
+function yogaIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const sum = ((s + m) % 360 + 360) % 360;
+  const id = Math.floor(sum / (360 / 27)) + 1;
+  return id >= 1 && id <= 27 ? id : null;
+}
+
+const TITHI_NAMES = [
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Purnima',
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Amavasya',
+];
+
+const YOGA_NAMES = [
+  'Vishkambha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shoola',
+  'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana',
+  'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti',
+];
+
+function weekdayNameFromISODate(dateStr) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const day = d.getUTCDay();
+  return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day] || null;
+}
+
+function extractMetadataFromHousesState(houses_state) {
+  const hs = safeParseJson(houses_state);
+  if (hs && typeof hs === 'object' && hs._metadata && typeof hs._metadata === 'object') return hs._metadata;
+  return null;
+}
+
+function parseLocalDateAtResetToUtc(dateStr, offsetMinutes) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const off = Number(offsetMinutes);
+  const offsetMin = Number.isFinite(off) ? off : 0;
+  const utcMs = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), DAILY_RESET_HOUR_LOCAL, 0, 0) - offsetMin * 60 * 1000;
+  const out = new Date(utcMs);
+  return Number.isNaN(out.getTime()) ? null : out;
+}
+
+function formatLocalAsOfLabel(dateStr) {
+  const s = String(dateStr || '').trim();
+  const hh = String(DAILY_RESET_HOUR_LOCAL).padStart(2, '0');
+  return `${s} ${hh}:00`;
+}
+
+function safeDate(d) {
+  const dt = d instanceof Date ? d : new Date(String(d));
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+function deltaDaysFloat(a, b) {
+  const A = safeDate(a);
+  const B = safeDate(b);
+  if (!A || !B) return 0;
+  return (B.getTime() - A.getTime()) / MS_PER_DAY;
+}
+
+function computePanchangLiteFromLongitudes({ sunLon, moonLon, dateStr, source = 'unavailable' }) {
+  const tithiId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? tithiIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const yogaId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? yogaIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const nakId = Number.isFinite(moonLon) ? nakshatraIdFromLongitude(moonLon) : null;
+  const paksha = tithiId != null ? (tithiId <= 15 ? 'Shukla' : 'Krishna') : null;
+  return {
+    weekday: weekdayNameFromISODate(dateStr),
+    tithi: tithiId ? { id: tithiId, name: TITHI_NAMES[tithiId - 1] || null, paksha } : null,
+    yoga: yogaId ? { id: yogaId, name: YOGA_NAMES[yogaId - 1] || null } : null,
+    nakshatra: nakId ? { id: nakId } : null,
+    _source: source,
+  };
+}
+
+function hashStringToInt(s) {
+  const str = String(s || '');
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function pickBySeed(arr, seed) {
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const idx = Math.abs(Number(seed) || 0) % arr.length;
+  return arr[idx];
 }
 
 function clamp01(x) {
@@ -264,7 +383,10 @@ export async function generateMonthlyExperience(windowId) {
   }
 
   // Month range: derive LOCAL date range from window start/end and timezone offset.
-  const offsetMin = timezoneOffsetMinutesFromTimezoneName(window?.timezone);
+  const metadata = extractMetadataFromHousesState(astro.houses_state);
+  const offsetMin = Number.isFinite(Number(metadata?.timezoneOffsetMinutes ?? metadata?.tzOffsetMinutes))
+    ? Number(metadata?.timezoneOffsetMinutes ?? metadata?.tzOffsetMinutes)
+    : timezoneOffsetMinutesFromTimezoneName(window?.timezone);
   const startAt = window?.start_at ? new Date(window.start_at) : new Date();
   const endAt = window?.end_at ? new Date(window.end_at) : new Date(startAt.getTime() + 30 * 24 * 60 * 60 * 1000);
 
@@ -277,8 +399,25 @@ export async function generateMonthlyExperience(windowId) {
   const totalDays = Math.max(1, Math.min(31, daysBetweenUTC(localStartUTC, localEndUTC) + 1));
 
   // Moon nakshatra changes across month (approx)
-  const moonLon0 = getTransitMoonLongitude(astro.transits_state);
-  const MOON_DEG_PER_DAY_APPROX = 13.176358;
+  const asOfUtc = parseLocalDateAtResetToUtc(fromYMD, offsetMin);
+  const asOfLocalLabel = formatLocalAsOfLabel(fromYMD);
+
+  // Panchang-lite at month start (05:00 local), derived by shifting snapshot transits to that time.
+  const transitAnchorUtc = safeDate(astro?.computed_at) || new Date();
+  const shiftDays = asOfUtc ? deltaDaysFloat(transitAnchorUtc, asOfUtc) : 0;
+  const moonLon0 = getTransitLongitude(astro.transits_state, 'MOON');
+  const sunLon0 = getTransitLongitude(astro.transits_state, 'SUN');
+  const moonLonForMonthStart = moonLon0 != null ? (moonLon0 + MOON_DEG_PER_DAY_APPROX * shiftDays) : null;
+  const sunLonForMonthStart = sunLon0 != null ? (sunLon0 + SUN_DEG_PER_DAY_APPROX * shiftDays) : null;
+
+  const panchang = computePanchangLiteFromLongitudes({
+    sunLon: sunLonForMonthStart,
+    moonLon: moonLonForMonthStart,
+    dateStr: fromYMD,
+    source: (Number.isFinite(sunLonForMonthStart) && Number.isFinite(moonLonForMonthStart))
+      ? 'shifted_from_snapshot_transits_to_month_reset'
+      : 'unavailable',
+  });
 
   const daily = [];
   for (let i = 0; i < totalDays; i++) {
@@ -358,6 +497,36 @@ export async function generateMonthlyExperience(windowId) {
         ? 'taking on extra commitments'
         : 'trying to fix everything at once';
 
+  const variantSeed = hashStringToInt(`${fromYMD}|${md || ''}|${ad || ''}|${pd || ''}|${s || ''}|${panchang?.tithi?.id || ''}|${panchang?.yoga?.id || ''}`);
+
+  const openingLine =
+    signals.monthly_pressure === 'high' && signals.monthly_clarity !== 'high'
+      ? pickBySeed(
+          [
+            'This month rewards patience and planning more than speed.',
+            panchang?.weekday ? `This month starts heavier—${panchang.weekday} sets a serious tone; plan before you push.` : 'This month starts heavier—plan before you push.',
+            'This month rewards structure; rushing creates avoidable friction.',
+          ],
+          variantSeed
+        )
+      : signals.monthly_action_flow === 'high'
+        ? pickBySeed(
+            [
+              'This month supports progress when you keep priorities clean.',
+              panchang?.weekday ? `This month supports momentum—${panchang.weekday} begins clearer; finish what you start.` : 'This month supports momentum—finish what you start.',
+              'This month moves best with one clean priority per week; execution beats overthinking.',
+            ],
+            variantSeed
+          )
+        : pickBySeed(
+            [
+              'This month moves in waves—steady if you keep your plan simple.',
+              panchang?.weekday ? `This month moves in waves—${panchang.weekday} starts mixed; simplify the plan and you’ll feel steadier.` : 'This month moves in waves—simplify the plan and you’ll feel steadier.',
+              'This month is workable, but it rewards timing and a smaller plan.',
+            ],
+            variantSeed
+          );
+
   const narrative = buildMonthlyNarrative({
     signals,
     peak,
@@ -369,6 +538,7 @@ export async function generateMonthlyExperience(windowId) {
     focusOn,
     avoid,
   });
+  const narrativeWithNewOpening = [openingLine, ...String(narrative || '').split('\n').slice(1)].join('\n');
 
   const remedies = pickMonthlyRemedy(signals);
 
@@ -378,9 +548,15 @@ export async function generateMonthlyExperience(windowId) {
       generated_at: new Date().toISOString(),
       from: fromYMD,
       to: toYMD,
+      as_of_local: asOfLocalLabel,
+      as_of_utc: asOfUtc ? asOfUtc.toISOString() : null,
+      daily_reset_hour_local: DAILY_RESET_HOUR_LOCAL,
+      timezone: window?.timezone || null,
+      timezone_offset_minutes: Number.isFinite(Number(offsetMin)) ? Number(offsetMin) : null,
+      panchang,
     },
     signals,
-    narrative,
+    narrative: narrativeWithNewOpening,
     remedies,
   };
 }

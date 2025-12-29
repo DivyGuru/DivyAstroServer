@@ -32,6 +32,10 @@ const PLANET_ID_TO_NAME = {
 };
 
 const DUSTHANA_HOUSES = new Set([6, 8, 12]);
+const DAILY_RESET_HOUR_LOCAL = 5;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+const MOON_DEG_PER_DAY_APPROX = 13.176358;
+const SUN_DEG_PER_DAY_APPROX = 0.985647;
 
 function safeParseJson(val) {
   if (val == null) return val;
@@ -60,6 +64,19 @@ function getTransitMoonLongitude(transits_state) {
   return Number.isFinite(lon) ? lon : null;
 }
 
+function getTransitLongitude(transits_state, planetUpper) {
+  let transits = safeParseJson(transits_state);
+  if (!transits) return null;
+  if (!Array.isArray(transits) && typeof transits === 'object') {
+    transits = Object.entries(transits).map(([k, v]) => ({ planet: k, ...(v || {}) }));
+  }
+  if (!Array.isArray(transits)) return null;
+  const key = String(planetUpper || '').toUpperCase();
+  const t = transits.find(x => String(x?.planet || x?.name || '').toUpperCase() === key) || null;
+  const lon = Number(t?.longitude ?? t?.degree ?? t?.long);
+  return Number.isFinite(lon) ? lon : null;
+}
+
 function norm360(x) {
   const n = Number(x);
   if (!Number.isFinite(n)) return null;
@@ -72,6 +89,127 @@ function nakshatraIdFromLongitude(lon) {
   const idx0 = Math.floor(n / (360 / 27));
   const id = idx0 + 1;
   return id >= 1 && id <= 27 ? id : null;
+}
+
+function tithiIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const diff = ((m - s) % 360 + 360) % 360;
+  const id = Math.floor(diff / 12) + 1;
+  return id >= 1 && id <= 30 ? id : null;
+}
+
+function yogaIdFromSunMoonLongitudes(sunLon, moonLon) {
+  const s = norm360(sunLon);
+  const m = norm360(moonLon);
+  if (s == null || m == null) return null;
+  const sum = ((s + m) % 360 + 360) % 360;
+  const id = Math.floor(sum / (360 / 27)) + 1;
+  return id >= 1 && id <= 27 ? id : null;
+}
+
+const TITHI_NAMES = [
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Purnima',
+  'Pratipada', 'Dvitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami',
+  'Ekadashi', 'Dvadashi', 'Trayodashi', 'Chaturdashi', 'Amavasya',
+];
+
+const YOGA_NAMES = [
+  'Vishkambha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shoola',
+  'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana',
+  'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti',
+];
+
+function parseISODateToUTCStart(ymd) {
+  const s = String(ymd || '').trim();
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return null;
+  const Y = Number(m[1]);
+  const Mo = Number(m[2]);
+  const D = Number(m[3]);
+  if (![Y, Mo, D].every(Number.isFinite)) return null;
+  return new Date(Date.UTC(Y, Mo - 1, D, 0, 0, 0));
+}
+
+function weekdayNameFromISODate(dateStr) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const day = d.getUTCDay();
+  return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day] || null;
+}
+
+function ymdFromDateWithOffset(dateObj, offsetMinutes) {
+  const d = new Date(dateObj.getTime() + Number(offsetMinutes || 0) * 60 * 1000);
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(d.getUTCDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function extractMetadataFromHousesState(houses_state) {
+  const hs = safeParseJson(houses_state);
+  if (hs && typeof hs === 'object' && hs._metadata && typeof hs._metadata === 'object') return hs._metadata;
+  return null;
+}
+
+function parseLocalDateAtResetToUtc(dateStr, offsetMinutes) {
+  const d = parseISODateToUTCStart(dateStr);
+  if (!d) return null;
+  const off = Number(offsetMinutes);
+  const offsetMin = Number.isFinite(off) ? off : 0;
+  const utcMs = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), DAILY_RESET_HOUR_LOCAL, 0, 0) - offsetMin * 60 * 1000;
+  const out = new Date(utcMs);
+  return Number.isNaN(out.getTime()) ? null : out;
+}
+
+function formatLocalAsOfLabel(dateStr) {
+  const s = String(dateStr || '').trim();
+  const hh = String(DAILY_RESET_HOUR_LOCAL).padStart(2, '0');
+  return `${s} ${hh}:00`;
+}
+
+function safeDate(d) {
+  const dt = d instanceof Date ? d : new Date(String(d));
+  return Number.isNaN(dt.getTime()) ? null : dt;
+}
+
+function deltaDaysFloat(a, b) {
+  const A = safeDate(a);
+  const B = safeDate(b);
+  if (!A || !B) return 0;
+  return (B.getTime() - A.getTime()) / MS_PER_DAY;
+}
+
+function computePanchangLiteFromLongitudes({ sunLon, moonLon, dateStr, source = 'unavailable' }) {
+  const tithiId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? tithiIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const yogaId = Number.isFinite(sunLon) && Number.isFinite(moonLon) ? yogaIdFromSunMoonLongitudes(sunLon, moonLon) : null;
+  const nakId = Number.isFinite(moonLon) ? nakshatraIdFromLongitude(moonLon) : null;
+  const paksha = tithiId != null ? (tithiId <= 15 ? 'Shukla' : 'Krishna') : null;
+  return {
+    weekday: weekdayNameFromISODate(dateStr),
+    tithi: tithiId ? { id: tithiId, name: TITHI_NAMES[tithiId - 1] || null, paksha } : null,
+    yoga: yogaId ? { id: yogaId, name: YOGA_NAMES[yogaId - 1] || null } : null,
+    nakshatra: nakId ? { id: nakId } : null,
+    _source: source,
+  };
+}
+
+function hashStringToInt(s) {
+  const str = String(s || '');
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function pickBySeed(arr, seed) {
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const idx = Math.abs(Number(seed) || 0) % arr.length;
+  return arr[idx];
 }
 
 function clamp01(x) {
@@ -231,7 +369,7 @@ export async function generateWeeklyExperience(windowId) {
   if (!windowId || Number.isNaN(Number(windowId))) throw new Error('WINDOW_ID missing or invalid');
   const windowIdNum = Number(windowId);
 
-  const winRes = await query('SELECT id, scope, start_at, end_at FROM prediction_windows WHERE id = $1', [windowIdNum]);
+  const winRes = await query('SELECT id, scope, start_at, end_at, timezone FROM prediction_windows WHERE id = $1', [windowIdNum]);
   if (winRes.rowCount === 0) throw new Error(`Window not found: ${windowId}`);
   const window = winRes.rows[0];
 
@@ -257,15 +395,37 @@ export async function generateWeeklyExperience(windowId) {
   const startAt = window?.start_at ? new Date(window.start_at) : new Date();
   const weekStart = startOfDayUTC(startAt);
 
+  const metadata = extractMetadataFromHousesState(astro.houses_state);
+  const offsetMinutes = metadata?.timezoneOffsetMinutes ?? metadata?.tzOffsetMinutes ?? 0;
+  const fromYMD = ymdFromDateWithOffset(startAt, offsetMinutes);
+  const asOfUtc = parseLocalDateAtResetToUtc(fromYMD, offsetMinutes);
+  const asOfLocalLabel = formatLocalAsOfLabel(fromYMD);
+
+  // Panchang-lite at week start (05:00 local), derived by shifting snapshot transits to that time.
+  const transitAnchorUtc = safeDate(astro?.computed_at) || new Date();
+  const shiftDays = asOfUtc ? deltaDaysFloat(transitAnchorUtc, asOfUtc) : 0;
+  const moonLon0 = getTransitLongitude(astro.transits_state, 'MOON');
+  const sunLon0 = getTransitLongitude(astro.transits_state, 'SUN');
+  const moonLonForWeekStart = moonLon0 != null ? (moonLon0 + MOON_DEG_PER_DAY_APPROX * shiftDays) : null;
+  const sunLonForWeekStart = sunLon0 != null ? (sunLon0 + SUN_DEG_PER_DAY_APPROX * shiftDays) : null;
+
+  const panchang = computePanchangLiteFromLongitudes({
+    sunLon: sunLonForWeekStart,
+    moonLon: moonLonForWeekStart,
+    dateStr: fromYMD,
+    source: (Number.isFinite(sunLonForWeekStart) && Number.isFinite(moonLonForWeekStart))
+      ? 'shifted_from_snapshot_transits_to_week_reset'
+      : 'unavailable',
+  });
+
   // Moon nakshatra changes across week:
   // Use existing transit Moon longitude as base and apply constant daily motion (no new ephemeris).
   // This is a UX-level approximation to capture shifts without adding new engine layers.
-  const moonLon0 = getTransitMoonLongitude(astro.transits_state);
-  const MOON_DEG_PER_DAY_APPROX = 13.176358; // mean daily motion
+  const baseMoonLon = moonLon0 != null ? moonLon0 : getTransitMoonLongitude(astro.transits_state);
 
   const daily = [];
   for (let i = 0; i < 7; i++) {
-    const lon = moonLon0 != null ? (moonLon0 + MOON_DEG_PER_DAY_APPROX * i) : null;
+    const lon = baseMoonLon != null ? (baseMoonLon + MOON_DEG_PER_DAY_APPROX * i) : null;
     const moonNak = lon != null ? nakshatraIdFromLongitude(lon) : (astro.moon_nakshatra || null);
     const sig = computeDailySignalFromInputs({ md, ad, pd, s, moonNak, dusthanaCount });
     daily.push({ dayIndex: i, date: toISODate(addDaysUTC(weekStart, i)), ...sig });
@@ -345,6 +505,37 @@ export async function generateWeeklyExperience(windowId) {
         ? 'taking on extra commitments'
         : 'trying to fix everything at once';
 
+  const variantSeed = hashStringToInt(`${fromYMD}|${md || ''}|${ad || ''}|${pd || ''}|${s || ''}|${panchang?.tithi?.id || ''}|${panchang?.yoga?.id || ''}`);
+
+  // Rebuild opening line with deterministic variants (prevents “same weekly text” feel).
+  const openingLine =
+    signals.weekly_pressure === 'high' && signals.weekly_clarity !== 'high'
+      ? pickBySeed(
+          [
+            'This week tests patience and planning more than speed.',
+            panchang?.weekday ? `This week opens with heavier effort—${panchang.weekday} sets the tone; plan before you push.` : 'This week opens with heavier effort—plan before you push.',
+            'This week rewards structure—rushing early creates avoidable friction.',
+          ],
+          variantSeed
+        )
+      : signals.weekly_action_flow === 'high'
+        ? pickBySeed(
+            [
+              'This week is productive when you keep your priorities clean.',
+              panchang?.weekday ? `This week supports momentum—${panchang.weekday} starts cleaner; finish what you start.` : 'This week supports momentum—finish what you start.',
+              'This week moves best with one priority at a time; clean execution beats overthinking.',
+            ],
+            variantSeed
+          )
+        : pickBySeed(
+            [
+              'This week moves in waves—steady if you don’t chase everything at once.',
+              panchang?.weekday ? `This week moves in waves—${panchang.weekday} starts mixed; simplify the plan and you’ll feel steadier.` : 'This week moves in waves—simplify the plan and you’ll feel steadier.',
+              'This week is workable, but it rewards timing and a smaller plan.',
+            ],
+            variantSeed
+          );
+
   const narrative = buildWeeklyNarrative({
     signals,
     peak,
@@ -356,6 +547,7 @@ export async function generateWeeklyExperience(windowId) {
     focusOn,
     avoid,
   });
+  const narrativeWithNewOpening = [openingLine, ...String(narrative || '').split('\n').slice(1)].join('\n');
 
   const remedies = pickWeeklyRemedy(signals);
 
@@ -365,9 +557,15 @@ export async function generateWeeklyExperience(windowId) {
       generated_at: new Date().toISOString(),
       from: toISODate(weekStart),
       to: toISODate(addDaysUTC(weekStart, 6)),
+      as_of_local: asOfLocalLabel,
+      as_of_utc: asOfUtc ? asOfUtc.toISOString() : null,
+      daily_reset_hour_local: DAILY_RESET_HOUR_LOCAL,
+      timezone: window?.timezone || null,
+      timezone_offset_minutes: Number.isFinite(Number(offsetMinutes)) ? Number(offsetMinutes) : null,
+      panchang,
     },
     signals,
-    narrative,
+    narrative: narrativeWithNewOpening,
     remedies,
   };
 }

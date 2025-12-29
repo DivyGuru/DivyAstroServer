@@ -34,6 +34,9 @@
    - Mahadasha Phal: `GET /mahadasha-phal/:windowId`
    - Transit Today: `GET /transit-today/:windowId`
    - Lal Kitab: `GET /lalkitab-prediction/:windowId`
+  - Daily Experience: `GET /daily-experience/:windowId?date=YYYY-MM-DD`
+  - Weekly Experience: `GET /weekly-experience/:windowId`
+  - Monthly Experience: `GET /monthly-experience/:windowId`
 
 ### Example: Complete Flow
 
@@ -91,7 +94,7 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 
 **Endpoint:** `POST /windows`
 
-**Purpose:** Create a prediction window (daily/monthly/yearly) and optionally attach chart data.
+**Purpose:** Create a prediction window (daily/weekly/monthly/yearly) and optionally attach chart data.
 
 **Request Body:**
 
@@ -142,13 +145,13 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 **Notes:**
 - If window already exists for same user/chart/scope/time, returns existing window with `alreadyExists: true`
 - If `chart_data` is provided, automatically creates/updates `astro_state_snapshot`
-- For `daily`, `monthly`, `yearly` scopes, dates are auto-generated if not provided
+- For `daily`, `weekly`, `monthly`, `yearly` scopes, dates are auto-generated if not provided
 
 ---
 
 #### 2. Update Chart Data for Existing Window
 
-**Endpoint:** `POST /windows/:windowId/snapshot`
+**Endpoint:** `POST /windows/:windowId/astro-snapshot`
 
 **Purpose:** Update or create astro snapshot for an existing window.
 
@@ -177,10 +180,21 @@ Currently, APIs do not require authentication tokens. All endpoints accept reque
 
 **Endpoint:** `GET /kundli/:windowId`
 
-**Purpose:** Get complete kundli data for a window (works for daily/monthly/yearly).
+**Purpose:** Get complete kundli data for a window (works for daily/weekly/monthly/yearly).
 
 **Query Parameters:**
-- `scope` (optional): `daily` | `monthly` | `yearly` - If provided, validates window scope matches
+- `scope` (optional): `daily` | `weekly` | `monthly` | `yearly` - If provided, validates window scope matches
+
+---
+
+#### 3B. Daily / Weekly / Monthly Experience (Narrative)
+
+These endpoints return the **experience-style narrative** (what you see in the Daily/Weekly tabs).
+They do **not** expose planet/dasha labels in the narrative.
+
+- **Daily**: `GET /daily-experience/:windowId?date=YYYY-MM-DD`
+- **Weekly**: `GET /weekly-experience/:windowId`
+- **Monthly**: `GET /monthly-experience/:windowId`
 
 **Response:**
 
